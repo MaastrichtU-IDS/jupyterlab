@@ -1,0 +1,325 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+message: |-
+  RStudio Server has been scheduled for creation in your project, and should be soon available at: https://${NAME}.${APPLICATION_DOMAIN_SUFFIX}
+  Building images takes some minutes to complete, so please be patient. You can follow progress on your projects overview page.
+metadata:
+  name: rstudio-shiny
+  annotations:
+    openshift.io/display-name: RStudio with Shiny server (Dynamic)
+    description: |-
+      Starts RStudio Server with Shiny server.
+
+      You will not be able to install packages in the container (e.g. with apt-get)
+      
+      Dynamic storage: data will be stored in a persistent storage automatically created.
+
+      Only one can be deployed by project at the moment.
+    # iconClass: fa fa-bar-chart
+    iconClass: icon-play
+    openshift.io/documentation-url: https://github.com/CSCfi/rstudio-openshift
+    openshift.io/support-url: https://www.csc.fi/contact-info
+    # openshift.io/long-description: 
+    # openshift.io/provider-display-name: CSC
+    openshift.io/provider-display-name: Institute of Data Science, UM
+    tags: rstudio
+    template.openshift.io/bindable: "false"
+labels:
+  template: rstudio-shiny
+
+objects:
+- apiVersion: "v1"
+  kind: "PersistentVolumeClaim"
+  metadata:
+    name: ${NAME}
+    labels:
+      app: "${NAME}"
+  spec:
+    accessModes:
+      - "ReadWriteMany"
+    resources:
+      requests:
+        storage: ${STORAGE_SIZE}
+
+# TODO: rename r-secret to "${NAME}"
+- apiVersion: v1
+  kind: Secret
+  metadata:
+    name: ${NAME}
+    labels:
+      app: "${NAME}"
+  type: Opaque
+  stringData:
+    secret.env: |-
+      export PASSWORD=${PASSWORD}
+
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: ${NAME}
+    labels:
+      app: "${NAME}"
+  spec:
+    ports:
+    - port: 80
+      targetPort: 8787
+      name: ${NAME}-service
+    selector:
+      app: rstudio
+
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: ${NAME}-shiny
+    labels:
+      app: "${NAME}"
+  spec:
+    ports:
+    - port: 80
+      targetPort: 3838
+      name: ${NAME}-shiny-service
+    selector:
+      app: rstudio
+
+- apiVersion: v1
+  kind: Route
+  metadata:
+    name: ${NAME}
+    labels:
+      app: "${NAME}"
+    annotations:
+      template.openshift.io/expose-uri: http://{.spec.host}
+  spec:
+    # host: ${NAME}.${APPLICATION_DOMAIN_SUFFIX}
+    path: /
+    to:
+      kind: Service
+      name: ${NAME}
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+
+- apiVersion: v1
+  kind: Route
+  metadata:
+    name: ${NAME}-shiny
+    labels:
+      app: "${NAME}"
+    annotations:
+      template.openshift.io/expose-uri: http://{.spec.host}
+  spec:
+    # host: ${NAME}-shiny.${APPLICATION_DOMAIN_SUFFIX}
+    path: /
+    to:
+      kind: Service
+      name: ${NAME}-shiny
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      description: Keeps track of changes in the appliation image
+    name: ${NAME}
+    labels:
+      app: "${NAME}"
+
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      description: Keeps track of changes in the appliation image
+    name: alpine-python3
+    labels:
+      app: "${NAME}"
+
+####################
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    name: alpine-python3
+    annotations:
+      description: Defines how to build the application
+      template.alpha.openshift.io/wait-for-ready: "true"
+    labels:
+      app: "${NAME}"
+  spec:
+    source:
+      dockerfile: "FROM python:3-alpine"
+      # dockerfile: "FROM alpine:latest \n RUN apk --no-cache add python3"
+      # image: python:3-alpine
+    strategy:
+      type: Docker
+    output:
+      to:
+        kind: ImageStreamTag
+        name: alpine-python3:latest
+    triggers:
+      - type: ImageChange
+      - type: ConfigChange
+
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    name: rstudio
+    annotations:
+      description: Defines how to build the application
+      template.alpha.openshift.io/wait-for-ready: "true"
+    labels:
+      app: "${NAME}"
+  spec:
+    source:
+      type: Git
+      git:
+        uri: https://github.com/CSCfi/rstudio-openshift.git
+        ref: dev
+      contextDir: server
+    strategy:
+      dockerStrategy:
+        env:
+          - name: "USERNAME"
+            value: ${USERNAME}
+          - name: "PASSWORD"
+            value: ${PASSWORD}
+          - name: "NAME"
+            value: ${NAME}
+
+    output:
+      to:
+        kind: ImageStreamTag
+        name: ${NAME}:latest
+    triggers:
+      - type: ImageChange
+      - type: ConfigChange
+      - github:
+          secretReference:
+            name: webhooksecret
+        type: GitHub
+
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      description: RStudio
+      template.alpha.openshift.io/wait-for-ready: "true"
+    name: rstudio
+    labels:
+      app: "${NAME}"
+  spec:
+    strategy:
+      type: Rolling
+    triggers:
+      - type: ImageChange
+        imageChangeParams:
+          automatic: true
+          containerNames:
+            - ${NAME}
+          from:
+            kind: ImageStreamTag
+            name: ${NAME}:latest
+      - type: ImageChange
+        imageChangeParams:
+          automatic: true
+          containerNames:
+            - shadowjob
+          from:
+            kind: ImageStreamTag
+            name: alpine-python3:latest
+      - type: ConfigChange
+    replicas: 1
+    template:
+      metadata:
+        labels:
+          app: rstudio
+      spec:
+        nodeSelector:
+          dsri.unimaas.nl/cpu: 'true'
+        volumes:
+          - name: ${NAME}-secret-vol
+            secret:
+              secretName: ${NAME}
+          - name: r-shadow-vol
+            emptyDir: {}
+          - name: ${NAME}-vol
+            persistentVolumeClaim:
+              claimName: ${NAME}
+        initContainers:
+        - image: alpine-python3:latest
+          command: ["/bin/sh","-c","source /tmp/secret-env/secret.env && python3 -c 'import crypt,os; print(crypt.crypt(os.environ[\"PASSWORD\"], crypt.mksalt(crypt.METHOD_SHA512)))' > /tmp/shadow/shadow.crypt"]
+          name: shadowjob
+          volumeMounts:
+            - name: ${NAME}-secret-vol
+              mountPath: "/tmp/secret-env"
+            - name: r-shadow-vol
+              mountPath: "/tmp/shadow"
+        containers:
+          - name: ${NAME}
+            image: ${NAME}:latest
+            imagePullPolicy: Always
+            ports:
+              - containerPort: 8787
+              - containerPort: 3838
+            livenessProbe:
+              httpGet:
+                path: /
+                port: 8787
+              initialDelaySeconds: 10
+              timeoutSeconds: 15
+            resources:
+              limits:
+                cpu: '1'
+                memory: 4Gi
+              requests:
+                cpu: 500m
+                memory: 1Gi
+            env:
+            - name: SHINY_APPS_PATH
+              value: "/mnt/${NAME}/shiny-server/"
+            - name: PVC_MOUNT_PATH
+              value: "/mnt/${NAME}/"
+            volumeMounts:
+            - name: r-shadow-vol
+              mountPath: "/tmp/shadow"
+            - name: ${NAME}-vol
+              mountPath: /mnt/${NAME}
+
+
+####################
+
+parameters:
+- description: Unique identifier for your application.
+  displayName: Application Name
+  name: NAME
+  required: true
+  value: rstudio-shiny
+
+- description: Create a new username for logging into RStudio
+  displayName: Username
+  name: USERNAME
+  required: true
+  value: rstudio
+
+- description: Create a new password for logging into RStudio
+  displayName: Password
+  name: PASSWORD
+  required: true
+
+- description: Maximum amount of memory the container can use
+  displayName: Memory Limit
+  name: MEMORY_LIMIT
+  required: true
+  value: 2G
+
+- description: Persistent Storage Size
+  displayName: Storage Size
+  name: STORAGE_SIZE
+  required: true
+  value: 10Gi
+
+# - description: The exposed hostname suffix that will be used to create routes for app
+#   displayName: Application Hostname Suffix
+#   name: APPLICATION_DOMAIN_SUFFIX
+#   required: true
+#   value: -ids-projects.app.dsri.unimaas.nl 

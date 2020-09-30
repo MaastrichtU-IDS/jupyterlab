@@ -23,7 +23,13 @@ labels:
 parameters:
 - name: APPLICATION_NAME
   displayName: Application name
+  description: Unique identifier for the JupyterHub application
   value: jupyterhub
+  required: true
+- name: OPENSHIFT_PROJECT
+  displayName: OpenShift project
+  description: Your OpenShift project in which the JupyterHub application is deployed
+  value: ids-projects
   required: true
 - name: JUPYTERHUB_IMAGE
   displayName: JupyterHub image
@@ -58,11 +64,6 @@ parameters:
   displayName: Notebook memory
   description: Amount of memory available to each notebook.
   value: 512Mi
-  required: true
-- name: OPENSHIFT_PROJECT
-  displayName: OpenShift project
-  description: Your OpenShift project in which JupyterHub is deployed
-  value: ids-projects
   required: true
 - name: GITHUB_OAUTH_ID
   displayName: GitHub OAuth ID

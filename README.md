@@ -19,7 +19,7 @@ docker build -t ghcr.io/maastrichtu-ids/jupyterlab-on-openshift .
 Run on http://localhost:8888
 
 ```bash
-docker run -it --rm --name jupyterlab-on-openshift -p 8888:8888 -e JUPYTER_NOTEBOOK_PASSWORD=password ghcr.io/maastrichtu-ids/jupyterlab-on-openshift
+docker run -it --rm --name jupyterlab-on-openshift -p 8080:8080 -e JUPYTER_NOTEBOOK_PASSWORD=password ghcr.io/maastrichtu-ids/jupyterlab-on-openshift
 ```
 
 Push updated image:
@@ -41,7 +41,7 @@ docker build -f Dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab-on-openshift:ja
 All-spark version with tensorflow, spark installed (the most complete, but large image)
 
 ```bash
-docker build -f Dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab-on-openshift:spark .
+docker build -f spark.Dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab-on-openshift:spark .
 ```
 
 ### Julia version

@@ -152,6 +152,7 @@ objects:
           app: "${APPLICATION_NAME}"
           deploymentconfig: "${APPLICATION_NAME}"
       spec:
+        # serviceAccountName: restricted
         nodeSelector:
           dsri.unimaas.nl/cpu: 'true'
         containers:

@@ -234,6 +234,7 @@ objects:
         labels:
           app: rstudio
       spec:
+        # serviceAccountName: restricted
         nodeSelector:
           dsri.unimaas.nl/cpu: 'true'
         volumes:

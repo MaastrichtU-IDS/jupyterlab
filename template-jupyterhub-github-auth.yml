@@ -138,6 +138,7 @@ objects:
         annotations:
           alpha.image.policy.openshift.io/resolve-names: "*"
         labels:
+        
           app: "${APPLICATION_NAME}"
           deploymentconfig: "${APPLICATION_NAME}"
       spec:
@@ -258,6 +259,7 @@ objects:
           app: "${APPLICATION_NAME}"
           deploymentconfig: "${APPLICATION_NAME}-db"
       spec:
+        # serviceAccountName: restricted
         nodeSelector:
           dsri.unimaas.nl/cpu: 'true'
         containers:
@@ -401,6 +403,7 @@ objects:
 
       # Set nodeSelector
       c.KubeSpawner.node_selector = {'dsri.unimaas.nl/cpu': 'true'}
+      # c.KubeSpawner.service_account = 'restricted'
 
       # Set persistent storage
       c.KubeSpawner.user_storage_pvc_ensure = True

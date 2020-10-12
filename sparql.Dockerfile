@@ -46,14 +46,14 @@ RUN jupyter sparqlkernel install --user
 
 # RUN python -m pip install --upgrade pip
 
-# RUN jupyter labextension install \
-#   @jupyter-widgets/jupyterlab-manager \
-#   @jupyterlab/latex \
-#   jupyterlab-drawio \ 
-#   jupyterlab-plotly \
-#   @bokeh/jupyter_bokeh \
-#   @krassowski/jupyterlab-lsp \
-#   @jupyterlab/git \
-#   jupyterlab-spreadsheet 
+RUN jupyter labextension install \
+  @jupyter-widgets/jupyterlab-manager \
+  @jupyterlab/git \
+  @jupyterlab/latex \
+  jupyterlab-drawio 
+  # jupyterlab-plotly \
+  # @bokeh/jupyter_bokeh \
+  # @krassowski/jupyterlab-lsp \
+  # jupyterlab-spreadsheet 
 
 # COPY config/ /home/$NB_USER/.jupyter/

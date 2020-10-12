@@ -23,10 +23,6 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
   rm -rf /var/lib/apt/lists/*
 
 
-# Install SPARQL kernel
-RUN pip install sparqlkernel
-RUN jupyter sparqlkernel install
-
 # Install Ijava kernel
 RUN curl -L https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip > ijava-kernel.zip
 RUN unzip ijava-kernel.zip -d ijava-kernel \
@@ -43,6 +39,10 @@ RUN rm ijava-kernel.zip
 RUN rm -rf ijava-kernel
 
 USER $NB_UID
+
+# Install SPARQL kernel
+RUN pip install sparqlkernel
+RUN jupyter sparqlkernel install --user
 
 # RUN python -m pip install --upgrade pip
 

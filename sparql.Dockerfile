@@ -3,11 +3,13 @@ FROM jupyter/minimal-notebook
 # docker build -f sparql.Dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab-on-openshift:sparql .
 # docker run --rm -it -p 8888:8888 -e VIRTUAL_HOST=jup.137.120.31.102.nip.io -e JUPYTER_TOKEN=password -v $(pwd):/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab-on-openshift:sparql
 
+# docker run --rm -it -e VIRTUAL_HOST=jup.137.120.31.102.nip.io -e JUPYTER_TOKEN=password -v $(pwd):/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab-on-openshift:sparql
+
 ENV JUPYTER_ENABLE_LAB=True
 USER root
 
-RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it && \
-  bash ~/.bash_it/install.sh --silent
+# RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it && \
+#   bash ~/.bash_it/install.sh --silent
 
 # Install Java
 RUN apt-get update -y && \
@@ -40,7 +42,7 @@ RUN pip install jupyter_contrib-nbextensions RISE \
 RUN rm ijava-kernel.zip
 RUN rm -rf ijava-kernel
 
-USER $NB_UID
+USER $NB_USER
 
 # RUN python -m pip install --upgrade pip
 
@@ -57,4 +59,4 @@ RUN jupyter labextension install \
   @jupyterlab/git \
   jupyterlab-spreadsheet 
 
-COPY config/ /home/$NB_USER/.jupyter/
+# COPY config/ /home/$NB_USER/.jupyter/

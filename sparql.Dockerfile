@@ -34,29 +34,29 @@ RUN unzip ijava-kernel.zip -d ijava-kernel \
   && python3 install.py --sys-prefix
 
 # Install jupyter RISE extension (for IJava)
-RUN pip install jupyter_contrib-nbextensions RISE \
-  && jupyter-nbextension install rise --py --system \
-  && jupyter-nbextension enable rise --py --system \
-  && jupyter contrib nbextension install --system \
-  && jupyter nbextension enable hide_input/main
+# RUN pip install jupyter_contrib-nbextensions RISE \
+#   && jupyter-nbextension install rise --py --system \
+#   && jupyter-nbextension enable rise --py --system \
+#   && jupyter contrib nbextension install --system \
+#   && jupyter nbextension enable hide_input/main
 RUN rm ijava-kernel.zip
 RUN rm -rf ijava-kernel
 
-USER $NB_USER
+USER $NB_UID
 
 # RUN python -m pip install --upgrade pip
 
 # COPY requirements.txt .
 # RUN pip install --upgrade -r requirements.txt
 
-RUN jupyter labextension install \
-  @jupyter-widgets/jupyterlab-manager \
-  @jupyterlab/latex \
-  jupyterlab-drawio \ 
-  jupyterlab-plotly \
-  @bokeh/jupyter_bokeh \
-  @krassowski/jupyterlab-lsp \
-  @jupyterlab/git \
-  jupyterlab-spreadsheet 
+# RUN jupyter labextension install \
+#   @jupyter-widgets/jupyterlab-manager \
+#   @jupyterlab/latex \
+#   jupyterlab-drawio \ 
+#   jupyterlab-plotly \
+#   @bokeh/jupyter_bokeh \
+#   @krassowski/jupyterlab-lsp \
+#   @jupyterlab/git \
+#   jupyterlab-spreadsheet 
 
 # COPY config/ /home/$NB_USER/.jupyter/

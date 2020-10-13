@@ -1,15 +1,24 @@
 FROM jupyter/minimal-notebook
 
 # docker build -f sparql.Dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab-on-openshift:sparql .
-# docker run --rm -it -p 8888:8888 -e VIRTUAL_HOST=jup.137.120.31.102.nip.io -e JUPYTER_TOKEN=password -v $(pwd):/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab-on-openshift:sparql
 
-# docker run --rm -it --user $(id -u) -e VIRTUAL_HOST=jup.137.120.31.102.nip.io -e JUPYTER_TOKEN=password -v $(pwd):/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab-on-openshift:sparql
+# docker run --rm -it --user $(id -u) -p 8888:8888 -e VIRTUAL_HOST=jup.137.120.31.102.nip.io -e JUPYTER_TOKEN=password -v $(pwd):/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab-on-openshift:sparql
 
 ENV JUPYTER_ENABLE_LAB=yes
+
+RUN pip install --upgrade jupyterlab-git
+
+# Install SPARQL kernel (pip install needs to be done as jovyan user)
+RUN pip install sparqlkernel
+
+
+# Change to root user to install things
 USER root
 
-# RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it && \
-#   bash ~/.bash_it/install.sh --silent
+RUN jupyter sparqlkernel install 
+
+RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it && \
+  bash ~/.bash_it/install.sh --silent
 
 # Install Java
 RUN apt-get update -y && \
@@ -38,22 +47,21 @@ RUN pip install jupyter_contrib-nbextensions RISE \
 RUN rm ijava-kernel.zip
 RUN rm -rf ijava-kernel
 
-USER $NB_UID
-
-# Install SPARQL kernel
-RUN pip install sparqlkernel
-RUN jupyter sparqlkernel install --user
-
 # RUN python -m pip install --upgrade pip
 
 RUN jupyter labextension install \
   @jupyter-widgets/jupyterlab-manager \
   @jupyterlab/git \
+  nbdime-jupyterlab \
   @jupyterlab/latex \
   jupyterlab-drawio 
   # jupyterlab-plotly \
   # @bokeh/jupyter_bokeh \
   # @krassowski/jupyterlab-lsp \
   # jupyterlab-spreadsheet 
+
+RUN jupyter lab build 
+
+USER $NB_UID
 
 # COPY config/ /home/$NB_USER/.jupyter/

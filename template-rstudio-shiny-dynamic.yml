@@ -10,19 +10,16 @@ metadata:
     description: |-
       Starts RStudio Server with Shiny server.
 
-      You will not be able to install packages in the container (e.g. with apt-get)
-      
-      Dynamic storage: data will be stored in a persistent storage automatically created.
+      💾 Dynamic storage: data will be stored in a persistent storage automatically created.
 
-      Only one can be deployed by project at the moment.
-    # iconClass: fa fa-bar-chart
+      🚫 You will not be able to install packages in the started application (e.g. with apt-get or yum)
     iconClass: icon-play
     openshift.io/documentation-url: https://github.com/CSCfi/rstudio-openshift
     openshift.io/support-url: https://www.csc.fi/contact-info
     # openshift.io/long-description: 
     # openshift.io/provider-display-name: CSC
     openshift.io/provider-display-name: Institute of Data Science, UM
-    tags: rstudio
+    tags: R,rstudio,shiny,dynamic
     template.openshift.io/bindable: "false"
 labels:
   template: rstudio-shiny
@@ -234,7 +231,7 @@ objects:
         labels:
           app: rstudio
       spec:
-        # serviceAccountName: restricted
+        serviceAccountName: restricted
         nodeSelector:
           dsri.unimaas.nl/cpu: 'true'
         volumes:

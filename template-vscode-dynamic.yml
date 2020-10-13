@@ -110,9 +110,10 @@ objects:
             app: ${NAME}
             deploymentconfig: ${NAME}
         spec:
-          # serviceAccountName: restricted
+          serviceAccountName: restricted
           nodeSelector:
             dsri.unimaas.nl/cpu: 'true'
+          # hostname: ${CONTAINER_HOSTNAME}
           containers:
             - name: ${NAME}
               image: ' '

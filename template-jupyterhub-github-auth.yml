@@ -4,20 +4,27 @@ apiVersion: template.openshift.io/v1
 metadata:
   name: jupyterhub-github-auth
   annotations:
-    openshift.io/display-name: JupyterHub with GitHub authentication
+    openshift.io/display-name: JupyterHub with GitHub authentication (Dynamic)
     description: |
-      Template for deploying a JupyterHub instance with GitHub OAuth authentication.
+      Start a JupyterHub instance with GitHub OAuth authentication.
 
-      Authentication based on GitHub. Create a new OAuth app at https://github.com/settings/developers
+      👤 Authentication based on GitHub. Create a new OAuth app at https://github.com/settings/developers
       Provide the following callback URL: https://APPLICATION_NAME-OPENSHIFT_PROJECT.app.dsri.unimaas.nl/hub/oauth_callback
-      e.g. https://jupyterhub-ids-projects.app.dsri.unimaas.nl/hub/oauth_callback
+      e.g. for the ids-projects project: https://jupyterhub-ids-projects.app.dsri.unimaas.nl/hub/oauth_callback
       
-      You can build a custom image from jupyter-on-openshift images or use the default images we provide.
+      📦 You can build a custom image from jupyterlab-on-openshift images. 
+      See this repository as example:
+      https://github.com/MaastrichtU-IDS/jupyterlab-on-openshift
+
+      💾 Dynamic storage: data from users notebooks will be stored in a persistent storage automatically created.
+
+      🚫 You will not be able to install packages in the started application (e.g. with apt-get or yum)
     iconClass: icon-github
-    tags: python,jupyter,jupyterhub
+    tags: jupyterhub,python,jupyter,notebook,dynamic
     openshift.io/provider-display-name: Institute of Data Science, UM
-    openshift.io/documentation-url: https://maastrichtu-ids.github.io/dsri-documentation
+    openshift.io/documentation-url: https://maastrichtu-ids.github.io/dsri-documentation/docs/deploy-jupyter
     openshift.io/support-url: https://maastrichtu-ids.github.io/dsri-documentation/help
+    template.openshift.io/bindable: 'false'
 labels:
   template: jupyterhub-github-auth
 parameters:
@@ -29,7 +36,7 @@ parameters:
 - name: OPENSHIFT_PROJECT
   displayName: OpenShift project
   description: Your OpenShift project in which the JupyterHub application is deployed
-  value: ids-projects
+  value: my-project
   required: true
 - name: JUPYTERHUB_IMAGE
   displayName: JupyterHub image
@@ -66,11 +73,11 @@ parameters:
   value: 512Mi
   required: true
 - name: GITHUB_OAUTH_ID
-  displayName: GitHub OAuth ID
+  displayName: GitHub OAuth Client ID
   description: GitHub OAuth app identifier. From https://github.com/settings/developers
   required: true
 - name: GITHUB_OAUTH_SECRET
-  displayName: GitHub OAuth Secret
+  displayName: GitHub OAuth Client Secret
   description: GitHub OAuth app secret.
   required: true
 - name: GITHUB_ADMIN
@@ -84,7 +91,7 @@ parameters:
   description: GitHub users who can use the JupyterHub. Use quotes and separate with a comma
   required: true
   value: |
-    "vemonet", "thendriks"
+        "vemonet", "github_user2"
 objects:
 - kind: ServiceAccount
   apiVersion: v1
@@ -138,7 +145,6 @@ objects:
         annotations:
           alpha.image.policy.openshift.io/resolve-names: "*"
         labels:
-        
           app: "${APPLICATION_NAME}"
           deploymentconfig: "${APPLICATION_NAME}"
       spec:
@@ -358,26 +364,44 @@ objects:
       if not os.environ['JUPYTERHUB_NOTEBOOK_IMAGE']:
         c.KubeSpawner.profile_list = [
           {
-              'display_name': 'Minimal Notebook (CentOS 7 / Python 3.6)',
+              'display_name': 'Minimal Notebook (Debian | Python 3.6)',
               'kubespawner_override': {
-                  'image_spec': 'quay.io/jupyteronopenshift/s2i-minimal-notebook-py36:latest'
+                  'image_spec': 'jupyter/minimal-notebook:latest'
               }
           },
           {
-              'display_name': 'IDS Data Science Notebook (CentOS 7 / Python 3.6 / Java 11 / NodeJS 12 / tensorflow 2.0)',
+              'display_name': 'Data Science Notebook (Debian | Python 3.6 | SciPy packages | Julia kernel)',
+              'kubespawner_override': {
+                  'image_spec': 'jupyter/datascience-notebook:latest'
+              }
+          },
+          {
+              'display_name': 'Tensorflow Notebook (Debian | Python 3.6 | SciPy packages | Tensorflow)',
+              'kubespawner_override': {
+                  'image_spec': 'jupyter/tensorflow-notebook:latest'
+              }
+          },
+          {
+              'display_name': 'R Notebook (Debian | Python 3.6 | R kernel)',
+              'kubespawner_override': {
+                  'image_spec': 'jupyter/r-notebook:latest'
+              }
+          },
+          {
+              'display_name': 'all-spark Notebook (Debian | Python 3.6 | Java 11 | Spark | NodeJS 12)',
+              'kubespawner_override': {
+                  'image_spec': 'jupyter/all-spark-notebook:latest'
+              }
+          },
+          {
+              'display_name': 'Java Notebook with SPARQL kernel (Debian | Python 3.6 | Java kernel | SPARQL kernel | NodeJS 12)',
               'default': True,
               'kubespawner_override': {
-                  'image_spec': 'ghcr.io/maastrichtu-ids/jupyterlab-on-openshift:java'
+                  'image_spec': 'ghcr.io/maastrichtu-ids/jupyterlab-on-openshift:sparql'
               }
           },
           {
-              'display_name': 'IDS Spark Notebook (CentOS 7 / Python 3.6 / Java 11 / Spark / NodeJS 12 / tensorflow 2.0)',
-              'kubespawner_override': {
-                  'image_spec': 'ghcr.io/maastrichtu-ids/jupyterlab-on-openshift:spark'
-              }
-          },
-          {
-              'display_name': 'PyROOT Data Science Notebook (CentOS 7 / Python 3.6 / ROOT 6.22 / tensorflow 2.0)',
+              'display_name': 'PyROOT Data Science Notebook (CentOS 7 | Python 3.6 | pyROOT 6.22 | tensorflow 2.0)',
               'kubespawner_override': {
                   'image_spec': 'jackfrost373/jupyter-root:latest'
               }
@@ -387,7 +411,7 @@ objects:
       # Set notebook options
       c.KubeSpawner.start_timeout = 300
       c.KubeSpawner.http_timeout = 200
-      c.KubeSpawner.environment = { 'JUPYTER_ENABLE_LAB': 'true' }
+      c.KubeSpawner.environment = { 'JUPYTER_ENABLE_LAB': 'yes' }
 
       # Set user authentication
       from oauthenticator.github import GitHubOAuthenticator
@@ -403,12 +427,13 @@ objects:
 
       # Set nodeSelector
       c.KubeSpawner.node_selector = {'dsri.unimaas.nl/cpu': 'true'}
+      c.KubeSpawner.supplemental_gids = ['100']
       # c.KubeSpawner.service_account = 'restricted'
 
       # Set persistent storage
       c.KubeSpawner.user_storage_pvc_ensure = True
       c.KubeSpawner.pvc_name_template = '${APPLICATION_NAME}-{username}'
-      c.KubeSpawner.user_storage_capacity = '1Gi'
+      c.KubeSpawner.user_storage_capacity = '5Gi'
       c.KubeSpawner.volumes = [
           {
               'name': 'data',
@@ -420,7 +445,7 @@ objects:
       c.KubeSpawner.volume_mounts = [
           {
               'name': 'data',
-              'mountPath': '/opt/app-root/src'
+              'mountPath': '/home/jovyan'
           }
       ]
 

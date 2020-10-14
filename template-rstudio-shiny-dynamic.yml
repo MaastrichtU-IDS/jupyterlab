@@ -1,5 +1,7 @@
 apiVersion: template.openshift.io/v1
 kind: Template
+labels:
+  template: rstudio-shiny
 message: |-
   RStudio Server has been scheduled for creation in your project, and should be soon available at: https://${NAME}.${APPLICATION_DOMAIN_SUFFIX}
   Building images takes some minutes to complete, so please be patient. You can follow progress on your projects overview page.
@@ -12,7 +14,7 @@ metadata:
 
       💾 Dynamic storage: data will be stored in a persistent storage automatically created.
 
-      🚫 You will not be able to install packages in the started application (e.g. with apt-get or yum)
+      You will not be able to install packages in the started application (e.g. with apt-get or yum)
     iconClass: icon-play
     openshift.io/documentation-url: https://github.com/CSCfi/rstudio-openshift
     openshift.io/support-url: https://www.csc.fi/contact-info
@@ -21,8 +23,6 @@ metadata:
     openshift.io/provider-display-name: Institute of Data Science, UM
     tags: R,rstudio,shiny,dynamic
     template.openshift.io/bindable: "false"
-labels:
-  template: rstudio-shiny
 
 objects:
 - apiVersion: "v1"

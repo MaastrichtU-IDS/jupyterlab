@@ -12,6 +12,11 @@ metadata:
     openshift.io/display-name: "VisualStudio Code in browser (Dynamic)" 
     description: |
       A distribution of Coder's VisualStudio Code in browser designed to work for CNCF-compliant orchestators.
+
+      Already installed:
+      - Python
+      - Java 11
+      - NodeJS
       
       💾 Dynamic storage: data will be stored in a persistent storage automatically created.
 
@@ -110,7 +115,6 @@ objects:
             app: ${NAME}
             deploymentconfig: ${NAME}
         spec:
-          serviceAccountName: restricted
           nodeSelector:
             dsri.unimaas.nl/cpu: 'true'
           # hostname: ${CONTAINER_HOSTNAME}

@@ -62,6 +62,8 @@ RUN jupyter labextension install \
 
 RUN jupyter lab build 
 
+RUN chown -R $NB_UID:$NB_UID /home/$NB_USER
+
 USER $NB_UID
 
 # COPY config/ /home/$NB_USER/.jupyter/

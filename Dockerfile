@@ -62,7 +62,12 @@ RUN jupyter labextension install \
 
 RUN jupyter lab build 
 
-RUN chown -R $NB_UID:$NB_UID /home/$NB_USER
+# RUN chown -R $NB_UID:$NB_UID /home/$NB_USER
+# RUN chgrp -R 0 /home/$NB_USER && \
+#     chmod -R g+rw /home/$NB_USER
+
+RUN fix-permissions $CONDA_DIR && \
+    fix-permissions /home/$NB_USER
 
 USER $NB_UID
 

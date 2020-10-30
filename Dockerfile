@@ -66,7 +66,17 @@ RUN jupyter lab build
 # RUN chgrp -R 0 /home/$NB_USER && \
 #     chmod -R g+rw /home/$NB_USER
 
-RUN fix-permissions $CONDA_DIR && \
+# Download latest simpleowlapi jar in /opt/simpleowlapi.jar
+# RUN wget -O /opt/simpleowlapi.jar https://github.com/kodymoodley/simpleowlapi/releases/download/v1.0.1/simpleowlapi-lib-1.0.1-jar-with-dependencies.jar
+RUN curl -s https://api.github.com/repos/kodymoodley/simpleowlapi/releases/latest \
+    | grep "browser_download_url.*-jar-with-dependencies.jar" \
+    | cut -d : -f 2,3 \
+    | tr -d \" \
+    | wget -O /opt/simpleowlapi.jar -qi -
+
+
+RUN fix-permissions /opt/simpleowlapi.jar && \
+    fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
 USER $NB_UID

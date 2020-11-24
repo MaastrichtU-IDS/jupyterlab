@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+
+  jupyterlab:
+    container_name: jupyterlab
+    image: ghcr.io/maastrichtu-ids/jupyterlab-on-openshift
+    restart: unless-stopped
+    # user: "1000"
+    # user: root
+    # user: ${UID}
+    ports:
+      - 8888:8888
+    volumes:
+      - ./data/jupyterlab:/home/jovyan
+    environment:
+      - JUPYTER_TOKEN=password
+      - JUPYTER_ENABLE_LAB=yes
+      # - VIRTUAL_HOST=jupyterlab1.54.75.29.237.nip.io
+      # - LETSENCRYPT_HOST=jupyterlab1.54.75.29.237.nip.io
+      # - VIRTUAL_PORT=8888
+      # - GRANT_SUDO=yes
+
+# mkdir -p /data/jupyterlab/jupyterlab1
+# sudo chown -R 1000:1000 /data/jupyterlab/jupyterlab1
+# docker run --rm -it --user $(id -u) --name jupyterlab-on-openshift -v /data/jupyterlab/jupyterlab1:/home/jovyan -p 8888:8888 -e VIRTUAL_HOST=jupyterlab1.54.75.29.237.nip.io -e LETSENCRYPT_HOST=jupyterlab1.54.75.29.237.nip.io -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab-on-openshift:sparql

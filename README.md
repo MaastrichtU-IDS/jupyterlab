@@ -50,6 +50,54 @@ Run as `root` user:
 docker run --rm -it --name jupyterlab-on-openshift --user root -p 8888:8888 -e GRANT_SUDO=yes -e VIRTUAL_HOST=jup.137.120.31.102.nip.io -e JUPYTER_TOKEN=password -v $(pwd):/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab-on-openshift
 ```
 
+Check `docker-compose.yml` to run with Docker Compose:
+
+```yaml
+  jupyterlab:
+    container_name: jupyterlab
+    image: ghcr.io/maastrichtu-ids/jupyterlab-on-openshift
+    environment:
+      - JUPYTER_TOKEN=dba
+      - JUPYTER_ENABLE_LAB=yes
+    volumes:
+      - ./data/jupyterlab:/home/jovyan
+    ports:
+      - 8888:8888
+```
+
+
+
+## Permission issue
+
+The official Jupyter Docker image uses the `jovyan` user by default which does not have admin rights (`sudo`). 
+
+This can cause issues when writing to the shared volumes, to fix it you can change the owner of the folder or start JupyterLab as root user:
+
+### Create the folder with right permission
+
+```bash
+mkdir -p data/jupyterlab
+sudo chown -R 1000:1000 data/jupyterlab
+```
+
+### And run JupyterLab with admin rights
+
+Add the following to your `docker-compose.yml`:
+
+```yaml
+services:
+  jupyterlab:
+    user: root
+    environment:
+      - GRANT_SUDO=yes
+```
+
+You should now be able to install anything in the JupyterLab container, try:
+
+```bash
+sudo apt install vim
+```
+
 ## Deploy on OpenShift
 
 See [this template to deploy JupyterLab on OpenShift](https://github.com/MaastrichtU-IDS/dsri-openshift-applications/blob/main/templates-datascience/template-jupyterlab-dynamic.yml) with dynamic volume and restricted user.

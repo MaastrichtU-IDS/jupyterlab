@@ -1,7 +1,5 @@
 version: "3"
-
 services:
-
   jupyterlab:
     container_name: jupyterlab
     image: ghcr.io/maastrichtu-ids/jupyterlab-on-openshift

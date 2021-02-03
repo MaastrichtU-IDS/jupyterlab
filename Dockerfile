@@ -36,7 +36,7 @@ RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it && \
 # Install Ijava kernel
 RUN curl -L https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip > /opt/ijava-kernel.zip
 RUN unzip /opt/ijava-kernel.zip -d /opt/ijava-kernel && \
-  cd ijava-kernel && \
+  cd /opt/ijava-kernel && \
   python3 install.py --sys-prefix && \
   rm /opt/ijava-kernel.zip
 

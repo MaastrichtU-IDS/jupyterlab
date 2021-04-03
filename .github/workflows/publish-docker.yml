@@ -16,7 +16,7 @@ on:
   push:
     # Publish `master` as Docker `latest` image.
     branches:
-      - master
+      - main
     paths:
     - 'Dockerfile'
     - '.github/workflows/publish-docker.yml'

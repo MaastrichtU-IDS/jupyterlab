@@ -10,14 +10,18 @@ RUN conda install --quiet --yes \
     jupyterlab-lsp \
     jupyter-lsp-python && \
     # rise && \
+    ## Issue when building with GitHub Actions related to jedi package
+    ## No reason why it fails, works on local docker
+    ## I think someone need to learn what OCI runtime standard means
   fix-permissions $CONDA_DIR && \
   fix-permissions /home/$NB_USER
 
 RUN pip install --upgrade pip && \
     pip install --upgrade \
       sparqlkernel \
-      ## Issue with jupyterlab git and jupyterlab 3.0
+      jupyterlab \
       jupyterlab-git 
+      ## They have basic issues with versions not matching between the JS and python
 
 # Change to root user to install things
 USER root

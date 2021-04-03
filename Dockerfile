@@ -20,9 +20,9 @@ RUN conda install --quiet --yes \
 
 RUN pip install --upgrade pip && \
     pip install --upgrade \
-      sparqlkernel \
-      jupyterlab \
-      jupyterlab-git 
+      sparqlkernel 
+      # jupyterlab jupyterlab-git 
+      ## https://github.com/jupyterlab/jupyterlab-git
       ## They have basic issues with versions not matching between the JS and python
 
 # Change to root user to install things

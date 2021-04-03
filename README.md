@@ -1,25 +1,27 @@
 
 ## JupyterLab for data science and knowledge graphs
 
-JupyterLab image based on the [jupyter/docker-stacks](https://github.com/jupyter/docker-stacks) scipy image, compatible with OpenShift deployment, with additional packages and kernels installed for data science and knowledge graphs.
+JupyterLab image based on the [jupyter/docker-stacks](https://github.com/jupyter/docker-stacks) scipy image, with additional packages and kernels installed for data science and knowledge graphs. 
 
-#### Installed kernels
+> Image compatible with Kubernetes OpenShift security constraints, see below for more information to deploy on OpenShift, or on the Data Science Research Infrastructure (DSRI) at Maastricht University.
 
-🐍 Python 3.8 with autocomplete and suggestions ([LSP](https://github.com/krassowski/jupyterlab-lsp))
+**Installed kernels**
+
+🐍 Python 3.8 with autocomplete and suggestions ([jupyterlab-lsp 💬](https://github.com/krassowski/jupyterlab-lsp))
 
 ☕️ [IJava](https://github.com/SpencerPark/IJava) with current default OpenJDK
 
-✨️ [SPARQL kernel](https://github.com/paulovn/sparql-kernel)
+✨️ [SPARQL kernel](https://github.com/paulovn/sparql-kernel) to query RDF triplestores endpoints
 
-#### Installed Jupyterlab extensions
+**Wishlist**
 
-🐙 [jupyterlab-git](https://github.com/jupyterlab/jupyterlab-git)
+🐙 [jupyterlab-git](https://github.com/jupyterlab/jupyterlab-git), does not work on jupyter/docker-stacks images
 
-💬 [jupyterlab-lsp](https://github.com/krassowski/jupyterlab-lsp)
-
-Volumes can be mounted into `/home/jovyan` folder.
+> Failed to load the jupyterlab-git server extension: The versions of the  JupyterLab Git server frontend and backend do not match. The  @jupyterlab/git frontend extension has version: 0.30.0b2 while the  python package has version 0.24.0. Please install identical version of  jupyterlab-git Python package and the @jupyterlab/git extension. Try  running: pip install --upgrade jupyterlab-git
 
 ## Run with Docker 🐳
+
+Volumes can be mounted into `/home/jovyan` folder.
 
 Run with restricted `jovyan` user, without `sudo` privileges:
 

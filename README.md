@@ -23,7 +23,7 @@ JupyterLab image based on the [jupyter/docker-stacks](https://github.com/jupyter
 
 Volumes can be mounted into `/home/jovyan` folder.
 
-* Run as `jovyan` user with `sudo` privileges, use `JUPYTER_TOKEN` to define your password:
+Run as `jovyan` user with `sudo` privileges, use `JUPYTER_TOKEN` to define your password:
 
 ```bash
 docker run --rm -it --user root -p 8888:8888 -e GRANT_SUDO=yes -e JUPYTER_TOKEN=password -v $(pwd)/data:/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab
@@ -35,9 +35,9 @@ docker run --rm -it --user root -p 8888:8888 -e GRANT_SUDO=yes -e JUPYTER_TOKEN=
 > sudo apt-get update
 > ```
 
-* Check the `docker-compose.yml` file to run it easily with Docker Compose.
+You can check the `docker-compose.yml` file to run it easily with Docker Compose.
 
-* Run with a restricted `jovyan` user, without `sudo` privileges:
+Run with a restricted `jovyan` user, without `sudo` privileges:
 
 ```bash
 docker run --rm -it --user $(id -u) -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab
@@ -47,7 +47,7 @@ Potential permission issue ⚠️
 
 The official [jupyter/docker-stacks](jupyter/docker-stacks) images use the `jovyan` user by default which does not grant admin rights (`sudo`). This can cause issues when writing to the shared volumes, to fix it you can change the owner of the folder, or start JupyterLab as root user.
 
-Create the folder with the right permissions, replace `1000` by you username if it does not fit:
+Create the folder with the right permissions, replace `1000` by your username
 
 ```bash
 mkdir -p data/

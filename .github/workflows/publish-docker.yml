@@ -1,20 +1,17 @@
 name: Publish Docker image
-
 # To use this workflow:
 # * Add secrets CONTAINER_REGISTRY_GITHUB_TOKEN to your GitHub repository
 # * Change the IMAGE_NAME to yours
 # * Enable automated build if you wish
-
 env:
   IMAGE_NAME: jupyterlab
-
 on:
   workflow_dispatch:
   schedule:
     - cron: '0 3 * * 1'
-    # At 03:00 on Monday
+    # Run at 03:00 on Monday to update to latest jupyter/docker-stack
   push:
-    # Publish `master` as Docker `latest` image.
+    # Publish `main` branch as Docker `latest` image.
     branches:
       - main
     paths:

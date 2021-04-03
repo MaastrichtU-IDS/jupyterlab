@@ -1,5 +1,7 @@
 FROM jupyter/scipy-notebook:latest
 
+LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
+
 ENV JUPYTER_ENABLE_LAB=yes
 
 RUN npm install --global yarn

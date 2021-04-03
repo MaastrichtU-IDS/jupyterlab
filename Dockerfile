@@ -8,8 +8,8 @@ RUN npm install --global yarn
 RUN conda install --quiet --yes \
     ipywidgets \
     jupyterlab-lsp \
-    jupyter-lsp-python \
-    rise && \
+    jupyter-lsp-python && \
+    # rise && \
   fix-permissions $CONDA_DIR && \
   fix-permissions /home/$NB_USER
 

@@ -23,15 +23,7 @@ JupyterLab image based on the [jupyter/docker-stacks](https://github.com/jupyter
 
 Volumes can be mounted into `/home/jovyan` folder.
 
-Run with restricted `jovyan` user, without `sudo` privileges:
-
-```bash
-docker run --rm -it --user $(id -u) -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab
-```
-
-> Use `JUPYTER_TOKEN` or `JUPYTER_NOTEBOOK_PASSWORD` for password
-
-Run and grant `sudo` privileges to the `jovyan` user:
+* Run as `jovyan` user with `sudo` privileges, use `JUPYTER_TOKEN` to define your password:
 
 ```bash
 docker run --rm -it --user root -p 8888:8888 -e GRANT_SUDO=yes -e JUPYTER_TOKEN=password -v $(pwd)/data:/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab
@@ -42,29 +34,30 @@ docker run --rm -it --user root -p 8888:8888 -e GRANT_SUDO=yes -e JUPYTER_TOKEN=
 > ```bash
 > sudo apt-get update
 > ```
->
 
-Check the `docker-compose.yml` to run with Docker Compose.
+* Check the `docker-compose.yml` file to run it easily with Docker Compose.
 
-**Potential permission issue ⚠️**
-
-The official [jupyter/docker-stacks](jupyter/docker-stacks) images use the `jovyan` user by default which does not grant admin rights (`sudo`). 
-
-This can cause issues when writing to the shared volumes, to fix it you can change the owner of the folder or start JupyterLab as root user:
-
-Create the folder with right permission
+* Run with a restricted `jovyan` user, without `sudo` privileges:
 
 ```bash
-mkdir -p data/jupyterlab
-sudo chown -R 1000:1000 data/jupyterlab
+docker run --rm -it --user $(id -u) -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab
 ```
 
-Then run JupyterLab with sudo privileges
+Potential permission issue ⚠️
+
+The official [jupyter/docker-stacks](jupyter/docker-stacks) images use the `jovyan` user by default which does not grant admin rights (`sudo`). This can cause issues when writing to the shared volumes, to fix it you can change the owner of the folder, or start JupyterLab as root user.
+
+Create the folder with the right permissions, replace `1000` by you username if it does not fit:
+
+```bash
+mkdir -p data/
+sudo chown -R 1000:1000 data/
+```
 
 ## Deploy on OpenShift ☁️
 
-* See this template to deploy [JupyterLab on OpenShift with restricted user](https://github.com/MaastrichtU-IDS/dsri-openshift-applications/blob/main/okd4-templates-restricted/template-jupyterlab-restricted.yml).
 * See this template to deploy [JupyterLab on OpenShift with `sudo` privileges](https://github.com/MaastrichtU-IDS/dsri-openshift-applications/blob/main/okd4-templates-anyuid/template-jupyterlab-root.yml).
+* See this template to deploy [JupyterLab on OpenShift with restricted user](https://github.com/MaastrichtU-IDS/dsri-openshift-applications/blob/main/okd4-templates-restricted/template-jupyterlab-restricted.yml).
 
 If you are working or studying at Maastricht University you can easily [deploy this notebook on the Data Science Research Infrastructure (DSRI)](https://maastrichtu-ids.github.io/dsri-documentation/docs/deploy-jupyter).
 

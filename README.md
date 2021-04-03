@@ -3,7 +3,7 @@
 
 JupyterLab image based on the [jupyter/docker-stacks](https://github.com/jupyter/docker-stacks) scipy image, with additional packages and kernels installed for data science and knowledge graphs. 
 
-> Image compatible with Kubernetes OpenShift security constraints, see below for more information to deploy on OpenShift, or on the Data Science Research Infrastructure (DSRI) at Maastricht University.
+> Image compatible with Kubernetes OpenShift security constraints, see below for more information to deploy on OpenShift, or on the Data Science Research Infrastructure (DSRI) at Maastricht University 🌉
 
 **Installed kernels**
 
@@ -40,11 +40,11 @@ docker run --rm -it --user root -p 8888:8888 -e GRANT_SUDO=yes -e JUPYTER_TOKEN=
 > You should now be able to install anything in the JupyterLab container, try:
 >
 > ```bash
-> sudo apt install vim
+> sudo apt-get update
 > ```
 >
 
-Check the `docker-compose.yml` to run with Docker Compose:
+Check the `docker-compose.yml` to run with Docker Compose.
 
 **Potential permission issue ⚠️**
 

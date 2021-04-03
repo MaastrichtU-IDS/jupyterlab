@@ -9,16 +9,15 @@ RUN conda install --quiet --yes \
     ipywidgets \
     jupyterlab-lsp \
     jupyter-lsp-python \
-    jupyterlab-git \
     rise && \
   fix-permissions $CONDA_DIR && \
   fix-permissions /home/$NB_USER
 
 RUN pip install --upgrade pip && \
     pip install --upgrade \
-      sparqlkernel
+      sparqlkernel \
       ## Issue with jupyterlab git and jupyterlab 3.0
-      # jupyterlab-git \
+      jupyterlab-git 
 
 # Change to root user to install things
 USER root

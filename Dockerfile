@@ -1,4 +1,4 @@
-FROM jupyter/scipy-notebook
+FROM jupyter/scipy-notebook:latest
 
 ENV JUPYTER_ENABLE_LAB=yes
 
@@ -9,6 +9,7 @@ RUN conda install --quiet --yes \
     ipywidgets \
     jupyterlab-lsp \
     jupyter-lsp-python \
+    jupyterlab-git \
     rise && \
   fix-permissions $CONDA_DIR && \
   fix-permissions /home/$NB_USER

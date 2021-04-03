@@ -2,7 +2,7 @@ version: "3"
 services:
   jupyterlab:
     container_name: jupyterlab
-    image: ghcr.io/maastrichtu-ids/jupyterlab-on-openshift
+    image: ghcr.io/maastrichtu-ids/jupyterlab
     restart: unless-stopped
     # user: "1000"
     # user: root

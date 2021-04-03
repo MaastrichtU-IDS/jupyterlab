@@ -6,24 +6,27 @@ name: Publish Docker image
 # * Enable automated build if you wish
 
 env:
-  IMAGE_NAME: jupyterlab-on-openshift
+  IMAGE_NAME: jupyterlab
 
 on:
   workflow_dispatch:
-  ## Enable automated build by uncommenting the following lines:
+  schedule:
+    - cron: '0 3 * * 1'
+    # At 03:00 on Monday
   push:
     # Publish `master` as Docker `latest` image.
     branches:
       - master
-  #   # Publish `v1.2.3` tags as release `1.2.3`.
-  #   tags:
-  #     - v*
+    paths:
+    - 'Dockerfile'
+    - '.github/workflows/publish-docker.yml'
+    # # Publish `v1.2.3` tags as release `1.2.3`.
+    # tags:
+    #   - v*
 
 jobs:
-  
   push:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
 

@@ -4,7 +4,7 @@
 
 JupyterLab image based on the [jupyter/docker-stacks](https://github.com/jupyter/docker-stacks) scipy image, with additional packages and kernels installed for data science and knowledge graphs. 
 
-> Image compatible with Kubernetes OpenShift security constraints, see below for more information to deploy on OpenShift, or on the Data Science Research Infrastructure (DSRI) at Maastricht University 🌉
+> This image is compatible with OpenShift security constraints, see below for more information to deploy on OpenShift, or on the [Data Science Research Infrastructure (DSRI)](https://maastrichtu-ids.github.io/dsri-documentation/docs/deploy-jupyter) at Maastricht University 🌉
 
 **Installed kernels**
 
@@ -12,11 +12,11 @@ JupyterLab image based on the [jupyter/docker-stacks](https://github.com/jupyter
 
 ☕️ [IJava](https://github.com/SpencerPark/IJava) with current default OpenJDK
 
-✨️ [SPARQL kernel](https://github.com/paulovn/sparql-kernel) to query RDF triplestores endpoints
+✨️ [SPARQL kernel](https://github.com/paulovn/sparql-kernel) to query RDF knowledge graphs
 
 **Wishlist**
 
-🐙 [jupyterlab-git](https://github.com/jupyterlab/jupyterlab-git), does not work on jupyter/docker-stacks images
+🐙 [jupyterlab-git](https://github.com/jupyterlab/jupyterlab-git) does not work on jupyter/docker-stacks images
 
 > Failed to load the jupyterlab-git server extension: The versions of the  JupyterLab Git server frontend and backend do not match. The  @jupyterlab/git frontend extension has version: 0.30.0b2 while the  python package has version 0.24.0. Please install identical version of  jupyterlab-git Python package and the @jupyterlab/git extension. Try  running: pip install --upgrade jupyterlab-git
 
@@ -44,7 +44,7 @@ Run with a restricted `jovyan` user, without `sudo` privileges:
 docker run --rm -it --user $(id -u) -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab
 ```
 
-Potential permission issue ⚠️
+Potential permission issue when running locally ⚠️
 
 The official [jupyter/docker-stacks](jupyter/docker-stacks) images use the `jovyan` user by default which does not grant admin rights (`sudo`). This can cause issues when writing to the shared volumes, to fix it you can change the owner of the folder, or start JupyterLab as root user.
 
@@ -57,8 +57,8 @@ sudo chown -R 1000:1000 data/
 
 ## Deploy on OpenShift ☁️
 
-* See this template to deploy [JupyterLab on OpenShift with `sudo` privileges](https://github.com/MaastrichtU-IDS/dsri-openshift-applications/blob/main/okd4-templates-anyuid/template-jupyterlab-root.yml).
-* See this template to deploy [JupyterLab on OpenShift with restricted user](https://github.com/MaastrichtU-IDS/dsri-openshift-applications/blob/main/okd4-templates-restricted/template-jupyterlab-restricted.yml).
+* See this template to [deploy JupyterLab on OpenShift with `sudo` privileges](https://github.com/MaastrichtU-IDS/dsri-documentation/blob/master/applications/templates/template-jupyterlab-root.yml).
+* See this template to [deploy JupyterLab on OpenShift with restricted user](https://github.com/MaastrichtU-IDS/dsri-documentation/blob/master/applications/templates/restricted/template-jupyterlab-restricted.yml).
 
 If you are working or studying at Maastricht University you can easily [deploy this notebook on the Data Science Research Infrastructure (DSRI)](https://maastrichtu-ids.github.io/dsri-documentation/docs/deploy-jupyter).
 
@@ -74,10 +74,4 @@ Push:
 
 ```bash
 docker push ghcr.io/maastrichtu-ids/jupyterlab
-```
-
-Using a specific `Dockerfile`:
-
-```bash
-docker build -f Dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab .
 ```

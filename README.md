@@ -14,6 +14,18 @@ JupyterLab image based on the [jupyter/docker-stacks](https://github.com/jupyter
 
 ✨️ [SPARQL kernel](https://github.com/paulovn/sparql-kernel) to query RDF knowledge graphs
 
+**Installed extensions**
+
+* [jupyterlab-system-monitor](https://github.com/jtpio/jupyterlab-system-monitor) to monitor the resources used
+
+* [jupyter_bokeh](https://github.com/bokeh/jupyter_bokeh)
+
+* [plotly](https://github.com/plotly/plotly.py)
+
+* [jupyterlab-spreadsheet](https://github.com/quigleyj97/jupyterlab-spreadsheet)
+
+* [jupyterlab-drawio](https://github.com/QuantStack/jupyterlab-drawio)
+
 **Wishlist**
 
 🐙 [jupyterlab-git](https://github.com/jupyterlab/jupyterlab-git) does not work on jupyter/docker-stacks images
@@ -68,6 +80,18 @@ Build:
 
 ```bash
 docker build -t ghcr.io/maastrichtu-ids/jupyterlab .
+```
+
+Also available, build with a python2.7 kernel:
+
+```bash
+docker build -f Dockerfile.python27 -t ghcr.io/maastrichtu-ids/jupyterlab:python2.7 .
+```
+
+Run python2.7:
+
+```bash
+docker run --rm -it --user root -p 8888:8888 -e GRANT_SUDO=yes -e JUPYTER_TOKEN=password -v $(pwd)/data:/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab
 ```
 
 Push:

@@ -2,7 +2,7 @@ FROM python:2.7
 
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
 
-WORKDIR /root
+WORKDIR /home/jovyan
 
 RUN pip install notebook jupyterlab
 

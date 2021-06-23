@@ -100,3 +100,9 @@ Also available, build with a python2.7 kernel:
 docker build -f Dockerfile.python27 -t ghcr.io/maastrichtu-ids/jupyterlab:python2.7 .
 ```
 
+And run JupyterLab with python2.7 (workdir is `/home/jovyan`):
+
+```bash
+docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:python2.7
+```
+

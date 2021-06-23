@@ -82,13 +82,7 @@ Build:
 docker build -t ghcr.io/maastrichtu-ids/jupyterlab .
 ```
 
-Also available, build with a python2.7 kernel:
-
-```bash
-docker build -f Dockerfile.python27 -t ghcr.io/maastrichtu-ids/jupyterlab:python2.7 .
-```
-
-Run python2.7:
+Run:
 
 ```bash
 docker run --rm -it --user root -p 8888:8888 -e GRANT_SUDO=yes -e JUPYTER_TOKEN=password -v $(pwd)/data:/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab
@@ -99,3 +93,10 @@ Push:
 ```bash
 docker push ghcr.io/maastrichtu-ids/jupyterlab
 ```
+
+Also available, build with a python2.7 kernel:
+
+```bash
+docker build -f Dockerfile.python27 -t ghcr.io/maastrichtu-ids/jupyterlab:python2.7 .
+```
+

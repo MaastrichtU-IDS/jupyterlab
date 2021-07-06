@@ -2,12 +2,15 @@ FROM python:2.7
 
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
 
-WORKDIR /home/jovyan
+WORKDIR /root
 
 RUN pip install notebook jupyterlab
 
+EXPOSE 8888
 ENTRYPOINT ["jupyter", "lab", "--allow-root", "--ip=0.0.0.0", "--no-browser"]
 
+
+# To have python 2 and 3 in a container, check https://github.com/cclauss/Python2-and-Python3-in-Docker
 
 # Seems like we cant conda activate in jupyter/docker-stacks images: 
 # https://stackoverflow.com/questions/58442800/how-do-i-create-a-docker-container-with-both-python-2-and-3-available-in-jupyter

@@ -76,6 +76,10 @@ If you are working or studying at Maastricht University you can easily [deploy t
 
 ## Build and publish 📦
 
+### JupyterLab 3.8
+
+With Java and SPARQL kernel
+
 Build:
 
 ```bash
@@ -94,6 +98,8 @@ Push:
 docker push ghcr.io/maastrichtu-ids/jupyterlab
 ```
 
+### Python 2.7
+
 Also available, build with a python2.7 kernel:
 
 ```bash
@@ -104,5 +110,21 @@ And run JupyterLab with python2.7 (workdir is `/home/jovyan`):
 
 ```bash
 docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:python2.7
+```
+
+### Ricopili
+
+Based on https://github.com/bruggerk/ricopili_docker
+
+Also available, build with a python2.7 kernel:
+
+```bash
+docker build -f Dockerfile.ricopili -t ghcr.io/maastrichtu-ids/jupyterlab:ricopili .
+```
+
+Run it (workdir is `/root`):
+
+```bash
+docker run --rm -it -p 8888:8888 -v $(pwd)/data:/root -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:ricopili
 ```
 

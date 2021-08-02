@@ -1,4 +1,4 @@
-name: Publish Docker image
+name: Publish generic JupyterLab image
 # To use this workflow:
 # * Add secrets CONTAINER_REGISTRY_GITHUB_TOKEN to your GitHub repository
 # * Change the IMAGE_NAME to yours

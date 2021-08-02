@@ -76,9 +76,11 @@ If you are working or studying at Maastricht University you can easily [deploy t
 
 ## Build and publish 📦
 
-### JupyterLab 3.8
+This repository contains multiple `Dockerfile` to build various flavor of JupyterLab for Data Science.
 
-With Java and SPARQL kernel
+### JupyterLab for knowledge graphs
+
+With Python 3+, Java and SPARQL kernel
 
 Build:
 
@@ -100,13 +102,15 @@ docker push ghcr.io/maastrichtu-ids/jupyterlab
 
 ### Python 2.7
 
-Also available, build with a python2.7 kernel:
+With a python2.7 kernel (python3 not installed)
+
+Build:
 
 ```bash
 docker build -f Dockerfile.python27 -t ghcr.io/maastrichtu-ids/jupyterlab:python2.7 .
 ```
 
-And run JupyterLab with python2.7 (workdir is `/home/jovyan`):
+Run (workdir is `/root`):
 
 ```bash
 docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:python2.7
@@ -116,15 +120,31 @@ docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-i
 
 Based on https://github.com/bruggerk/ricopili_docker
 
-Also available, build with a python2.7 kernel:
+Build:
 
 ```bash
 docker build -f Dockerfile.ricopili -t ghcr.io/maastrichtu-ids/jupyterlab:ricopili .
 ```
 
-Run it (workdir is `/root`):
+Run (workdir is `/root`):
 
 ```bash
 docker run --rm -it -p 8888:8888 -v $(pwd)/data:/root -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:ricopili
+```
+
+### FSL on CPU
+
+Built with https://github.com/ReproNim/neurodocker
+
+Build:
+
+```bash
+docker build -f Dockerfile.fsl -t ghcr.io/maastrichtu-ids/jupyterlab:fsl .
+```
+
+Run (workdir is `/root`):
+
+```bash
+docker run --rm -it -p 8888:8888 -v $(pwd)/data:/root -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:fsl
 ```
 

@@ -22,6 +22,8 @@ RUN conda install --quiet --yes \
 RUN pip install --upgrade pip && \
     pip install --upgrade \
       sparqlkernel  \
+      # elyra \
+      # Pipeline builder for Kubeflow and Airflow
       jupyterlab-system-monitor && \
     jupyter labextension install jupyterlab-spreadsheet
 
@@ -54,9 +56,19 @@ RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it && \
 
 
 RUN fix-permissions $CONDA_DIR && \
-    fix-permissions /home/$NB_USER
+    fix-permissions /home/$NB_USER \
+    fix-permissions /opt
 
 USER $NB_USER
 
 RUN jupyter labextension update --all && \
     jupyter lab build 
+
+
+# Download latest simpleowlapi jar in /opt/simpleowlapi.jar
+# RUN wget -O /opt/simpleowlapi.jar https://github.com/kodymoodley/simpleowlapi/releases/download/v1.0.1/simpleowlapi-lib-1.0.1-jar-with-dependencies.jar
+RUN curl -s https://api.github.com/repos/kodymoodley/simpleowlapi/releases/latest \
+    | grep "browser_download_url.*-jar-with-dependencies.jar" \
+    | cut -d : -f 2,3 \
+    | tr -d \" \
+    | wget -O /opt/simpleowlapi.jar -qi -

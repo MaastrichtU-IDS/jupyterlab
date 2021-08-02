@@ -4,7 +4,7 @@ LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyte
 
 ENV JUPYTER_ENABLE_LAB=yes
 
-RUN npm install --global yarn
+RUN npm install --global yarn 
 
 # Install jupyterlab extensions
 RUN conda install --quiet --yes \
@@ -21,7 +21,8 @@ RUN conda install --quiet --yes \
 
 RUN pip install --upgrade pip && \
     pip install --upgrade \
-      sparqlkernel  \
+      sparqlkernel \
+      ontospy \
       # elyra \
       # Pipeline builder for Kubeflow and Airflow
       jupyterlab-system-monitor && \
@@ -45,10 +46,10 @@ RUN apt-get update && \
 
 # Install Ijava kernel
 RUN curl -L https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip > /opt/ijava-kernel.zip && \
-  unzip /opt/ijava-kernel.zip -d /opt/ijava-kernel && \
-  cd /opt/ijava-kernel && \
-  python3 install.py --sys-prefix && \
-  rm /opt/ijava-kernel.zip
+    unzip /opt/ijava-kernel.zip -d /opt/ijava-kernel && \
+    cd /opt/ijava-kernel && \
+    python3 install.py --sys-prefix && \
+    rm /opt/ijava-kernel.zip
 
 # Nicer Bash terminal
 RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it && \
@@ -56,13 +57,23 @@ RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it && \
 
 
 RUN fix-permissions $CONDA_DIR && \
-    fix-permissions /home/$NB_USER \
+    fix-permissions /home/$NB_USER && \
     fix-permissions /opt
 
 USER $NB_USER
 
 RUN jupyter labextension update --all && \
     jupyter lab build 
+
+# Add jar files for RDF handling in /opt
+RUN wget -q -O /opt/rmlmapper.jar https://github.com/RMLio/rmlmapper-java/releases/download/v4.11.0/rmlmapper.jar && \
+    npm i -g @rmlio/yarrrml-parser && \
+    wget -q -O /opt/widoco.jar https://github.com/dgarijo/Widoco/releases/download/v1.4.15/widoco-1.4.15-jar-with-dependencies.jar && \
+    wget -q -O /opt/limes.jar https://github.com/dice-group/LIMES/releases/download/1.7.5/limes.jar && \
+    wget -q -O /opt/amie3.jar https://github.com/lajus/amie/releases/download/3.0/amie-milestone-intKB.jar && \
+    wget -q -O /opt/apache-jena.tar.gz https://ftp.wayne.edu/apache/jena/binaries/apache-jena-4.1.0.tar.gz && \
+    tar -xf /opt/apache-jena.tar.gz
+
 
 
 # Download latest simpleowlapi jar in /opt/simpleowlapi.jar

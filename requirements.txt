@@ -1,0 +1,10 @@
+requests
+pandas
+networkx
+rdflib
+rdflib-jsonld
+SPARQLWrapper
+ontospy
+pyshacl
+PyShEx
+PyShExC

@@ -18,15 +18,17 @@ RUN conda install --quiet --yes \
     # fix-permissions $CONDA_DIR && \
     # fix-permissions /home/$NB_USER
 
-
 RUN pip install --upgrade pip && \
     pip install --upgrade \
       sparqlkernel \
-      ontospy \
       # elyra \
       # Pipeline builder for Kubeflow and Airflow
       jupyterlab-system-monitor && \
     jupyter labextension install jupyterlab-spreadsheet
+
+ADD requirements.txt /tmp/requirements.txt
+RUN pip install -r /tmp/requirements.txt && \
+    rm /tmp/requirements.txt
 
 # Install fail for jupyterlab-git 
 # Issues with versions not matching between the JS and python
@@ -71,6 +73,7 @@ RUN wget -q -O /opt/rmlmapper.jar https://github.com/RMLio/rmlmapper-java/releas
     wget -q -O /opt/widoco.jar https://github.com/dgarijo/Widoco/releases/download/v1.4.15/widoco-1.4.15-jar-with-dependencies.jar && \
     wget -q -O /opt/limes.jar https://github.com/dice-group/LIMES/releases/download/1.7.5/limes.jar && \
     wget -q -O /opt/amie3.jar https://github.com/lajus/amie/releases/download/3.0/amie-milestone-intKB.jar && \
+    wget -q -O /opt/shaclconvert.jar https://gitlab.ontotext.com/yasen.marinov/shaclconvert/-/raw/master/built/shaclconvert.jar && \
     wget -q -O /opt/apache-jena.tar.gz https://ftp.wayne.edu/apache/jena/binaries/apache-jena-4.1.0.tar.gz && \
     tar -xf /opt/apache-jena.tar.gz
 

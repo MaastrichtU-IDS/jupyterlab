@@ -26,9 +26,9 @@ RUN pip install --upgrade pip && \
       jupyterlab-system-monitor && \
     jupyter labextension install jupyterlab-spreadsheet
 
-ADD requirements.txt /tmp/requirements.txt
-RUN pip install -r /tmp/requirements.txt && \
-    rm /tmp/requirements.txt
+ADD requirements.txt requirements.txt
+RUN pip install -r requirements.txt && \
+    rm requirements.txt
 
 # Install fail for jupyterlab-git 
 # Issues with versions not matching between the JS and python
@@ -62,6 +62,8 @@ RUN fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER && \
     fix-permissions /opt
 
+ADD jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
+
 USER $NB_USER
 
 RUN jupyter labextension update --all && \
@@ -86,3 +88,5 @@ RUN curl -s https://api.github.com/repos/kodymoodley/simpleowlapi/releases/lates
     | cut -d : -f 2,3 \
     | tr -d \" \
     | wget -O /opt/simpleowlapi.jar -qi -
+
+ENTRYPOINT [ "start-notebook.sh", "--no-browser", "--ip=0.0.0.0", "--config=/etc/jupyter/jupyter_notebook_config.py" ]

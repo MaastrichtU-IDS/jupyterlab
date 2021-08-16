@@ -107,7 +107,8 @@ With a python2.7 kernel (python3 not installed)
 Build:
 
 ```bash
-docker build -f Dockerfile.python27 -t ghcr.io/maastrichtu-ids/jupyterlab:python2.7 .
+cd python2.7
+docker build -t ghcr.io/maastrichtu-ids/jupyterlab:python2.7 .
 ```
 
 Run (workdir is `/root`):
@@ -123,7 +124,8 @@ Based on https://github.com/bruggerk/ricopili_docker
 Build:
 
 ```bash
-docker build -f Dockerfile.ricopili -t ghcr.io/maastrichtu-ids/jupyterlab:ricopili .
+cd ricopili
+docker build -t ghcr.io/maastrichtu-ids/jupyterlab:ricopili .
 ```
 
 Run (workdir is `/root`):
@@ -139,7 +141,8 @@ Built with https://github.com/ReproNim/neurodocker
 Build:
 
 ```bash
-docker build -f Dockerfile.fsl -t ghcr.io/maastrichtu-ids/jupyterlab:fsl .
+cd fsl
+docker build -t ghcr.io/maastrichtu-ids/jupyterlab:fsl .
 ```
 
 Run (workdir is `/root`):

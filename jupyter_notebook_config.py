@@ -8,8 +8,8 @@ c.NotebookApp.terminado_settings = {'shell_command': ['/bin/zsh']}
 
 if git_url:
     repo_id = git_url.rsplit('/', 1)[-1].replace('.git', '')
-    os.system('git clone --quiet --recursive ' + git_url)
-    os.chdir(repo_id)
+    os.system('git clone --quiet --recursive ' + git_url + ' .')
+    # os.chdir(repo_id)
 
     if os.path.exists('packages.txt'):
         os.system('sudo apt-get update')
@@ -21,4 +21,4 @@ if git_url:
     if os.path.exists('extensions.txt'):
         os.system('cat extensions.txt | xargs -I {} jupyter {} install --user')
 
-    os.chdir(home_dir)
+    # os.chdir(home_dir)

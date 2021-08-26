@@ -63,6 +63,8 @@ RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it && \
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.1/zsh-in-docker.sh)" -- \
     -t bira -p git
 
+    # sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.1/zsh-in-docker.sh)" -- -t bira -p git
+
 RUN fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER && \
     fix-permissions /opt
@@ -90,6 +92,8 @@ RUN cd /opt && \
     wget -q https://ftp.wayne.edu/apache/jena/binaries/apache-jena-4.1.0.tar.gz && \
     tar -xf *.tar.gz && \
     rm *.tar.gz
+
+WORKDIR /home/$NB_USER/work
 
 # Download latest simpleowlapi jar in /opt/simpleowlapi.jar
 RUN curl -s https://api.github.com/repos/kodymoodley/simpleowlapi/releases/latest \

@@ -4,7 +4,7 @@ git_url = os.environ.get('GIT_URL')
 home_dir = os.environ.get('HOME')
 os.chdir(home_dir)
 
-c.NotebookApp.terminado_settings = {'shell_command': ['/bin/zsh']}
+# c.NotebookApp.terminado_settings = {'shell_command': ['/bin/zsh']}
 
 if git_url:
     repo_id = git_url.rsplit('/', 1)[-1].replace('.git', '')

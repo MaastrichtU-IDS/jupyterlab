@@ -1,4 +1,4 @@
-## JupyterLab for data science and knowledge graphs
+## JupyterLab for knowledge graphs and data science
 
 [![Publish Docker image](https://github.com/MaastrichtU-IDS/jupyterlab/actions/workflows/publish-docker.yml/badge.svg)](https://github.com/MaastrichtU-IDS/jupyterlab/actions/workflows/publish-docker.yml)
 
@@ -8,29 +8,24 @@ JupyterLab image based on the [jupyter/docker-stacks](https://github.com/jupyter
 
 **Installed kernels**
 
-🐍 Python 3.8 with autocomplete and suggestions ([jupyterlab-lsp 💬](https://github.com/krassowski/jupyterlab-lsp))
+🐍 Python 3.8 kernel with autocomplete and suggestions ([jupyterlab-lsp 💬](https://github.com/krassowski/jupyterlab-lsp))
 
-☕️ [IJava](https://github.com/SpencerPark/IJava) with current default OpenJDK
+☕️ [IJava](https://github.com/SpencerPark/IJava) kernel with current default OpenJDK
 
 ✨️ [SPARQL kernel](https://github.com/paulovn/sparql-kernel) to query RDF knowledge graphs
 
 **Installed extensions**
 
+* [jupyterlab-git](https://github.com/jupyterlab/jupyterlab-git)
 * [jupyterlab-system-monitor](https://github.com/jtpio/jupyterlab-system-monitor) to monitor the resources used
-
 * [jupyter_bokeh](https://github.com/bokeh/jupyter_bokeh)
-
 * [plotly](https://github.com/plotly/plotly.py)
-
 * [jupyterlab-spreadsheet](https://github.com/quigleyj97/jupyterlab-spreadsheet)
-
 * [jupyterlab-drawio](https://github.com/QuantStack/jupyterlab-drawio)
 
-**Wishlist**
+**Additional programs**
 
-🐙 [jupyterlab-git](https://github.com/jupyterlab/jupyterlab-git) does not work on jupyter/docker-stacks images
-
-> Failed to load the jupyterlab-git server extension: The versions of the  JupyterLab Git server frontend and backend do not match. The  @jupyterlab/git frontend extension has version: 0.30.0b2 while the  python package has version 0.24.0. Please install identical version of  jupyterlab-git Python package and the @jupyterlab/git extension. Try  running: pip install --upgrade jupyterlab-git
+Some `.jar` programs for knowledge graph processing are pre-downloaded in `/opt` in the image: RDF4J, Apache Jena, OWLAPI, RML mapper, etc.
 
 ## Run with Docker 🐳
 
@@ -76,7 +71,7 @@ If you are working or studying at Maastricht University you can easily [deploy t
 
 ## Build and publish 📦
 
-This repository contains multiple `Dockerfile` to build various flavor of JupyterLab for Data Science.
+This repository contains multiple folders with `Dockerfile` to build various flavor of JupyterLab for Data Science.
 
 ### JupyterLab for knowledge graphs
 

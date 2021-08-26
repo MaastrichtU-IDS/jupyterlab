@@ -73,8 +73,8 @@ RUN jupyter labextension update --all && \
 
 
 # Add jar files in /opt for RDF processing
-RUN wget -q -O /opt/rmlmapper.jar https://github.com/RMLio/rmlmapper-java/releases/download/v4.11.0/rmlmapper.jar && \
-    npm i -g @rmlio/yarrrml-parser && \
+RUN npm i -g @rmlio/yarrrml-parser && \
+    wget -q -O /opt/rmlmapper.jar https://github.com/RMLio/rmlmapper-java/releases/download/v4.11.0/rmlmapper.jar && \
     wget -q -O /opt/widoco.jar https://github.com/dgarijo/Widoco/releases/download/v1.4.15/widoco-1.4.15-jar-with-dependencies.jar && \
     wget -q -O /opt/limes.jar https://github.com/dice-group/LIMES/releases/download/1.7.5/limes.jar && \
     wget -q -O /opt/amie3.jar https://github.com/lajus/amie/releases/download/3.0/amie-milestone-intKB.jar && \
@@ -83,7 +83,7 @@ RUN wget -q -O /opt/rmlmapper.jar https://github.com/RMLio/rmlmapper-java/releas
 RUN cd /opt && \
     wget -q https://repo1.maven.org/maven2/net/sourceforge/owlapi/owlapi-distribution/5.1.19/owlapi-distribution-5.1.19.jar && \
     wget -q https://repo1.maven.org/maven2/net/sourceforge/owlapi/org.semanticweb.hermit/1.4.5.519/org.semanticweb.hermit-1.4.5.519.jar && \
-    wget -q http://www.eclipse.org/downloads/download.php?file=/rdf4j/eclipse-rdf4j-3.7.2-onejar.jar && \
+    wget -q https://ftp.fau.de/eclipse/rdf4j/eclipse-rdf4j-3.6.3-onejar.jar && \
     wget -q https://ftp.wayne.edu/apache/jena/binaries/apache-jena-4.1.0.tar.gz && \
     tar -xf *.tar.gz && \
     rm *.tar.gz

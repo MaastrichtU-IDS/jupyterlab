@@ -9,6 +9,8 @@ RUN npm install --global yarn
 # Install jupyterlab extensions
 RUN conda install --quiet --yes \
       ipywidgets \
+      jupyterlab \
+      jupyterlab-git \
       jupyterlab-lsp \
       jupyter-lsp-python \
       jupyter_bokeh \

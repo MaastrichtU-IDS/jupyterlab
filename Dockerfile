@@ -56,12 +56,10 @@ RUN curl -L https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-
 #     bash ~/.bash_it/install.sh --silent
 
 # Install ZSH
-# RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.1/zsh-in-docker.sh)" -- \
-#     -t bira -p git && \
-#     chmod -R g-w,o-w .oh-my-zsh
+RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.1/zsh-in-docker.sh)" -- \
+    -t bira -p git && \
+    chmod -R g-w,o-w /home/$NB_USER/.oh-my-zsh
     # compaudit | xargs chmod g-w,o-w
-
-    # sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.1/zsh-in-docker.sh)" -- -t bira -p git
 
 RUN fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER && \
@@ -92,10 +90,6 @@ RUN cd /opt && \
     tar -xf *.tar.gz && \
     rm *.tar.gz
 
-
-# Install ZSH
-RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.1/zsh-in-docker.sh)" -- \
-    -t bira -p git
 
 WORKDIR /home/$NB_USER/work
 

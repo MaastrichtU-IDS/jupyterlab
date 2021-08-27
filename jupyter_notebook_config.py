@@ -21,4 +21,4 @@ if git_url:
     if os.path.exists('extensions.txt'):
         os.system('cat extensions.txt | xargs -I {} jupyter {} install --user')
 
-os.chdir('work')
+    os.chdir('work')

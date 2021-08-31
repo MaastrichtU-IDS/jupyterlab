@@ -1,6 +1,6 @@
 import os
 
-git_url = os.environ.get('GIT_URL')
+git_url = os.getenv('GIT_URL', None)
 
 # home_dir = os.environ.get('HOME')
 # os.chdir(home_dir)
@@ -12,12 +12,12 @@ if git_url:
     # os.chdir(repo_id)
     os.chdir('work')
 
-    if os.path.exists('packages.txt'):
-        os.system('sudo apt-get update')
-        os.system('cat packages.txt | xargs sudo apt-get install -y')
+if os.path.exists('packages.txt'):
+    os.system('sudo apt-get update')
+    os.system('cat packages.txt | xargs sudo apt-get install -y')
 
-    if os.path.exists('requirements.txt'):
-        os.system('pip install -r requirements.txt')
+if os.path.exists('requirements.txt'):
+    os.system('pip install -r requirements.txt')
 
-    if os.path.exists('extensions.txt'):
-        os.system('cat extensions.txt | xargs -I {} jupyter {} install --user')
+if os.path.exists('extensions.txt'):
+    os.system('cat extensions.txt | xargs -I {} jupyter {} install --user')

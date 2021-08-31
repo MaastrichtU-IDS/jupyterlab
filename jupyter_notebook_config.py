@@ -10,6 +10,7 @@ if git_url:
     # repo_id = git_url.rsplit('/', 1)[-1].replace('.git', '')
     os.system('git clone --quiet --recursive ' + git_url + ' work')
     # os.chdir(repo_id)
+    os.chdir('work')
 
     if os.path.exists('packages.txt'):
         os.system('sudo apt-get update')
@@ -20,5 +21,3 @@ if git_url:
 
     if os.path.exists('extensions.txt'):
         os.system('cat extensions.txt | xargs -I {} jupyter {} install --user')
-
-    os.chdir('work')

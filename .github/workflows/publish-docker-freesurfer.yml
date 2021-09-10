@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-    - 'applications/gpu/freesurfer/Dockerfile'
+    - 'freesurfer/Dockerfile'
     - '.github/workflows/publish-docker-freesurfer.yml'
 env:
   IMAGE_ID: ghcr.io/maastrichtu-ids/jupyterlab:freesurfer

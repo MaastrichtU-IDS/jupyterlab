@@ -27,6 +27,28 @@ JupyterLab image based on the [jupyter/docker-stacks](https://github.com/jupyter
 
 Some `.jar` programs for knowledge graph processing are pre-downloaded in `/opt` in the image: RDF4J, Apache Jena, OWLAPI, RML mapper, etc.
 
+## Customize your JupyterLab image
+
+Choose which image fits your need: base image, FSL, FreeSurfer, Python2,7
+
+1. Fork this repository.
+2. Clone the fork repository 
+3. Edit the `Dockerfile` for this image to install the packages you need. Preferably use `conda` to install new packages, you can also install with `apt-get` (need to run as root or with `sudo`) and `pip`
+
+4. Go to the folder and rebuild the `Dockerfile`:
+
+```bash
+docker build -t jupyterlab .
+```
+
+5. Run the docker image built on http://localhost:8888
+
+```bash
+docker run -it --rm -p 8888:8888 -e JUPYTER_TOKEN=yourpassword ghcr.io/maastrichtu-ids/jupyterlab:latest
+```
+
+If the built Docker image works well feel free to send a pull request to get your changes merged to the main repository and integrated in the corresponding published Docker image.
+
 ## Run with Docker 🐳
 
 Volumes can be mounted into `/home/jovyan` folder.

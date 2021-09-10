@@ -29,7 +29,7 @@ Some `.jar` programs for knowledge graph processing are pre-downloaded in `/opt`
 
 ## Customize your JupyterLab image
 
-Choose which image fits your need: base image, FSL, FreeSurfer, Python2,7
+Choose which image fits your need: base image, gpu, FSL, FreeSurfer, Python2,7
 
 1. Fork this repository.
 2. Clone the fork repository 
@@ -108,13 +108,29 @@ docker build -t ghcr.io/maastrichtu-ids/jupyterlab .
 Run:
 
 ```bash
-docker run --rm -it --user root -p 8888:8888 -e GRANT_SUDO=yes -e JUPYTER_TOKEN=password -v $(pwd)/data:/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab
+docker run --rm -it --user root -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab
 ```
 
 Push:
 
 ```bash
 docker push ghcr.io/maastrichtu-ids/jupyterlab
+```
+
+## GPU
+
+Based on the [official Nvidia Tensorflow image](https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow) with `conda` and `jupyterlab`, from the root folder of this repository, build:
+
+```bash
+docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:21.08-tf2-py3 -f gpu/Dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:tensorflow .
+```
+
+> For PyTorch, change the `NVIDIA_IMAGE` to use the [official Nvidia PyTorch image](https://ngc.nvidia.com/catalog/containers/nvidia:pytorch)
+
+Run it:
+
+```bash
+docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/root ghcr.io/maastrichtu-ids/jupyterlab:tensorflow
 ```
 
 ### Python 2.7

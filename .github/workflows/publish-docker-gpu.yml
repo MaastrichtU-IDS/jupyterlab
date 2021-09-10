@@ -1,0 +1,46 @@
+name: Publish GPU image
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+    - 'gpu/Dockerfile'
+    - '.github/workflows/publish-docker-gpu.yml'
+env:
+  TENSORFLOW_TAG: 21.08-tf2-py3
+  PYTORCH_TAG: 21.08-py3
+
+  PUBLISH_TENSORFLOW: ghcr.io/maastrichtu-ids/jupyterlab:tensorflow
+  PUBLISH_PYTORCH: ghcr.io/maastrichtu-ids/jupyterlab:pytorch
+
+jobs:
+  publish-tensorflow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build image
+        run: docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:$TENSORFLOW_TAG -f gpu/Dockerfile -t $PUBLISH_TENSORFLOW .
+
+      - name: Log into GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Push image to GitHub Container Registry
+        run: |
+          docker push $PUBLISH_TENSORFLOW
+
+  publish-pytorch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build image
+        run: docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:$PYTORCH_TAG -f gpu/Dockerfile -t $PUBLISH_PYTORCH .
+
+      - name: Log into GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Push image to GitHub Container Registry
+        run: |
+          docker push $PUBLISH_PYTORCH

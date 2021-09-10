@@ -91,9 +91,10 @@ RUN echo '{ \
 # Add conda to path
 # ENV PATH="/opt/fsl-6.0.3/fslpython/condabin:/opt/fsl-6.0.3/fslpython/bin:${PATH}" 
 
-# RUN conda install --quiet -y \
-#         notebook \
-#         jupyterlab
+RUN conda install --quiet -y \
+        notebook \
+        jupyterlab \
+        jupyterlab-lsp jupyter-lsp-python
 
 # ENTRYPOINT ["/neurodocker/startup.sh"]
 EXPOSE 8888

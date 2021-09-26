@@ -117,17 +117,23 @@ Push:
 docker push ghcr.io/maastrichtu-ids/jupyterlab
 ```
 
-## GPU
+### JupyterLab on GPU
 
-Based on the [official Nvidia Tensorflow image](https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow) with `conda` and `jupyterlab`, from the root folder of this repository, build:
+To deploy JupyterLab on GPU we use the [official Nvidia images](https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow) with `conda` and `jupyterlab`, 
+
+You can use other images from Nvidia by changing the `NVIDIA_IMAGE` build argument, popular images are:
+
+* [Tensorflow](https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow): `nvcr.io/nvidia/tensorflow:21.08-tf2-py3`
+* [PyTorch](https://ngc.nvidia.com/catalog/containers/nvidia:pytorch): `nvcr.io/nvidia/pytorch:21.08-py3`
+* [CUDA](https://ngc.nvidia.com/catalog/containers/nvidia:cuda): `nvcr.io/nvidia/cuda:10.2-devel-ubuntu18.04`
+
+To build an image, change the `build-arg` and run from the root folder of this repository:
 
 ```bash
 docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:21.08-tf2-py3 -f gpu/Dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:tensorflow .
 ```
 
-> For PyTorch, change the `NVIDIA_IMAGE` to use the [official Nvidia PyTorch image](https://ngc.nvidia.com/catalog/containers/nvidia:pytorch)
-
-Run it:
+Run an image on http://localhost:8888
 
 ```bash
 docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/root ghcr.io/maastrichtu-ids/jupyterlab:tensorflow

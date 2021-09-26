@@ -1,4 +1,4 @@
-name: Publish GPU image
+name: Publish GPU images
 on:
   workflow_dispatch:
   push:
@@ -7,12 +7,15 @@ on:
     paths:
     - 'gpu/Dockerfile'
     - '.github/workflows/publish-docker-gpu.yml'
+
 env:
   TENSORFLOW_TAG: 21.08-tf2-py3
   PYTORCH_TAG: 21.08-py3
+  CUDA_TAG: 10.2-devel-ubuntu18.04
 
   PUBLISH_TENSORFLOW: ghcr.io/maastrichtu-ids/jupyterlab:tensorflow
   PUBLISH_PYTORCH: ghcr.io/maastrichtu-ids/jupyterlab:pytorch
+  PUBLISH_CUDA: ghcr.io/maastrichtu-ids/jupyterlab:cuda
 
 jobs:
   publish-tensorflow:
@@ -44,3 +47,18 @@ jobs:
       - name: Push image to GitHub Container Registry
         run: |
           docker push $PUBLISH_PYTORCH
+
+  publish-cuda:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build image
+        run: docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/cuda:$CUDA_TAG -f gpu/Dockerfile -t $PUBLISH_CUDA .
+
+      - name: Log into GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Push image to GitHub Container Registry
+        run: |
+          docker push $PUBLISH_CUDA

@@ -1,8 +1,10 @@
 
-# https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow
 ARG NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:21.08-tf2-py3
 
-# https://ngc.nvidia.com/catalog/containers/nvidia:pytorch
+## Example Nvidia images available:
+# Tensorflow: https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow
+# PyTorch: https://ngc.nvidia.com/catalog/containers/nvidia:pytorch
+# CUDA: https://ngc.nvidia.com/catalog/containers/nvidia:cuda
 
 FROM ${NVIDIA_IMAGE}
 
@@ -25,16 +27,23 @@ RUN export download_url=$(curl -s https://api.github.com/repos/conda-forge/minif
     conda config --system --set auto_update_conda false && \
     conda config --system --set show_channel_urls true
 
+# Install JupyterLab with conda
 RUN conda install --quiet -y \
     # conda \
     pip \
     notebook jupyterlab \
     jupyterlab-lsp jupyter-lsp-python \
-    jupyterlab-git
+    jupyterlab-git  
 
+# Install GPU dashboard: https://developer.nvidia.com/blog/gpu-dashboards-in-jupyter-lab/
+RUN pip install jupyterlab-nvdashboard && \
+    jupyter labextension install jupyterlab-nvdashboard
+
+# RUN jupyter labextension update --all && \
+#     jupyter lab build 
+
+# Add jupyter config script run at the start of the container
 COPY ../jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
 
 EXPOSE 8888
 ENTRYPOINT ["jupyter", "lab", "--allow-root", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--config=/etc/jupyter/jupyter_notebook_config.py"]
-
-# ENTRYPOINT ["/neurodocker/startup.sh"]

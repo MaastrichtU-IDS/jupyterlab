@@ -11,6 +11,9 @@ FROM ${NVIDIA_IMAGE}
 USER root
 WORKDIR /root
 
+RUN apt-get update && \
+    apt-get install -y curl wget
+
 ## Install Conda
 ENV CONDA_DIR=/opt/conda \
     SHELL=/bin/bash \
@@ -31,7 +34,9 @@ RUN export download_url=$(curl -s https://api.github.com/repos/conda-forge/minif
 RUN conda install --quiet -y \
     # conda \
     pip \
+    nodejs \
     notebook jupyterlab \
+    ipywidgets \ 
     jupyterlab-lsp jupyter-lsp-python \
     jupyterlab-git  
 

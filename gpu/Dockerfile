@@ -41,8 +41,7 @@ RUN conda install --quiet -y \
     jupyterlab-git  
 
 # Install GPU dashboard: https://developer.nvidia.com/blog/gpu-dashboards-in-jupyter-lab/
-RUN pip install jupyterlab-nvdashboard && \
-    jupyter labextension install jupyterlab-nvdashboard
+RUN pip install jupyterlab-nvdashboard
 
 # RUN jupyter labextension update --all && \
 #     jupyter lab build 

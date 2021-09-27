@@ -47,7 +47,7 @@ RUN pip install jupyterlab-nvdashboard
 #     jupyter lab build 
 
 # Add jupyter config script run at the start of the container
-COPY ../jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
+COPY jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
 
 EXPOSE 8888
 ENTRYPOINT ["jupyter", "lab", "--allow-root", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--config=/etc/jupyter/jupyter_notebook_config.py"]

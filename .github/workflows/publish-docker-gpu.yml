@@ -48,17 +48,17 @@ jobs:
         run: |
           docker push $PUBLISH_PYTORCH
 
-  publish-cuda:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+  # publish-cuda:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
 
-      - name: Build image
-        run: docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/cuda:$CUDA_TAG -f gpu/Dockerfile -t $PUBLISH_CUDA .
+  #     - name: Build image
+  #       run: docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/cuda:$CUDA_TAG -f gpu/Dockerfile -t $PUBLISH_CUDA .
 
-      - name: Log into GitHub Container Registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
+  #     - name: Log into GitHub Container Registry
+  #       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
 
-      - name: Push image to GitHub Container Registry
-        run: |
-          docker push $PUBLISH_CUDA
+  #     - name: Push image to GitHub Container Registry
+  #       run: |
+  #         docker push $PUBLISH_CUDA

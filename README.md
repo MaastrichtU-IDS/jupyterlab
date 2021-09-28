@@ -51,7 +51,7 @@ If the built Docker image works well feel free to send a pull request to get you
 
 ## Run with Docker 🐳
 
-Volumes can be mounted into `/home/jovyan` folder.
+Volumes can be mounted into `/home/jovyan`  or `/home/jovyan/work` folder.
 
 Run as `jovyan` user with `sudo` privileges, use `JUPYTER_TOKEN` to define your password:
 
@@ -70,7 +70,7 @@ You can check the `docker-compose.yml` file to run it easily with Docker Compose
 Run with a restricted `jovyan` user, without `sudo` privileges:
 
 ```bash
-docker run --rm -it --user $(id -u) -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab
+docker run --rm -it --user $(id -u) -p 8888:8888 -e CHOWN_HOME=yes -e CHOWN_HOME_OPTS='-R' -e JUPYTER_TOKEN=password -v $(pwd)/data:/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab
 ```
 
 Potential permission issue when running locally ⚠️

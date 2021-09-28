@@ -3,6 +3,8 @@ FROM jupyter/scipy-notebook:latest
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
 
 ENV JUPYTER_ENABLE_LAB=yes
+# ENV CHOWN_HOME=yes
+# ENV CHOWN_HOME_OPTS='-R'
 
 RUN npm install --global yarn 
 

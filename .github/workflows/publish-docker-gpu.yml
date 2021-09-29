@@ -6,12 +6,13 @@ on:
       - main
     paths:
     - 'gpu/Dockerfile'
+    - 'gpu-pytorch/Dockerfile'
     - '.github/workflows/publish-docker-gpu.yml'
 
 env:
-  TENSORFLOW_TAG: 21.08-tf2-py3
-  PYTORCH_TAG: 21.08-py3
-  CUDA_TAG: 10.2-devel-ubuntu18.04
+  TENSORFLOW_TAG: 21.09-tf1-py3
+  PYTORCH_TAG: 21.09-py3
+  CUDA_TAG: 11.4.2-devel-ubuntu20.04
 
   PUBLISH_TENSORFLOW: ghcr.io/maastrichtu-ids/jupyterlab:tensorflow
   PUBLISH_PYTORCH: ghcr.io/maastrichtu-ids/jupyterlab:pytorch
@@ -33,28 +34,13 @@ jobs:
         run: |
           docker push $PUBLISH_TENSORFLOW
 
-  publish-pytorch:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Build image
-        run: docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:$PYTORCH_TAG -f gpu/Dockerfile -t $PUBLISH_PYTORCH .
-
-      - name: Log into GitHub Container Registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
-
-      - name: Push image to GitHub Container Registry
-        run: |
-          docker push $PUBLISH_PYTORCH
-
   publish-cuda:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
       - name: Build image
-        run: docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/cuda:$CUDA_TAG -f gpu-cuda/Dockerfile -t $PUBLISH_CUDA .
+        run: docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/cuda:$CUDA_TAG -f gpu/Dockerfile -t $PUBLISH_CUDA .
 
       - name: Log into GitHub Container Registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
@@ -62,3 +48,18 @@ jobs:
       - name: Push image to GitHub Container Registry
         run: |
           docker push $PUBLISH_CUDA
+
+  publish-pytorch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build image
+        run: docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:$PYTORCH_TAG -f gpu-pytorch/Dockerfile -t $PUBLISH_PYTORCH .
+
+      - name: Log into GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Push image to GitHub Container Registry
+        run: |
+          docker push $PUBLISH_PYTORCH

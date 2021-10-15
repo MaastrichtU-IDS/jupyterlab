@@ -1,6 +1,6 @@
 ## JupyterLab for knowledge graphs and data science
 
-[![Publish Docker image](https://github.com/MaastrichtU-IDS/jupyterlab/actions/workflows/publish-docker.yml/badge.svg)](https://github.com/MaastrichtU-IDS/jupyterlab/actions/workflows/publish-docker.yml)
+[![Publish Docker image](https://github.com/MaastrichtU-IDS/jupyterlab/actions/workflows/publish-docker.yml/badge.svg)](https://github.com/MaastrichtU-IDS/jupyterlab/actions/workflows/publish-docker.yml) [![Publish GPU image](https://github.com/MaastrichtU-IDS/jupyterlab/actions/workflows/publish-docker-gpu.yml/badge.svg)](https://github.com/MaastrichtU-IDS/jupyterlab/actions/workflows/publish-docker-gpu.yml)
 
 JupyterLab image based on the [jupyter/docker-stacks](https://github.com/jupyter/docker-stacks) scipy image, with additional packages and kernels installed for data science and knowledge graphs. 
 
@@ -27,9 +27,31 @@ JupyterLab image based on the [jupyter/docker-stacks](https://github.com/jupyter
 
 Some `.jar` programs for knowledge graph processing are pre-downloaded in `/opt` in the image: RDF4J, Apache Jena, OWLAPI, RML mapper, etc.
 
+## Customize your JupyterLab image
+
+Choose which image fits your need: base image, gpu, FSL, FreeSurfer, Python2,7
+
+1. Fork this repository.
+2. Clone the fork repository 
+3. Edit the `Dockerfile` for this image to install the packages you need. Preferably use `conda` to install new packages, you can also install with `apt-get` (need to run as root or with `sudo`) and `pip`
+
+4. Go to the folder and rebuild the `Dockerfile`:
+
+```bash
+docker build -t jupyterlab .
+```
+
+5. Run the docker image built on http://localhost:8888
+
+```bash
+docker run -it --rm -p 8888:8888 -e JUPYTER_TOKEN=yourpassword ghcr.io/maastrichtu-ids/jupyterlab:latest
+```
+
+If the built Docker image works well feel free to send a pull request to get your changes merged to the main repository and integrated in the corresponding published Docker image.
+
 ## Run with Docker 🐳
 
-Volumes can be mounted into `/home/jovyan` folder.
+Volumes can be mounted into `/home/jovyan`  or `/home/jovyan/work` folder.
 
 Run as `jovyan` user with `sudo` privileges, use `JUPYTER_TOKEN` to define your password:
 
@@ -48,7 +70,7 @@ You can check the `docker-compose.yml` file to run it easily with Docker Compose
 Run with a restricted `jovyan` user, without `sudo` privileges:
 
 ```bash
-docker run --rm -it --user $(id -u) -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab
+docker run --rm -it --user $(id -u) -p 8888:8888 -e CHOWN_HOME=yes -e CHOWN_HOME_OPTS='-R' -e JUPYTER_TOKEN=password -v $(pwd)/data:/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab
 ```
 
 Potential permission issue when running locally ⚠️
@@ -86,13 +108,35 @@ docker build -t ghcr.io/maastrichtu-ids/jupyterlab .
 Run:
 
 ```bash
-docker run --rm -it --user root -p 8888:8888 -e GRANT_SUDO=yes -e JUPYTER_TOKEN=password -v $(pwd)/data:/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab
+docker run --rm -it --user root -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab
 ```
 
 Push:
 
 ```bash
 docker push ghcr.io/maastrichtu-ids/jupyterlab
+```
+
+### JupyterLab on GPU
+
+To deploy JupyterLab on GPU we use the [official Nvidia images](https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow) with `conda` and `jupyterlab`, 
+
+You can use other images from Nvidia by changing the `NVIDIA_IMAGE` build argument, popular images are:
+
+* [Tensorflow](https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow): `nvcr.io/nvidia/tensorflow:21.08-tf2-py3`
+* [PyTorch](https://ngc.nvidia.com/catalog/containers/nvidia:pytorch): `nvcr.io/nvidia/pytorch:21.08-py3`
+* [CUDA](https://ngc.nvidia.com/catalog/containers/nvidia:cuda): `nvcr.io/nvidia/cuda:10.2-devel-ubuntu18.04`
+
+To build an image, change the `build-arg` and run from the root folder of this repository:
+
+```bash
+docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:21.08-tf2-py3 -f gpu/Dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:tensorflow .
+```
+
+Run an image on http://localhost:8888
+
+```bash
+docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/root ghcr.io/maastrichtu-ids/jupyterlab:tensorflow
 ```
 
 ### Python 2.7

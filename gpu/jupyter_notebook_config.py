@@ -9,10 +9,9 @@ os.system('git config --global user.name "' + git_name + '"')
 os.system('git config --global user.email "' + git_email + '"')
 
 if git_url:
-    # repo_id = git_url.rsplit('/', 1)[-1].replace('.git', '')
-    os.system('git clone --quiet --recursive ' + git_url + ' work')
-    # os.chdir(repo_id)
-    os.chdir('work')
+    repo_id = git_url.rsplit('/', 1)[-1].replace('.git', '')
+    os.system('git clone --quiet --recursive ' + git_url + '')
+    os.chdir(repo_id)
 
 if os.path.exists('packages.txt'):
     os.system('sudo apt-get update')
@@ -23,7 +22,3 @@ if os.path.exists('requirements.txt'):
 
 if os.path.exists('extensions.txt'):
     os.system('cat extensions.txt | xargs -I {} jupyter {} install --user')
-
-# home_dir = os.environ.get('HOME')
-# os.chdir(home_dir)
-# c.NotebookApp.terminado_settings = {'shell_command': ['/bin/zsh']}

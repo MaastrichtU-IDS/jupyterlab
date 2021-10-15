@@ -83,12 +83,18 @@ RUN npm i -g @rmlio/yarrrml-parser && \
     wget -q -O /opt/shaclconvert.jar https://gitlab.ontotext.com/yasen.marinov/shaclconvert/-/raw/master/built/shaclconvert.jar
 
 RUN cd /opt && \
-    wget -q https://repo1.maven.org/maven2/net/sourceforge/owlapi/owlapi-distribution/5.1.19/owlapi-distribution-5.1.19.jar && \
-    wget -q https://repo1.maven.org/maven2/net/sourceforge/owlapi/org.semanticweb.hermit/1.4.5.519/org.semanticweb.hermit-1.4.5.519.jar && \
-    wget -q https://ftp.fau.de/eclipse/rdf4j/eclipse-rdf4j-3.6.3-onejar.jar && \
-    wget -q https://ftp.wayne.edu/apache/jena/binaries/apache-jena-4.1.0.tar.gz && \
-    tar -xf *.tar.gz && \
-    rm *.tar.gz
+    wget -q https://repo1.maven.org/maven2/commons-io/commons-io/2.11.0/commons-io-2.11.0.jar && \
+    wget -q https://downloads.apache.org/jena/binaries/apache-jena-4.2.0.tar.gz && \
+    wget -q http://download.eclipse.org/rdf4j/eclipse-rdf4j-3.7.3-onejar.jar 
+    # http://download.eclipse.org/rdf4j/eclipse-rdf4j-3.7.3-onejar.jar
+
+# RUN cd /opt && \
+#     wget -q https://repo1.maven.org/maven2/net/sourceforge/owlapi/owlapi-distribution/5.1.19/owlapi-distribution-5.1.19.jar && \
+#     wget -q https://repo1.maven.org/maven2/net/sourceforge/owlapi/org.semanticweb.hermit/1.4.5.519/org.semanticweb.hermit-1.4.5.519.jar && \
+#     wget -q https://ftp.fau.de/eclipse/rdf4j/eclipse-rdf4j-3.6.3-onejar.jar && \
+#     wget -q https://ftp.wayne.edu/apache/jena/binaries/apache-jena-4.1.0.tar.gz && \
+#     tar -xf *.tar.gz && \
+#     rm *.tar.gz
 
 
 WORKDIR /home/$NB_USER/work

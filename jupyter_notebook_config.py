@@ -8,11 +8,13 @@ git_email = os.getenv('GIT_EMAIL', 'default@maastrichtuniversity.nl')
 os.system('git config --global user.name "' + git_name + '"')
 os.system('git config --global user.email "' + git_email + '"')
 
+os.chdir('/home/jovyan/work')
+
 if git_url:
     # repo_id = git_url.rsplit('/', 1)[-1].replace('.git', '')
-    os.system('git clone --quiet --recursive ' + git_url + ' work')
+    os.system('git clone --quiet --recursive ' + git_url + ' .')
     # os.chdir(repo_id)
-    os.chdir('work')
+    # os.chdir('work')
 
 if os.path.exists('packages.txt'):
     os.system('sudo apt-get update')

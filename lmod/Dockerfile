@@ -16,6 +16,7 @@ RUN conda install --quiet --yes \
       jupyterlab-git \
       jupyterlab-lsp \
       jupyter-lsp-python \
+      jupyter-server-proxy \
       jupyter_bokeh \
       jupyterlab-drawio && \
       # rise && \ # Issue when building with GitHub Actions related to jedi package
@@ -97,43 +98,14 @@ USER $NB_USER
 
 # Install Lmod jupyter extension
 RUN pip install jupyterlmod && \
-    jupyter labextension install jupyterlab-lmod
+    jupyter labextension install jupyterlab-lmod @jupyterlab/server-proxy
+    # @jupyterlab/server-proxy https://www.npmjs.com/package/@jupyterlab/server-proxy
 
-# RUN pip install --no-cache-dir -r /tmp/requirements.txt && \ 
-#     pip install --no-cache-dir /tmp/jupyter_server_proxy-*-py3-none-any.whl && \
-#     pip install --no-cache-dir /tmp/jupyterlmod-*-py3-none-any.whl && \
-#     pip install --no-cache-dir /tmp/jupyterlmodlauncher && \
-#     jupyter labextension install /tmp/jupyterlab-lmod-*.tgz && \
-#     jupyter lab build && \
-#     jupyter lab clean && \
-#     npm cache clean --force && \
-#     rm -rf $HOME/.cache/yarn && \
-#     rm -rf $HOME/.node-gyp 
-
+# RUN pip install --no-cache-dir /tmp/jupyterlmodlauncher && \
 
 RUN jupyter labextension update --all && \
     jupyter lab build 
 
-
-# # Add jar files in /opt for RDF processing
-# RUN npm i -g @rmlio/yarrrml-parser && \
-#     wget -q -O /opt/rmlmapper.jar https://github.com/RMLio/rmlmapper-java/releases/download/v4.11.0/rmlmapper.jar && \
-#     wget -q -O /opt/widoco.jar https://github.com/dgarijo/Widoco/releases/download/v1.4.15/widoco-1.4.15-jar-with-dependencies.jar && \
-#     wget -q -O /opt/limes.jar https://github.com/dice-group/LIMES/releases/download/1.7.5/limes.jar && \
-#     wget -q -O /opt/amie3.jar https://github.com/lajus/amie/releases/download/3.0/amie-milestone-intKB.jar && \
-#     wget -q -O /opt/shaclconvert.jar https://gitlab.ontotext.com/yasen.marinov/shaclconvert/-/raw/master/built/shaclconvert.jar
-
-# RUN cd /opt && \
-#     wget -q https://repo1.maven.org/maven2/commons-io/commons-io/2.11.0/commons-io-2.11.0.jar && \
-#     wget -q https://downloads.apache.org/jena/binaries/apache-jena-4.2.0.tar.gz && \
-#     wget -q http://download.eclipse.org/rdf4j/eclipse-rdf4j-3.7.3-onejar.jar 
-
-# # Download latest simpleowlapi jar in /opt/simpleowlapi.jar
-# RUN curl -s https://api.github.com/repos/kodymoodley/simpleowlapi/releases/latest \
-#     | grep "browser_download_url.*-jar-with-dependencies.jar" \
-#     | cut -d : -f 2,3 \
-#     | tr -d \" \
-#     | wget -O /opt/simpleowlapi.jar -qi -
 
 WORKDIR /home/$NB_USER/work
 

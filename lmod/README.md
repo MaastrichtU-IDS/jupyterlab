@@ -121,9 +121,7 @@ module avail
 
 > See also ODH easybuilds: https://github.com/guimou/odh-easyconfigs
 
-### Build the easybuild-data image
-
-After you added new EasyConfigs to the `./easybuild/easybuild-data` folder you can build the docker image with the new modules, and publish it:
+After you added new EasyConfigs to the `./easybuild/easybuild-data` folder you can build the `easybuild-data` docker image with the new modules, and publish it:
 
 ```bash
 cd easybuild
@@ -132,11 +130,28 @@ docker build . -t ghcr.io/maastrichtu-ids/easybuild-data:latest
 
 > You can also define the complete process to run during `docker build`, checkout the `easybuild/Dockerfile`
 
-### Build on the DSRI
+### Build image on the DSRI
 
-Alternatively, instead of building it locally, you can spawn an easybuild environment on DSRI to build other modules or create your own ones in the `easybuild-data` volume in the current project.
+You can start the multistage docker build to install new modules on OpenShift from the `lmod/easybuild` folder:
 
-Deploy the pre-built EasyBuild container
+```bash
+cd easybuild
+oc new-build --name easybuild-data --binary
+oc start-build easybuild-data --from-dir=.
+```
+
+Go to the OpenShift web UI to check the build logs, or use the terminal:
+
+```bash
+oc describe build easybuild-data-1 
+oc logs -f bc/easybuild-data
+```
+
+### Install module directly on the DSRI
+
+Alternatively, to test modules, you can spawn an easybuild environment on DSRI to build other modules or create your own ones directly in the `easybuild-data` volume in the current project.
+
+Deploy the pre-built EasyBuild container:
 
 ```bash
 oc apply -f 05_easybuild_deployment.yaml

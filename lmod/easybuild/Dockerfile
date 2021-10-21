@@ -1,7 +1,7 @@
 FROM quay.io/guimou/easybuild-ubi8-py39 AS builder
 
 USER root
-RUN chown -R easybuild:easybuild /opt/app/easybuild
+RUN chown -R easybuild:easybuild /opt/apps/easybuild
 USER easybuild
 
 RUN /opt/app-root/src/easybuild_install.sh

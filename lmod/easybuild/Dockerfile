@@ -1,10 +1,10 @@
 FROM quay.io/guimou/easybuild-ubi8-py39 AS builder
 
-# USER root
-# RUN chown -R easybuild:easybuild /opt/apps/easybuild
-# USER easybuild
-
+USER root
 RUN /opt/app-root/src/easybuild_install.sh
+RUN chown -R easybuild:easybuild /opt/apps/easybuild
+USER easybuild
+
 # RUN source /opt/apps/lmod/lmod/init/bash
 
 WORKDIR /opt/apps/easybuild/repos

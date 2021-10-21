@@ -51,6 +51,7 @@ RUN apt-get update && \
         libtcl8.6:amd64 \
         python-keyring \
         rdma-core \
+        curl wget \
         ant
 # RUN yum -y update && yum -y install xz iproute pam-devel ant lua lua-devel lua-posix lua-filesystem tcl python-keyring rdma-core-devel && yum -y clean all && rm -rf /var/cache/dnf
 

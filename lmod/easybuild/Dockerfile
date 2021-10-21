@@ -3,7 +3,7 @@ FROM quay.io/guimou/easybuild-ubi8-py39 AS builder
 USER root
 RUN /opt/app-root/src/easybuild_install.sh
 
-# RUN source /opt/apps/lmod/lmod/init/bash
+RUN source /opt/apps/lmod/lmod/init/bash
 
 WORKDIR /opt/apps/easybuild/repos
 RUN git clone https://github.com/easybuilders/easybuild-easyconfigs

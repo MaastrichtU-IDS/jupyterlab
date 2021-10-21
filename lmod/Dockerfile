@@ -55,10 +55,12 @@ RUN apt-get update && \
         ant
 # RUN yum -y update && yum -y install xz iproute pam-devel ant lua lua-devel lua-posix lua-filesystem tcl python-keyring rdma-core-devel && yum -y clean all && rm -rf /var/cache/dnf
 
+RUN mkdir -p /build
+
 RUN fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER && \
-    fix-permissions /opt 
-    # fix-permissions /build
+    fix-permissions /opt && \
+    fix-permissions /build
 
 USER $NB_USER
 
@@ -76,13 +78,12 @@ ENV USER=jovyan \
     LMOD_sys=Linux \
     LMOD_CMD=/opt/apps/lmod/lmod/libexec/lmod
 
-RUN mkdir -p /build
+RUN mkdir -p /opt/apps
 WORKDIR /build
 RUN curl -LO http://github.com/TACC/Lmod/archive/${LMOD_VERSION}.tar.gz && \
     mv /build/${LMOD_VERSION}.tar.gz /build/Lmod-${LMOD_VERSION}.tar.gz && \
     tar xvf Lmod-${LMOD_VERSION}.tar.gz
 
-RUN mkdir -p /build
 WORKDIR /build/Lmod-$LMOD_VERSION
 
 RUN ./configure --prefix=/opt/apps --with-fastTCLInterp=no && \
@@ -93,7 +94,7 @@ RUN ./configure --prefix=/opt/apps --with-fastTCLInterp=no && \
 
 
 # Install Lmod jupyter extension
-RUN pip install  jupyterlmod && \
+RUN pip install jupyterlmod && \
     jupyter labextension install jupyterlab-lmod
 
 # RUN pip install --no-cache-dir -r /tmp/requirements.txt && \ 

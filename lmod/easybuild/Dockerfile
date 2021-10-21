@@ -17,8 +17,10 @@ FROM registry.access.redhat.com/ubi8/s2i-core:1 AS runner
 
 USER 1001
 
+# load from local easybuild-data folder
 # COPY --chown=1001:0 easybuild-data/. /opt/app-root/src/easybuild-data/
 
+# Load from multistage docker build
 COPY --from=builder --chown=1001:0 /opt/apps/easybuild/ /opt/app-root/src/easybuild-data/
 
 COPY copy_data.sh /opt/app-root/src/copy_data.sh

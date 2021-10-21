@@ -1,4 +1,4 @@
-name: Publish Lmod image
+name: Publish Lmod images
 on:
   workflow_dispatch:
   push:
@@ -6,11 +6,13 @@ on:
       - main
     paths:
     - 'lmod/Dockerfile'
+    - 'lmod/easybuild/*'
     - '.github/workflows/publish-docker-lmod.yml'
 env:
   IMAGE_ID: ghcr.io/maastrichtu-ids/jupyterlab:lmod
+  EASYBUILD_IMAGE_ID: ghcr.io/maastrichtu-ids/easybuild-data:latest
 jobs:
-  push:
+  jupyterlab:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -24,3 +26,18 @@ jobs:
       - name: Push image to GitHub Container Registry
         run: |
           docker push $IMAGE_ID
+
+  easybuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build image
+        run: docker build . --file lmod/easybuild/Dockerfile --tag $EASYBUILD_IMAGE_ID
+
+      - name: Log into GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Push image to GitHub Container Registry
+        run: |
+          docker push $EASYBUILD_IMAGE_ID

@@ -1,8 +1,8 @@
-## Deploy EasyBuild volume with Lmod JupyterLab on DSRI
+## Deploy EasyBuild volume with Lmod JupyterLab on OpenShift
 
-https://github.com/guimou/odh-highlander
+Deployment made with the Data Science Research Infrastructure (DSRI) at Maastricht University. 
 
-https://github.com/guimou/odh-highlander/tree/main/deploy
+Based on the documentation from https://github.com/guimou/odh-highlander
 
 1. Create the PVC with Lmod modules in the same project where you will start the JupyterLab:
 
@@ -52,7 +52,7 @@ helm install jupyterlab dsri/jupyterlab \
 
 > It will use the Docker image with Lmod, based on `jupyter/scipy-notebook` (debian), which is defined in the `Dockerfile` in this folder.
 
-⚠️ Be careful you need to load the modules you want to import before creating the Jupyter notebook, otherwise the notebook kernel will not be able to find the module (not sure if there is a fix for that) 
+⚠️ You will need to reload your notebooks kernel after loading a module to be able to import it.
 
 ### Delete the app
 
@@ -65,6 +65,12 @@ oc delete -f 01_easybuild-data_pvc.yaml
 ## Add more modules
 
 Check out the instructions to build modules with EasyBuild for Open Data Hub: https://github.com/guimou/odh-highlander/tree/main/easybuild-container-ubi8
+
+Checkout the file `lmod/easybuild/Dockerfile` to edit the modules installed in the EasyBuild-data image.
+
+The docker image is automatically build by a GitHub Actions workflow.
+
+> Note: installing modules with EasyBuild takes times
 
 ### Build locally
 
@@ -97,6 +103,7 @@ sed -i '\!^robot-paths! s!$!:/opt/apps/easybuild/repos/easybuild-easyconfigs/!' 
 
 ```bash
 cd /opt/apps/easybuild
+export LMOD_CMD=/opt/apps/lmod/lmod/libexec/lmod
 # FSL not working
 eb repos/easybuild-easyconfigs/easybuild/easyconfigs/f/FSL/FSL-6.0.1* --download-timeout=1000 -r
 # FreeSurfer 7.1.1
@@ -105,15 +112,12 @@ eb repos/easybuild-easyconfigs/easybuild/easyconfigs/f/FreeSurfer/FreeSurfer-7.1
 
 This will preinstall the modules in the initialized `./easybuild/easybuild-data` folder
 
-Additional command that might help to init lmod and eb:
+Additional commands to check existing modules:
 
 ```bash
-source /opt/apps/lmod/lmod/init/bash
 module list
 module avail
 ```
-
-
 
 > See also ODH easybuilds: https://github.com/guimou/odh-easyconfigs
 

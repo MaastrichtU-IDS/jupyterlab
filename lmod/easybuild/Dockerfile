@@ -1,5 +1,8 @@
 FROM quay.io/guimou/easybuild-data:py39-full_latest AS init
-
+# Multi stages builder:
+# 1. init to reuse odh-highlander easybuild-data
+# 2. builder to install new modules with easybuild container
+# 3. runner to copy the new modules to the easybuild-data docker image that will run
 
 FROM quay.io/guimou/easybuild-ubi8-py39 AS builder
 
@@ -12,7 +15,7 @@ ENV MODULESHOME=$LMOD_PKG
 USER root
 RUN /opt/app-root/src/easybuild_install.sh
 
-COPY --from=init /opt/apps/easybuild /opt/app/easybuild
+COPY --from=init /opt/apps/easybuild /opt/apps/easybuild
 
 # WORKDIR /opt/apps/easybuild/repos
 # RUN git clone https://github.com/easybuilders/easybuild-easyconfigs

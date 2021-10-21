@@ -76,6 +76,7 @@ ENV USER=jovyan \
     LMOD_sys=Linux \
     LMOD_CMD=/opt/apps/lmod/lmod/libexec/lmod
 
+RUN mkdir -p /build
 WORKDIR /build
 RUN curl -LO http://github.com/TACC/Lmod/archive/${LMOD_VERSION}.tar.gz && \
     mv /build/${LMOD_VERSION}.tar.gz /build/Lmod-${LMOD_VERSION}.tar.gz && \
@@ -91,20 +92,20 @@ RUN ./configure --prefix=/opt/apps --with-fastTCLInterp=no && \
 
 
 
-# Install Lmod jupyte extension
-# RUN pip install  jupyterlmod && \
-#     jupyter labextension install jupyterlab-lmod
+# Install Lmod jupyter extension
+RUN pip install  jupyterlmod && \
+    jupyter labextension install jupyterlab-lmod
 
-RUN pip install --no-cache-dir -r /tmp/requirements.txt && \ 
-    pip install --no-cache-dir /tmp/jupyter_server_proxy-*-py3-none-any.whl && \
-    pip install --no-cache-dir /tmp/jupyterlmod-*-py3-none-any.whl && \
-    pip install --no-cache-dir /tmp/jupyterlmodlauncher && \
-    jupyter labextension install /tmp/jupyterlab-lmod-*.tgz && \
-    jupyter lab build && \
-    jupyter lab clean && \
-    npm cache clean --force && \
-    rm -rf $HOME/.cache/yarn && \
-    rm -rf $HOME/.node-gyp 
+# RUN pip install --no-cache-dir -r /tmp/requirements.txt && \ 
+#     pip install --no-cache-dir /tmp/jupyter_server_proxy-*-py3-none-any.whl && \
+#     pip install --no-cache-dir /tmp/jupyterlmod-*-py3-none-any.whl && \
+#     pip install --no-cache-dir /tmp/jupyterlmodlauncher && \
+#     jupyter labextension install /tmp/jupyterlab-lmod-*.tgz && \
+#     jupyter lab build && \
+#     jupyter lab clean && \
+#     npm cache clean --force && \
+#     rm -rf $HOME/.cache/yarn && \
+#     rm -rf $HOME/.node-gyp 
 
 
 RUN jupyter labextension update --all && \

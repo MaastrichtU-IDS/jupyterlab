@@ -5,35 +5,33 @@ LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyte
 # https://quay.io/repository/guimou/s2i-generic-datascience-lmod-notebook/manifest/sha256:4329da31f6ef918b1f3878b037c7517cb72511bf1fcbb632b50dcd5cd0802715
 
 ENV JUPYTER_ENABLE_LAB=yes
-# ENV CHOWN_HOME=yes
-# ENV CHOWN_HOME_OPTS='-R'
 
-RUN npm install --global yarn 
+# RUN npm install --global yarn 
 
 # Install jupyterlab extensions
-# RUN conda install --quiet --yes \
-#       ipywidgets \
-#       jupyterlab \
-#       jupyterlab-git \
-#       jupyterlab-lsp \
-#       jupyter-lsp-python \
-#       jupyter_bokeh \
-#       jupyterlab-drawio && \
-#       # rise && \ # Issue when building with GitHub Actions related to jedi package
-#     conda install -c plotly 'plotly>=4.8.2' 
-#     # fix-permissions $CONDA_DIR && \
-#     # fix-permissions /home/$NB_USER
+RUN conda install --quiet --yes \
+      ipywidgets \
+      jupyterlab \
+      jupyterlab-git \
+      jupyterlab-lsp \
+      jupyter-lsp-python \
+      jupyter_bokeh \
+      jupyterlab-drawio && \
+      # rise && \ # Issue when building with GitHub Actions related to jedi package
+    conda install -c plotly 'plotly>=4.8.2' 
+    # fix-permissions $CONDA_DIR && \
+    # fix-permissions /home/$NB_USER
 
-# RUN pip install --upgrade pip && \
-#     pip install --upgrade \
-#       sparqlkernel \
-#       # elyra \
-#       # Pipeline builder for Kubeflow and Airflow
-#       jupyterlab-system-monitor && \
-#     jupyter labextension install jupyterlab-spreadsheet
+RUN pip install --upgrade pip && \
+    pip install --upgrade \
+    #   sparqlkernel \
+      # elyra \
+      # Pipeline builder for Kubeflow and Airflow
+      jupyterlab-system-monitor && \
+    jupyter labextension install jupyterlab-spreadsheet
 
 
-# Change to root user to install things
+# Change to root user to install Lmod dependencies
 USER root
 
 # Install Lua for Lmod
@@ -66,10 +64,11 @@ USER $NB_USER
 
 # Install Lmod
 ENV USER=jovyan \
-    MODULESHOME=/opt/apps/lmod/lmod \
+    # TODO: Path to modules can be added here
     MODULEPATH=/opt/apps/easybuild/modules/all:/opt/apps/modulefiles/Linux:/opt/apps/modulefiles/Core:/opt/apps/lmod/lmod/modulefiles/Core \
     MODULEPATH_ROOT=/opt/apps/modulefiles \
     # MODULEPATH_ROOT=/opt/apps/lmod/lmod/modulefiles \
+    MODULESHOME=/opt/apps/lmod/lmod \
     MANPATH=/opt/apps/lmod/lmod/share/man: \
     LMOD_DIR=/opt/apps/lmod/lmod/libexec \
     LMOD_SETTARG_FULL_SUPPORT=no \

@@ -52,13 +52,23 @@ helm install jupyterlab dsri/jupyterlab \
 
 > It will use the Docker image with Lmod, based on `jupyter/scipy-notebook` (debian), which is defined in the `Dockerfile` in this folder.
 
+⚠️ Be careful you need to load the modules you want to import before creating the Jupyter notebook, otherwise the notebook kernel will not be able to find the module (not sure if there is a fix for that) 
+
+### Delete the app
+
+```bash
+helm uninstall jupyterlab
+oc delete -f 02_easybuild-data_init.yaml
+oc delete -f 01_easybuild-data_pvc.yaml
+```
+
 ## Add more modules
 
-Check out the full instructions to build modules with EasyBuild: https://github.com/guimou/odh-highlander/tree/main/easybuild-container-ubi8
+Check out the instructions to build modules with EasyBuild for Open Data Hub: https://github.com/guimou/odh-highlander/tree/main/easybuild-container-ubi8
 
 ### Build locally
 
-You can build prepare the EasyBuild environment and add new modules locally:
+You can prepare the EasyBuild environment, and add new modules locally using docker:
 
 1. Create the folder for EasyBuild data with the right permissions:
 
@@ -75,7 +85,7 @@ docker run --rm -it --name easybuild -v $(pwd)/easybuild/easybuild-data:/opt/app
 
 > `/opt/apps/src/easybuild_install.sh` not found
 
-3. Add a new EasyConfig repo, here `easybuild-easyconfigs` :
+3. Once in the container bash terminal, you can add a new EasyConfig repo, e.g. `easybuild-easyconfigs` :
 
 ```bash
 mkdir -p /opt/apps/easybuild/repos && cd /opt/apps/easybuild/repos
@@ -83,7 +93,27 @@ git clone https://github.com/easybuilders/easybuild-easyconfigs
 sed -i '\!^robot-paths! s!$!:/opt/apps/easybuild/repos/easybuild-easyconfigs/!' /opt/apps/easybuild/easybuild.d/config.cfg
 ```
 
+4. Then build modules from easyconfigs files in the repo:
+
+```bash
+cd /opt/apps/easybuild
+# FSL not working
+eb repos/easybuild-easyconfigs/easybuild/easyconfigs/f/FSL/FSL-6.0.1* --download-timeout=1000 -r
+# FreeSurfer 7.1.1
+eb repos/easybuild-easyconfigs/easybuild/easyconfigs/f/FreeSurfer/FreeSurfer-7.1.1-centos* --download-timeout=1000 -r
+```
+
 This will preinstall the modules in the initialized `./easybuild/easybuild-data` folder
+
+Additional command that might help to init lmod and eb:
+
+```bash
+source /opt/apps/lmod/lmod/init/bash
+module list
+module avail
+```
+
+
 
 > See also ODH easybuilds: https://github.com/guimou/odh-easyconfigs
 

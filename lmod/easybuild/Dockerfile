@@ -15,7 +15,9 @@ ENV MODULESHOME=$LMOD_PKG
 USER root
 RUN /opt/app-root/src/easybuild_install.sh
 
-COPY --from=init /opt/apps/easybuild /opt/apps/easybuild
+# COPY --from=init --chown=easybuild:0 /opt/apps/easybuild /opt/apps/easybuild
+
+COPY --from=init --chown=easybuild:0 /opt/app-root/src/easybuild-data /opt/apps/easybuild
 
 # WORKDIR /opt/apps/easybuild/repos
 # RUN git clone https://github.com/easybuilders/easybuild-easyconfigs

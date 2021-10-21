@@ -4,6 +4,7 @@ FROM jupyter/scipy-notebook:python-3.8.8
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
 
 # https://quay.io/repository/guimou/s2i-generic-datascience-lmod-notebook/manifest/sha256:4329da31f6ef918b1f3878b037c7517cb72511bf1fcbb632b50dcd5cd0802715
+# https://github.com/guimou/s2i-lmod-notebook/blob/main/f34/Dockerfile
 
 ENV JUPYTER_ENABLE_LAB=yes
 
@@ -65,7 +66,7 @@ RUN fix-permissions $CONDA_DIR && \
 USER $NB_USER
 
 # Install Lmod
-ENV USER=jovyan \
+ENV USER=rstudio-server \
     # TODO: Path to modules can be added here
     MODULEPATH=/opt/apps/easybuild/modules/all:/opt/apps/modulefiles/Linux:/opt/apps/modulefiles/Core:/opt/apps/lmod/lmod/modulefiles/Core \
     MODULEPATH_ROOT=/opt/apps/modulefiles \
@@ -96,10 +97,16 @@ RUN rm -rf /build && \
     ln -s /opt/apps/lmod/lmod/init/profile /etc/profile.d/z00_lmod.sh
 USER $NB_USER
 
+
 # Install Lmod jupyter extension
 RUN pip install jupyterlmod && \
-    jupyter labextension install jupyterlab-lmod @jupyterlab/server-proxy
-    # @jupyterlab/server-proxy https://www.npmjs.com/package/@jupyterlab/server-proxy
+    jupyter labextension install jupyterlab-lmod
+        # @jupyterlab/server-proxy
+
+# Install jupyterlmodlauncher fix from odh-highlander, but launchers icons still not showing
+RUN pip install git+https://github.com/guimou/s2i-lmod-notebook/#subdirectory=packages/jupyterlmodlauncher
+
+# Add the server-proxy launcher icons: https://github.com/guimou/s2i-lmod-notebook/tree/main/packages/jupyterlmodlauncher
 
 # RUN pip install --no-cache-dir /tmp/jupyterlmodlauncher && \
 

@@ -29,3 +29,37 @@ if os.path.exists('extensions.txt'):
 # home_dir = os.environ.get('HOME')
 # os.chdir(home_dir)
 # c.NotebookApp.terminado_settings = {'shell_command': ['/bin/zsh']}
+
+
+
+# https://github.com/cmd-ntrf/jupyter-lmod#jupyterlab-server-proxy
+
+# c.ServerProxy.servers = {
+#     "code-server": {
+#         "command": [
+#             "code-server",
+#             "--auth=none",
+#             "--disable-telemetry",
+#             "--host=127.0.0.1",
+#             "--port={port}"
+#         ],
+#         "timeout": 20,
+#         "launcher_entry": {
+#             "title": "VS Code",
+#             "enabled" : False
+#         },
+#     },
+#     "rstudio": {
+#         "command": [
+#             "rserver",
+#             "--www-port={port}",
+#             "--www-frame-origin=same",
+#             "--www-address=127.0.0.1"
+#         ],
+#         "timeout": 20,
+#         "launcher_entry": {
+#                 "title": "RStudio",
+#                 "enabled" : False
+#         },
+#     }
+# }

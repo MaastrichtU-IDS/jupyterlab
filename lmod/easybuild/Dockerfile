@@ -9,12 +9,23 @@ RUN git clone https://github.com/easybuilders/easybuild-easyconfigs
 
 # USER easybuild
 
+ENV LMOD_ROOT=/opt/apps/lmod
+ENV LMOD_PKG=/opt/apps/lmod/lmod
+ENV LMOD_DIR=$LMOD_PKG/libexec
+ENV LMOD_CMD=$LMOD_PKG/libexec/lmod
+ENV MODULESHOME=$LMOD_PKG
+
+
 RUN chown -R easybuild:0 /opt/apps/easybuild
 USER easybuild
 
-RUN source /opt/apps/lmod/lmod/init/sh
+# RUN source /opt/apps/lmod/lmod/init/sh
+# RUN module load lmod
 
 WORKDIR /opt/apps/easybuild
+
+# ENTRYPOINT [ "bash" ]
+
 # FSL 6.0.1
 RUN eb repos/easybuild-easyconfigs/easybuild/easyconfigs/f/FSL/FSL-6.0.1* --download-timeout=1000 -r
 # FreeSurfer 7.1.1

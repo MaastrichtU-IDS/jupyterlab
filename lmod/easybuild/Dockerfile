@@ -2,8 +2,6 @@ FROM quay.io/guimou/easybuild-ubi8-py39 AS builder
 
 USER root
 RUN /opt/app-root/src/easybuild_install.sh
-RUN chown -R easybuild:easybuild /opt/apps/easybuild
-USER easybuild
 
 # RUN source /opt/apps/lmod/lmod/init/bash
 
@@ -12,6 +10,9 @@ RUN git clone https://github.com/easybuilders/easybuild-easyconfigs
 # RUN sed -i '\!^robot-paths! s!$!:/opt/apps/easybuild/repos/easybuild-easyconfigs/!' /opt/apps/easybuild/easybuild.d/config.cfg
 
 # USER easybuild
+
+RUN chown -R easybuild:0 /opt/apps/easybuild
+USER easybuild
 
 WORKDIR /opt/apps/easybuild
 # FSL 6.0.1

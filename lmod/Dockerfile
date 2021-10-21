@@ -37,20 +37,21 @@ RUN npm install --global yarn
 USER root
 
 # Install Lua for Lmod
-RUN apt-get install -y lua5.3 && \
-    lua-bit32:amd64 && \
-    lua-posix:amd64 && \
-    lua-posix-dev && \
-    liblua5.3-0:amd64 && \
-    liblua5.3-dev:amd64 && \
-    tcl && \
-    tcl-dev && \
-    tcl8.6 && \
-    tcl8.6-dev:amd64 && \
-    libtcl8.6:amd64 && \
-    python-keyring && \
-    rdma-core && \
-    ant
+RUN apt-get update && \
+    apt-get install -y lua5.3 \
+        lua-bit32:amd64 \
+        lua-posix:amd64 \
+        lua-posix-dev \
+        liblua5.3-0:amd64 \
+        liblua5.3-dev:amd64 \
+        tcl \
+        tcl-dev \
+        tcl8.6 \
+        tcl8.6-dev:amd64 \
+        libtcl8.6:amd64 \
+        python-keyring \
+        rdma-core \
+        ant
 # RUN yum -y update && yum -y install xz iproute pam-devel ant lua lua-devel lua-posix lua-filesystem tcl python-keyring rdma-core-devel && yum -y clean all && rm -rf /var/cache/dnf
 
 RUN fix-permissions $CONDA_DIR && \

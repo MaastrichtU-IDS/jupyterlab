@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: easybuild-data-base
+spec:
+  selector: {}
+  template:
+    metadata:
+      name: easybuild-data-base
+    spec:
+      containers:
+        - name: base-copy
+          resources:
+            limits:
+              cpu: '2'
+              memory: 4096Mi
+            requests:
+              cpu: 500m
+              memory: 500Mi
+          image: quay.io/guimou/easybuild-data:py39-full_latest
+          imagePullPolicy: Always
+          command:
+            - /opt/app-root/src/copy_data.sh
+          volumeMounts:
+            - mountPath: /opt/apps/easybuild
+              name: easybuild-data
+      volumes:
+        - name: easybuild-data
+          persistentVolumeClaim:
+            claimName: easybuild-data
+      restartPolicy: Never

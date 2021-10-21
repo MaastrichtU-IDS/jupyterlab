@@ -8,9 +8,9 @@ RUN git clone https://github.com/easybuilders/easybuild-easyconfigs
 
 WORKDIR /opt/apps/easybuild
 # FSL 6.0.1
-RUN eb repos/easybuild-easyconfigs/easybuild/easyconfigs/f/FSL/FSL-6.0.1* --download-timeout=1000 -r
+RUN /bin/bash -c "eb repos/easybuild-easyconfigs/easybuild/easyconfigs/f/FSL/FSL-6.0.1* --download-timeout=1000 -r"
 # FreeSurfer 7.1.1
-RUN eb repos/easybuild-easyconfigs/easybuild/easyconfigs/f/FreeSurfer/FreeSurfer-7.1.1-centos* --download-timeout=1000 -r
+RUN /bin/bash -c "eb repos/easybuild-easyconfigs/easybuild/easyconfigs/f/FreeSurfer/FreeSurfer-7.1.1-centos* --download-timeout=1000 -r"
 
 
 

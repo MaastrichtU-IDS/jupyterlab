@@ -1,4 +1,5 @@
-FROM jupyter/scipy-notebook:latest
+FROM jupyter/scipy-notebook:python-3.8.8
+# Using 3.8 because some scientific libraries still dont support 3.9
 
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
 

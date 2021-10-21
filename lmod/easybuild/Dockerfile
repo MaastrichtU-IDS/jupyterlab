@@ -4,7 +4,7 @@ USER root
 
 WORKDIR /opt/apps/easybuild/repos
 RUN git clone https://github.com/easybuilders/easybuild-easyconfigs
-RUN sed -i '\!^robot-paths! s!$!:/opt/apps/easybuild/repos/easybuild-easyconfigs/!' /opt/apps/easybuild/easybuild.d/config.cfg
+# RUN sed -i '\!^robot-paths! s!$!:/opt/apps/easybuild/repos/easybuild-easyconfigs/!' /opt/apps/easybuild/easybuild.d/config.cfg
 
 WORKDIR /opt/apps/easybuild
 # FSL 6.0.1

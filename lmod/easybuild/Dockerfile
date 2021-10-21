@@ -12,7 +12,7 @@ RUN git clone https://github.com/easybuilders/easybuild-easyconfigs
 RUN chown -R easybuild:0 /opt/apps/easybuild
 USER easybuild
 
-RUN source /opt/apps/lmod/lmod/init/bash
+RUN source /opt/apps/lmod/lmod/init/sh
 
 WORKDIR /opt/apps/easybuild
 # FSL 6.0.1

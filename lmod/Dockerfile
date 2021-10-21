@@ -87,11 +87,11 @@ RUN curl -LO http://github.com/TACC/Lmod/archive/${LMOD_VERSION}.tar.gz && \
 WORKDIR /build/Lmod-$LMOD_VERSION
 
 RUN ./configure --prefix=/opt/apps --with-fastTCLInterp=no && \
-    make install && \
-    ln -s /opt/apps/lmod/lmod/init/profile /etc/profile.d/z00_lmod.sh
+    make install
 
 USER root
-RUN rm -rf /build
+RUN rm -rf /build && \
+    ln -s /opt/apps/lmod/lmod/init/profile /etc/profile.d/z00_lmod.sh
 USER $NB_USER
 
 # Install Lmod jupyter extension

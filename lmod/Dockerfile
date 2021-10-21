@@ -67,8 +67,9 @@ USER $NB_USER
 # Install Lmod
 ENV USER=jovyan \
     MODULESHOME=/opt/apps/lmod/lmod \
-    MODULEPATH=/opt/apps/modulefiles/Linux:/opt/apps/modulefiles/Core:/opt/apps/lmod/lmod/modulefiles/Core \
+    MODULEPATH=/opt/apps/easybuild/modules/all:/opt/apps/modulefiles/Linux:/opt/apps/modulefiles/Core:/opt/apps/lmod/lmod/modulefiles/Core \
     MODULEPATH_ROOT=/opt/apps/modulefiles \
+    # MODULEPATH_ROOT=/opt/apps/lmod/lmod/modulefiles \
     MANPATH=/opt/apps/lmod/lmod/share/man: \
     LMOD_DIR=/opt/apps/lmod/lmod/libexec \
     LMOD_SETTARG_FULL_SUPPORT=no \

@@ -29,8 +29,8 @@ helm install jupyterlab dsri/jupyterlab \
   --set openshiftRoute.enabled=true \
   --set image.repository=ghcr.io/maastrichtu-ids/jupyterlab \
   --set image.tag=lmod \
-  --set extraStorage[0].name=easybuild-data \
-  --set extraStorage[0].mountPath=/opt/apps/easybuild \
-  --set extraStorage[0].readOnly=true \
+  --set "extraStorage[0].name=easybuild-data" \
+  --set "extraStorage[0].mountPath=/opt/apps/easybuild" \
+  --set "extraStorage[0].readOnly=true" \
   --set password=changeme
 ```

@@ -1,3 +1,6 @@
+FROM quay.io/guimou/easybuild-data:py39-full_latest AS init
+
+
 FROM quay.io/guimou/easybuild-ubi8-py39 AS builder
 
 ENV LMOD_ROOT=/opt/apps/lmod
@@ -9,8 +12,10 @@ ENV MODULESHOME=$LMOD_PKG
 USER root
 RUN /opt/app-root/src/easybuild_install.sh
 
-WORKDIR /opt/apps/easybuild/repos
-RUN git clone https://github.com/easybuilders/easybuild-easyconfigs
+COPY --from=init /opt/apps/easybuild /opt/app/easybuild
+
+# WORKDIR /opt/apps/easybuild/repos
+# RUN git clone https://github.com/easybuilders/easybuild-easyconfigs
 # RUN sed -i '\!^robot-paths! s!$!:/opt/apps/easybuild/repos/easybuild-easyconfigs/!' /opt/apps/easybuild/easybuild.d/config.cfg
 
 RUN chown -R easybuild:0 /opt/apps/easybuild

@@ -1,0 +1,18 @@
+== Easybuild-data
+
+This folder is almost empty as it is filtered by the gitignore, but on my development environment I have another `easybuild-data` folder here that I use for my EasyBuild data. So this is where I initialized the EB environment and build the modules locally.
+
+The Dockerfile and script you find here are used to package all this data as a container image. There is also an included script that will automatically copy all the data from the image to an `/opt/apps/easybuild/` location. This is useful to quickly initialize an environment with configuration and modules without having to compile them. Just create a shared volume for your data, create a Job that will use the container image and mount the volume at `/opt/apps/easybuild/`, and let it run!
+
+You can find a pre-built image with lots of base modules for your Data Science environment (Scipy, OpenCV, Tensorflow, R, RStudio, VSCode,...) link:https://quay.io/repository/guimou/easybuild-data[here].
+
+=== Building a package
+
+After you have locally built your modules, you can package the whole thing (without the sources to save space).
+
+[source,bash]
+----
+docker build . -t easybuild-data:tag
+----
+
+Be patient, depending on the size this can take some time and require resources...

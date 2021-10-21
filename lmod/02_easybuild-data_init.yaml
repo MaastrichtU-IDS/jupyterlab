@@ -18,6 +18,7 @@ spec:
               cpu: 500m
               memory: 500Mi
           image: quay.io/guimou/easybuild-data:py39-full_latest
+          # image: ghcr.io/maastrichtu-ids/easybuild-data:latest
           imagePullPolicy: Always
           command:
             - /opt/app-root/src/copy_data.sh

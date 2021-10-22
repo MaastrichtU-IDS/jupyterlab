@@ -1,4 +1,4 @@
-FROM quay.io/guimou/easybuild-data:py39-full_latest AS init
+# FROM quay.io/guimou/easybuild-data:py39-full_latest AS init
 # Multi stages builder:
 # 1. init to reuse odh-highlander easybuild-data
 # 2. builder to install new modules with easybuild container
@@ -18,7 +18,7 @@ RUN /opt/app-root/src/easybuild_install.sh
 
 # COPY --from=init --chown=easybuild:0 /opt/apps/easybuild /opt/apps/easybuild
 
-COPY --from=init --chown=easybuild:0 /opt/app-root/src/easybuild-data /opt/apps/easybuild
+COPY --from=quay.io/guimou/easybuild-data:py39-full_latest --chown=easybuild:0 /opt/app-root/src/easybuild-data /opt/apps/easybuild
 
 # WORKDIR /opt/apps/easybuild/repos
 # RUN git clone https://github.com/easybuilders/easybuild-easyconfigs
@@ -33,7 +33,7 @@ WORKDIR /opt/apps/easybuild
 COPY install_modules.sh /tmp/install_modules.sh
 
 RUN /tmp/install_modules.sh
-RUN rm /tmp/install_modules.sh
+# RUN rm /tmp/install_modules.sh
 
 
 

@@ -11,13 +11,13 @@ ENV JUPYTER_ENABLE_LAB=yes
 # RUN npm install --global yarn 
 
 # Install jupyterlab extensions
-RUN conda install --quiet --yes \
+RUN conda install --quiet -y \
       ipywidgets \
       jupyterlab \
       jupyterlab-git \
       jupyterlab-lsp \
       jupyter-lsp-python \
-      jupyter-server-proxy \
+      jupyter-server-proxy==3.1.0 \
       jupyter_bokeh \
       jupyterlab-drawio && \
       # rise && \ # Issue when building with GitHub Actions related to jedi package
@@ -40,21 +40,12 @@ USER root
 # Install Lua for Lmod
 RUN apt-get update && \
     apt-get install -y lua5.3 \
-        lua-bit32:amd64 \
-        lua-posix:amd64 \
-        lua-posix-dev \
-        liblua5.3-0:amd64 \
-        liblua5.3-dev:amd64 \
-        tcl \
-        tcl-dev \
-        tcl8.6 \
-        tcl8.6-dev:amd64 \
-        libtcl8.6:amd64 \
-        python-keyring \
+        lua-bit32:amd64 lua-posix:amd64 lua-posix-dev \
+        liblua5.3-0:amd64 liblua5.3-dev:amd64 \
+        tcl tcl-dev tcl8.6 tcl8.6-dev:amd64 libtcl8.6:amd64 \
+        ant python-keyring \
         rdma-core \
-        curl wget \
-        ant
-# RUN yum -y update && yum -y install xz iproute pam-devel ant lua lua-devel lua-posix lua-filesystem tcl python-keyring rdma-core-devel && yum -y clean all && rm -rf /var/cache/dnf
+        curl wget
 
 RUN mkdir -p /build
 
@@ -66,7 +57,8 @@ RUN fix-permissions $CONDA_DIR && \
 USER $NB_USER
 
 # Install Lmod
-ENV USER=rstudio-server \
+# Fix required for rstudio permissions
+ENV USER=rstudio-server \ 
     # TODO: Path to modules can be added here
     MODULEPATH=/opt/apps/easybuild/modules/all:/opt/apps/modulefiles/Linux:/opt/apps/modulefiles/Core:/opt/apps/lmod/lmod/modulefiles/Core \
     MODULEPATH_ROOT=/opt/apps/modulefiles \
@@ -99,12 +91,12 @@ USER $NB_USER
 
 
 # Install Lmod jupyter extension
-RUN pip install jupyterlmod && \
-    jupyter labextension install jupyterlab-lmod
-        # @jupyterlab/server-proxy
+RUN pip install jupyterlmod==2.0.2 && \
+    jupyter labextension install jupyterlab-lmod \
+        @jupyterlab/server-proxy
 
-# Install jupyterlmodlauncher fix from odh-highlander, but launchers icons still not showing
-RUN pip install git+https://github.com/guimou/s2i-lmod-notebook/#subdirectory=packages/jupyterlmodlauncher
+# Install jupyterlmodlauncher fix from odh-highlander (launchers showing, but icons logo broken)
+# RUN pip install git+https://github.com/guimou/s2i-lmod-notebook/#subdirectory=packages/jupyterlmodlauncher
 
 # Add the server-proxy launcher icons: https://github.com/guimou/s2i-lmod-notebook/tree/main/packages/jupyterlmodlauncher
 
@@ -113,7 +105,7 @@ RUN pip install git+https://github.com/guimou/s2i-lmod-notebook/#subdirectory=pa
 RUN jupyter labextension update --all && \
     jupyter lab build 
 
-
+RUN mkdir -p /home/$NB_USER/work
 WORKDIR /home/$NB_USER/work
 
 ADD jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py

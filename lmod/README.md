@@ -54,6 +54,13 @@ helm install jupyterlab dsri/jupyterlab \
 
 ⚠️ You will need to reload your notebooks kernel after loading a module to be able to import it.
 
+Fix permission error with `/var/run/rstudio-server`: 
+
+```bash
+sudo mkdir /var/run/rstudio-server
+sudo chown -R 1000:1000 /var/run/rstudio-server
+```
+
 ### Delete the app
 
 ```bash

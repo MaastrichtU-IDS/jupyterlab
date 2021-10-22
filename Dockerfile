@@ -89,7 +89,7 @@ RUN cd /opt && \
     wget -q https://downloads.apache.org/jena/binaries/apache-jena-4.2.0.tar.gz && \
     wget -q http://download.eclipse.org/rdf4j/eclipse-rdf4j-3.7.3-onejar.jar 
 
-
+RUN mkdir -p /home/$NB_USER/work
 WORKDIR /home/$NB_USER/work
 
 # Download latest simpleowlapi jar in /opt/simpleowlapi.jar

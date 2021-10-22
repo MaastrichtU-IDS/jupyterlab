@@ -1,4 +1,5 @@
-FROM jupyter/scipy-notebook:python-3.8.8
+FROM jupyter/scipy-notebook
+# FROM jupyter/scipy-notebook:python-3.8.8
 # Using 3.8 because some scientific libraries still dont support 3.9
 
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
@@ -98,9 +99,7 @@ RUN pip install jupyterlmod==2.0.2 && \
 # Install jupyterlmodlauncher fix from odh-highlander (launchers showing, but icons logo broken)
 # RUN pip install git+https://github.com/guimou/s2i-lmod-notebook/#subdirectory=packages/jupyterlmodlauncher
 
-# Add the server-proxy launcher icons: https://github.com/guimou/s2i-lmod-notebook/tree/main/packages/jupyterlmodlauncher
 
-# RUN pip install --no-cache-dir /tmp/jupyterlmodlauncher && \
 
 RUN jupyter labextension update --all && \
     jupyter lab build 

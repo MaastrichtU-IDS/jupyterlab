@@ -11,7 +11,7 @@ eb -r g/GCC/GCC-10.3.0.eb
 
 
 # Install FSL 6.0.3 (neuroimaging software to analyze MRI data)
-eb -r f/FSL/FSL-6.0.3-foss-2019b-Python-3.7.4.eb
+# eb -r f/FSL/FSL-6.0.3-foss-2019b-Python-3.7.4.eb
 # eb -r f/FSL/FSL-6.0.2*
 # eb -r f/FSLeyes/FSLeyes-*
 
@@ -26,11 +26,13 @@ eb -r o/OpenMPI/OpenMPI-4.1.1-GCC-10.3.0.eb
 # eb -r o/OpenBLAS/OpenBLAS-0.3.17-GCC-10.3.0.eb
 # eb -r o/OpenBLAS/OpenBLAS-0.3.18-GCC-11.2.0.eb
 
+
 # # Install OpenMolcas (quantum chemistry software package)
-eb -r o/OpenMolcas/OpenMolcas-21.06-intel-2021a.eb
+# eb -r o/OpenMolcas/OpenMolcas-21.06-intel-2021a.eb
 # eb -r o/OpenMolcas/OpenMolcas-20.10-intel-2020a-Python-3.8.2.eb
 # eb -r o/ORCA/ORCA-4.1.0-OpenMPI-3.1.3.eb
 # eb -r o/ORCA/ORCA-5.0.1-gompi-2021a.eb
+
 
 
 # # Install Data Science libs

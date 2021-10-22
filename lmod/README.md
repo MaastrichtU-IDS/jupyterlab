@@ -63,8 +63,15 @@ sudo chown -R 1000:1000 /var/run/rstudio-server
 
 ### Delete the app
 
+Stop and remove JupyterLab:
+
 ```bash
 helm uninstall jupyterlab
+```
+
+Delete the volume with EasyBuild data:
+
+```bash
 oc delete -f 02_easybuild-data_init.yaml
 oc delete -f 01_easybuild-data_pvc.yaml
 ```
@@ -169,3 +176,17 @@ Then access it via the terminal and run the commands to install new EasyConfig r
 ### Write EasyConfigs 
 
 Instructions to write an EasyConfig file for a pip package: https://easybuilders.github.io/easybuild-tutorial/2021-lust/creating_easyconfig_files/#writing-easyconfig-files
+
+## Lmod too unstable for real use?
+
+Day 1: manage to install everything, the JupyterLab allows us to load Tensorflow and then import it. Time to go to bed.
+
+Day 2: reconnecting to the same JupyterLab, trying to import tensorflow, not working anymore, getting error related to Cython paths.
+
+To solve this error: delete the jupyterlab and redeploy, oh cool now just opening a notebook fails to load the kernel.
+
+The principle behind Lmod seems to be cool, but it don't seems to be actually implemented for stability
+
+The major advantage of using Docker container to handle dependencies has always been: it's stable, there are usually no surprise. Because developers don't want to spend days debugging everytime they need to install 1 small library. You pull, you run, it works. No surprise, no additional work
+
+But Lmod does not seems to provide this stability. It seems to require ad hoc fixes for the different packages installed (I even faced an issue where RStudio was complaining about permissions) 

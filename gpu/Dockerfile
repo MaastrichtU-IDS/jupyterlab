@@ -12,7 +12,7 @@ USER root
 WORKDIR /root
 
 RUN apt-get update && \
-    apt-get install -y curl wget
+    apt-get install -y curl wget git
 
 ## Install Conda
 ENV CONDA_DIR=/opt/conda \

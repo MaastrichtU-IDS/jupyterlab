@@ -34,7 +34,7 @@ RUN pip install --upgrade pip && \
       jupyterlab-system-monitor && \
     jupyter labextension install jupyterlab-spreadsheet
 
-RUN mitoinstaller install
+RUN python -m mitoinstaller install
 
 ADD requirements.txt requirements.txt
 RUN pip install -r requirements.txt && \

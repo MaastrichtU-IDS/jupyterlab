@@ -22,13 +22,19 @@ RUN conda install --quiet --yes \
     # fix-permissions $CONDA_DIR && \
     # fix-permissions /home/$NB_USER
 
+# python -m pip install mitoinstaller
+# python -m mitoinstaller install
+
 RUN pip install --upgrade pip && \
     pip install --upgrade \
       sparqlkernel \
+      mitoinstaller \
       # elyra \
       # Pipeline builder for Kubeflow and Airflow
       jupyterlab-system-monitor && \
     jupyter labextension install jupyterlab-spreadsheet
+
+RUN mitoinstaller install
 
 ADD requirements.txt requirements.txt
 RUN pip install -r requirements.txt && \

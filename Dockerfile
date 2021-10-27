@@ -28,13 +28,11 @@ RUN conda install --quiet --yes \
 RUN pip install --upgrade pip && \
     pip install --upgrade \
       sparqlkernel \
-      mitoinstaller \
+      mitosheet3 \
       # elyra \
       # Pipeline builder for Kubeflow and Airflow
       jupyterlab-system-monitor && \
     jupyter labextension install jupyterlab-spreadsheet
-
-RUN python -m mitoinstaller install
 
 ADD requirements.txt requirements.txt
 RUN pip install -r requirements.txt && \

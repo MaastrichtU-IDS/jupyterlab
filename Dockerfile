@@ -66,12 +66,6 @@ COPY icons/vscode.svg /etc/jupyter/vscode.svg
 # RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it && \
 #     bash ~/.bash_it/install.sh --silent
 
-# # Install ZSH add broken permissions
-# RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.1/zsh-in-docker.sh)" -- \
-#     -t bira -p git && \
-#     chmod -R g-w,o-w /home/$NB_USER/.oh-my-zsh
-#     # compaudit | xargs chmod g-w,o-w
-
 RUN fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER && \
     fix-permissions /opt
@@ -80,6 +74,20 @@ ADD jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
 
 
 USER $NB_USER
+
+# Install ZSH
+RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.1/zsh-in-docker.sh)" -- \
+    -t bira -p git && \
+    -p https://github.com/zsh-users/zsh-autosuggestions \
+    -p https://github.com/zsh-users/zsh-completions \
+    -p https://github.com/zsh-users/zsh-history-substring-search \
+    -p https://github.com/zsh-users/zsh-syntax-highlighting \
+    -p 'history-substring-search' \
+    -a 'bindkey "\$terminfo[kcuu1]" history-substring-search-up' \
+    -a 'bindkey "\$terminfo[kcud1]" history-substring-search-down'
+    # chmod -R g-w,o-w /home/$NB_USER/.oh-my-zsh
+    # compaudit | xargs chmod g-w,o-w
+
 
 RUN jupyter labextension update --all && \
     jupyter lab build 

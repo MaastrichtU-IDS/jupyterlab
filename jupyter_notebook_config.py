@@ -28,7 +28,7 @@ if os.path.exists('extensions.txt'):
 
 # home_dir = os.environ.get('HOME')
 # os.chdir(home_dir)
-# c.NotebookApp.terminado_settings = {'shell_command': ['/bin/zsh']}
+c.NotebookApp.terminado_settings = {'shell_command': ['/bin/zsh']}
 
 c.ServerProxy.servers = {
     "code-server": {

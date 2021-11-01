@@ -5,12 +5,14 @@ services:
     image: ghcr.io/maastrichtu-ids/jupyterlab
     restart: unless-stopped
     # user: "1000"
-    # user: root
+    user: root
     # user: ${UID}
     ports:
       - 8888:8888
     volumes:
       - ./data/jupyterlab:/home/jovyan
-    environment:
-      - JUPYTER_TOKEN=password
-      # - GRANT_SUDO=yes
+    ## Without password:
+    command: "--NotebookApp.token=''"
+    ## With password:
+    # environment:
+    #   - JUPYTER_TOKEN=password

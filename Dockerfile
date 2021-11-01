@@ -105,10 +105,13 @@ RUN cd /opt && \
 
 
 # Install OpenRefine
+ENV OPENREFINE_VERSION=3.4.1
 RUN cd /opt && \
-    wget https://github.com/OpenRefine/OpenRefine/releases/download/3.4.1/openrefine-linux-3.4.1.tar.gz && \
-    tar xzf openrefine-linux-*.tar.gz
-
+    wget https://github.com/OpenRefine/OpenRefine/releases/download/$OPENREFINE_VERSION/openrefine-linux-$OPENREFINE_VERSION.tar.gz && \
+    tar xzf openrefine-linux-$OPENREFINE_VERSION.tar.gz 
+    # ln -s /opt/openrefine-$OPENREFINE_VERSION/refine 
+ENV REFINE_DIR=/home/$NB_USER/work/openrefine
+ENV PATH=$PATH:/opt/openrefine-$OPENREFINE_VERSION
 
 RUN mkdir -p /home/$NB_USER/work
 WORKDIR /home/$NB_USER/work

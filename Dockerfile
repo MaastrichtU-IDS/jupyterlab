@@ -16,9 +16,10 @@ RUN conda install --quiet --yes \
       jupyterlab-lsp \
       jupyter-lsp-python \
       jupyter_bokeh \
+      jupyter-server-proxy==3.1.0 \
       jupyterlab-drawio && \
-      # rise && \ # Issue when building with GitHub Actions related to jedi package
     conda install -c plotly 'plotly>=4.8.2' 
+    #   rise && \ # Issue when building with GitHub Actions related to jedi package
     # fix-permissions $CONDA_DIR && \
     # fix-permissions /home/$NB_USER
 
@@ -29,6 +30,7 @@ RUN pip install --upgrade pip && \
     pip install --upgrade \
       sparqlkernel \
       mitosheet3 \
+    #   @jupyterlab/server-proxy \
       # elyra \
       # Pipeline builder for Kubeflow and Airflow
       jupyterlab-system-monitor && \
@@ -56,6 +58,9 @@ RUN curl -L https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-
     cd /opt/ijava-kernel && \
     python3 install.py --sys-prefix && \
     rm /opt/ijava-kernel.zip
+
+# Install VS Code server
+RUN curl -fsSL https://code-server.dev/install.sh | sh
 
 # Nicer Bash terminal
 # RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it && \

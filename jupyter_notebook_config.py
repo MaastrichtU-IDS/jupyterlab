@@ -29,3 +29,21 @@ if os.path.exists('extensions.txt'):
 # home_dir = os.environ.get('HOME')
 # os.chdir(home_dir)
 # c.NotebookApp.terminado_settings = {'shell_command': ['/bin/zsh']}
+
+c.ServerProxy.servers = {
+    "code-server": {
+        "command": [
+            "code-server",
+            "--auth=none",
+            "--disable-telemetry",
+            "--host=127.0.0.1",
+            "--port={port}",
+            os.getenv("JUPYTER_SERVER_ROOT", ".")
+        ],
+        "timeout": 20,
+        "launcher_entry": {
+            "title": "VS Code",
+            "enabled" : True
+        },
+    }
+}

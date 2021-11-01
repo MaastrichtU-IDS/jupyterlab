@@ -77,15 +77,15 @@ USER $NB_USER
 
 # Install ZSH
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.1/zsh-in-docker.sh)" -- \
-    -t bira \
+    -t bira 
     # -p git 
-    -p https://github.com/zsh-users/zsh-autosuggestions \
-    -p https://github.com/zsh-users/zsh-completions \
-    -p https://github.com/zsh-users/zsh-history-substring-search \
-    -p https://github.com/zsh-users/zsh-syntax-highlighting \
-    -p 'history-substring-search' \
-    -a 'bindkey "\$terminfo[kcuu1]" history-substring-search-up' \
-    -a 'bindkey "\$terminfo[kcud1]" history-substring-search-down'
+    # -p https://github.com/zsh-users/zsh-autosuggestions \
+    # -p https://github.com/zsh-users/zsh-completions \
+    # -p https://github.com/zsh-users/zsh-history-substring-search \
+    # -p https://github.com/zsh-users/zsh-syntax-highlighting \
+    # -p 'history-substring-search' \
+    # -a 'bindkey "\$terminfo[kcuu1]" history-substring-search-up' \
+    # -a 'bindkey "\$terminfo[kcud1]" history-substring-search-down'
     # chmod -R g-w,o-w /home/$NB_USER/.oh-my-zsh
     # compaudit | xargs chmod g-w,o-w
 

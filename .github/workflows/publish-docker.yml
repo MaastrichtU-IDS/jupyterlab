@@ -17,13 +17,14 @@ on:
     paths:
     - 'Dockerfile'
     - 'jupyter_notebook_config.py'
+    - 'settings.json'
     - '.github/workflows/publish-docker.yml'
     # # Publish `v1.2.3` tags as release `1.2.3`.
     # tags:
     #   - v*
 
 jobs:
-  push:
+  build-and-publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

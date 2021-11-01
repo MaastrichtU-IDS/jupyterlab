@@ -60,7 +60,7 @@ RUN code-server --install-extension redhat.vscode-yaml \
         --install-extension ginfuru.ginfuru-better-solarized-dark-theme
 
 COPY --chown=$NB_USER:0 settings.json /home/$NB_USER/.local/share/code-server/User/settings.json
-COPY icons/vscode.svg /etc/jupyter/vscode.svg
+COPY icons/*.svg /etc/jupyter/
 
 # Nicer Bash terminal
 # RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it && \
@@ -109,6 +109,12 @@ RUN cd /opt && \
     wget -q https://repo1.maven.org/maven2/commons-io/commons-io/2.11.0/commons-io-2.11.0.jar && \
     wget -q https://downloads.apache.org/jena/binaries/apache-jena-4.2.0.tar.gz && \
     wget -q http://download.eclipse.org/rdf4j/eclipse-rdf4j-3.7.3-onejar.jar 
+
+
+# Install OpenRefine
+RUN cd /opt && \
+    wget https://github.com/OpenRefine/OpenRefine/releases/download/3.4.1/openrefine-linux-3.4.1.tar.gz && \
+    tar xzf openrefine-linux-*.tar.gz
 
 
 RUN mkdir -p /home/$NB_USER/work

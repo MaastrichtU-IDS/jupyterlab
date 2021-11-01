@@ -46,5 +46,19 @@ c.ServerProxy.servers = {
             "icon_path": "/etc/jupyter/vscode.svg",
             "enabled" : True
         },
+    },
+    "openrefine": {
+        "command": [
+            "/opt/openrefine",
+            "-i", "0.0.0.0",
+            "-m", "6000M"
+            "-p", "{port}"
+        ],
+        "timeout": 20,
+        "launcher_entry": {
+            "title": "OpenRefine",
+            "icon_path": "/etc/jupyter/openrefine.svg",
+            "enabled" : True
+        },
     }
 }

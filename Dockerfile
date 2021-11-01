@@ -1,5 +1,5 @@
-ARG PYTHON_VERSION=python-3.8.8
-# ARG PYTHON_VERSION=latest
+# ARG PYTHON_VERSION=python-3.8.8
+ARG PYTHON_VERSION=latest
 FROM jupyter/scipy-notebook:$PYTHON_VERSION
 
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
@@ -24,7 +24,7 @@ RUN conda install --quiet -y \
       jupyterlab-drawio \
       'jupyter-server-proxy>=3.1.0' && \
     conda install -y -c plotly 'plotly>=4.8.2' && \
-    mamba install rstudio
+    mamba install -c defaults rstudio r-shiny
     # conda install -y -c r rstudio
     # conda install -y -c r r-shiny
     #   rise && \ # Issue when building with GitHub Actions related to jedi package

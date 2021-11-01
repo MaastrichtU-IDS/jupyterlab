@@ -22,7 +22,8 @@ RUN conda install --quiet -y \
       'jupyter-server-proxy>=3.1.0' \
       jupyterlab-drawio && \
     conda install -y -c plotly 'plotly>=4.8.2' && \
-    conda install -y -c r rstudio r-shiny
+    conda install -y -c r rstudio
+    # conda install -y -c r r-shiny
     #   rise && \ # Issue when building with GitHub Actions related to jedi package
 
 RUN pip install --upgrade pip && \

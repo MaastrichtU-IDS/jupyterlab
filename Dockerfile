@@ -76,12 +76,6 @@ ADD jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
 
 USER $NB_USER
 
-# Install ZSH
-RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-RUN wget -O ~/.oh-my-zsh/custom/themes/vemonet_bira.zsh-theme https://raw.githubusercontent.com/vemonet/zsh-theme-biradate/master/zsh/vemonet_bira.zsh-theme
-RUN sed -i 's/robbyrussell/vemonet_bira/g' ~/.zshrc
-RUN chsh -s /bin/zsh 
-ENV SHELL=/bin/zsh
 
 # Update and compile JupyterLab extensions
 RUN jupyter labextension update --all && \
@@ -124,5 +118,16 @@ RUN curl -s https://api.github.com/repos/kodymoodley/simpleowlapi/releases/lates
     | cut -d : -f 2,3 \
     | tr -d \" \
     | wget -O /opt/simpleowlapi.jar -qi -
+
+
+
+# Install ZSH
+RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+RUN wget -O ~/.oh-my-zsh/custom/themes/vemonet_bira.zsh-theme https://raw.githubusercontent.com/vemonet/zsh-theme-biradate/master/zsh/vemonet_bira.zsh-theme
+RUN sed -i 's/robbyrussell/vemonet_bira/g' ~/.zshrc
+ENV SHELL=/bin/zsh
+USER root
+RUN chsh -s /bin/zsh 
+USER $NB_USER
 
 ENTRYPOINT [ "start-notebook.sh", "--no-browser", "--ip=0.0.0.0", "--config=/etc/jupyter/jupyter_notebook_config.py" ]

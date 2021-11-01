@@ -59,7 +59,7 @@ RUN code-server --install-extension redhat.vscode-yaml \
         --install-extension vscjava.vscode-java-pack \
         --install-extension ginfuru.ginfuru-better-solarized-dark-theme
 
-COPY --chown=$NB_USER settings.json /home/$NB_USER/.local/share/code-server/User/settings.json
+COPY --chown=$NB_USER:0 settings.json /home/$NB_USER/.local/share/code-server/User/settings.json
 COPY icons/vscode.svg /etc/jupyter/vscode.svg
 
 # Nicer Bash terminal

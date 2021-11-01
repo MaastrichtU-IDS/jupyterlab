@@ -29,7 +29,7 @@ RUN conda install --quiet --yes \
 RUN pip install --upgrade pip && \
     pip install --upgrade \
       sparqlkernel \
-    #   mitosheet3 \
+      mitosheet3 \
       jupyterlab-system-monitor && \
     jupyter labextension install jupyterlab-spreadsheet
 #   @jupyterlab/server-proxy \
@@ -58,8 +58,10 @@ RUN curl -L https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-
     python3 install.py --sys-prefix && \
     rm /opt/ijava-kernel.zip
 
+
 # Install VS Code server
-RUN curl -fsSL https://code-server.dev/install.sh | sh
+# RUN curl -fsSL https://code-server.dev/install.sh | sh
+
 
 # Nicer Bash terminal
 # RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it && \

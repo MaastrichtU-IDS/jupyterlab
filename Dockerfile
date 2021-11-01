@@ -12,7 +12,7 @@ ENV JUPYTER_ENABLE_LAB=yes \
 RUN npm install --global yarn 
 
 # Install jupyterlab extensions with conda and pip
-RUN conda install --quiet --yes \
+RUN conda install --quiet -y \
       ipywidgets \
       jupyterlab \
       jupyterlab-git \
@@ -20,10 +20,9 @@ RUN conda install --quiet --yes \
       jupyter-lsp-python \
       jupyter_bokeh \
       'jupyter-server-proxy>=3.1.0' \
-      rstudio \
-      r-shiny \
       jupyterlab-drawio && \
-    conda install -c plotly 'plotly>=4.8.2' 
+    conda install -y -c plotly 'plotly>=4.8.2' && \
+    conda install -y -c anaconda rstudio r-shiny
     #   rise && \ # Issue when building with GitHub Actions related to jedi package
 
 RUN pip install --upgrade pip && \

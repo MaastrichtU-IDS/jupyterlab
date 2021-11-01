@@ -9,6 +9,14 @@ ENV JUPYTER_ENABLE_LAB=yes \
     # CHOWN_HOME=yes \
     # CHOWN_HOME_OPTS='-R' \
 
+
+# Install Java
+USER root
+RUN apt-get update && \
+    apt-get install -y default-jdk curl zsh vim
+USER $NB_USER
+
+
 RUN npm install --global yarn 
 
 # Install jupyterlab extensions with conda and pip
@@ -19,8 +27,9 @@ RUN conda install --quiet -y \
       jupyterlab-lsp \
       jupyter-lsp-python \
       jupyter_bokeh \
+      jupyterlab-drawio \
       'jupyter-server-proxy>=3.1.0' \
-      jupyterlab-drawio && \
+      maven && \
     conda install -y -c plotly 'plotly>=4.8.2' && \
     conda install -y -c r rstudio
     # conda install -y -c r r-shiny
@@ -45,9 +54,6 @@ USER root
 # Install SPARQL kernel
 RUN jupyter sparqlkernel install 
 
-# Install Java
-RUN apt-get update && \
-    apt-get install default-jdk curl zsh vim -y
 
 # Install Ijava kernel
 RUN curl -L https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip > /opt/ijava-kernel.zip && \

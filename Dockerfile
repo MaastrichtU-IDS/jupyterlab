@@ -1,16 +1,17 @@
 ARG PYTHON_VERSION=python-3.8.8
-
+# ARG PYTHON_VERSION=latest
 FROM jupyter/scipy-notebook:$PYTHON_VERSION
 
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
 
-ENV JUPYTER_ENABLE_LAB=yes
-# ENV CHOWN_HOME=yes
-# ENV CHOWN_HOME_OPTS='-R'
+ENV JUPYTER_ENABLE_LAB=yes \
+    CHOWN_HOME=yes \
+    CHOWN_HOME_OPTS='-R' \
+    GRANT_SUDO=yes
 
 RUN npm install --global yarn 
 
-# Install jupyterlab extensions
+# Install jupyterlab extensions with conda and pip
 RUN conda install --quiet --yes \
       ipywidgets \
       jupyterlab \
@@ -22,26 +23,16 @@ RUN conda install --quiet --yes \
       jupyterlab-drawio && \
     conda install -c plotly 'plotly>=4.8.2' 
     #   rise && \ # Issue when building with GitHub Actions related to jedi package
-    # fix-permissions $CONDA_DIR && \
-    # fix-permissions /home/$NB_USER
-
-# python -m pip install mitoinstaller
-# python -m mitoinstaller install
 
 RUN pip install --upgrade pip && \
     pip install --upgrade \
       sparqlkernel \
       mitosheet3 \
+      jupyterlab-spreadsheet-editor \
+      jupyterlab_latex \
       jupyterlab-system-monitor 
-    # jupyter labextension install jupyterlab-spreadsheet
 #   @jupyterlab/server-proxy \
 # elyra : Pipeline builder for Kubeflow and Airflow
-
-ADD requirements.txt requirements.txt
-RUN pip install -r requirements.txt && \
-    rm requirements.txt
-
-# @jupyterlab/latex not officialy supporting 3.0 yet
 
 # Change to root user to install things
 USER root
@@ -63,7 +54,13 @@ RUN curl -L https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-
 
 # Install VS Code server
 RUN curl -fsSL https://code-server.dev/install.sh | sh
+RUN code-server --install-extension redhat.vscode-yaml \
+        --install-extension ms-python.python \
+        --install-extension vscjava.vscode-java-pack \
+        --install-extension ginfuru.ginfuru-better-solarized-dark-theme
 
+COPY --chown=$NB_USER settings.json /home/$NB_USER/.local/share/code-server/User/settings.json
+COPY icons/vscode.svg /etc/jupyter/vscode.svg
 
 # Nicer Bash terminal
 # RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it && \
@@ -87,6 +84,10 @@ USER $NB_USER
 RUN jupyter labextension update --all && \
     jupyter lab build 
 
+# Install packages for RDF processing
+ADD requirements.txt requirements.txt
+RUN pip install -r requirements.txt && \
+    rm requirements.txt
 
 # Add jar files in /opt for RDF processing
 RUN npm i -g @rmlio/yarrrml-parser && \

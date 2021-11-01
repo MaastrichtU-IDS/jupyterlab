@@ -121,6 +121,16 @@ Push:
 docker push ghcr.io/maastrichtu-ids/jupyterlab
 ```
 
+Get size of published image:
+
+```bash
+# With docker-compose:
+docker-compose images
+# Or with docker, in MB:
+expr $(docker image inspect ghcr.io/maastrichtu-ids/jupyterlab:latest --format='{{.Size}}') / 1000000
+```
+
+
 ### JupyterLab on GPU
 
 To deploy JupyterLab on GPU we use the [official Nvidia images](https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow) with `conda` and `jupyterlab`, 

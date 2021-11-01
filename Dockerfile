@@ -24,9 +24,8 @@ RUN conda install --quiet -y \
       jupyterlab-drawio \
       'jupyter-server-proxy>=3.1.0' && \
     conda install -y -c plotly 'plotly>=4.8.2' && \
-    mamba install -c defaults rstudio r-shiny
-    # conda install -y -c r rstudio
-    # conda install -y -c r r-shiny
+    mamba install -c defaults rstudio
+    # conda install -y -c defaults rstudio r-shiny
     #   rise && \ # Issue when building with GitHub Actions related to jedi package
 
 RUN pip install --upgrade pip && \
@@ -46,7 +45,8 @@ RUN pip install --upgrade pip && \
 USER root
 
 RUN apt-get update && \
-    apt-get install -y curl zsh vim
+    apt-get install -y curl zsh vim libxkbcommon-x11-dev
+    # libxkbcommon required for RStudio
 
 # Install SPARQL kernel
 RUN jupyter sparqlkernel install 

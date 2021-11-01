@@ -29,7 +29,7 @@ RUN conda install --quiet --yes \
 RUN pip install --upgrade pip && \
     pip install --upgrade \
       sparqlkernel \
-      mitosheet3 \
+    #   mitosheet3 \
       jupyterlab-system-monitor && \
     jupyter labextension install jupyterlab-spreadsheet
 #   @jupyterlab/server-proxy \

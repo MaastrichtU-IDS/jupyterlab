@@ -77,7 +77,8 @@ USER $NB_USER
 
 # Install ZSH
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.1/zsh-in-docker.sh)" -- \
-    -t bira -p git && \
+    -t bira \
+    # -p git 
     -p https://github.com/zsh-users/zsh-autosuggestions \
     -p https://github.com/zsh-users/zsh-completions \
     -p https://github.com/zsh-users/zsh-history-substring-search \

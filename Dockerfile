@@ -5,9 +5,9 @@ FROM jupyter/scipy-notebook:$PYTHON_VERSION
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
 
 ENV JUPYTER_ENABLE_LAB=yes \
-    CHOWN_HOME=yes \
-    CHOWN_HOME_OPTS='-R' \
     GRANT_SUDO=yes
+    # CHOWN_HOME=yes \
+    # CHOWN_HOME_OPTS='-R' \
 
 RUN npm install --global yarn 
 

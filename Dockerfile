@@ -30,11 +30,10 @@ RUN pip install --upgrade pip && \
     pip install --upgrade \
       sparqlkernel \
       mitosheet3 \
-    #   @jupyterlab/server-proxy \
-      # elyra \
-      # Pipeline builder for Kubeflow and Airflow
       jupyterlab-system-monitor && \
     jupyter labextension install jupyterlab-spreadsheet
+#   @jupyterlab/server-proxy \
+# elyra : Pipeline builder for Kubeflow and Airflow
 
 ADD requirements.txt requirements.txt
 RUN pip install -r requirements.txt && \

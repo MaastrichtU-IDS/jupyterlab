@@ -20,6 +20,8 @@ RUN conda install --quiet --yes \
       jupyter-lsp-python \
       jupyter_bokeh \
       'jupyter-server-proxy>=3.1.0' \
+      rstudio \
+      r-shiny \
       jupyterlab-drawio && \
     conda install -c plotly 'plotly>=4.8.2' 
     #   rise && \ # Issue when building with GitHub Actions related to jedi package
@@ -30,6 +32,8 @@ RUN pip install --upgrade pip && \
       mitosheet3 \
       jupyterlab-spreadsheet-editor \
       jupyterlab_latex \
+      jupyter-rsession-proxy \
+      jupyter-shiny-proxy \
     #   nb-serverproxy-openrefine \
       jupyterlab-system-monitor 
 #   @jupyterlab/server-proxy \

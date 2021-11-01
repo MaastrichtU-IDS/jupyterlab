@@ -78,7 +78,8 @@ USER $NB_USER
 
 # Install ZSH
 RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-RUN sed -i 's/robbyrussell/bira/g' ~/.zshrc
+RUN wget -O ~/.oh-my-zsh/custom/themes/vemonet_bira.zsh-theme https://raw.githubusercontent.com/vemonet/zsh-theme-biradate/master/zsh/vemonet_bira.zsh-theme
+RUN sed -i 's/robbyrussell/vemonet_bira/g' ~/.zshrc
 RUN chsh -s /bin/zsh 
 ENV SHELL=/bin/zsh
 

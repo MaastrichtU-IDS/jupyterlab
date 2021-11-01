@@ -51,10 +51,10 @@ c.ServerProxy.servers = {
         "command": [
             "/opt/refine",
             # "-i", "0.0.0.0",
-            "-m", "6000M"
+            "-m", "2048m"
             "-p", "{port}"
         ],
-        "timeout": 20,
+        "timeout": 40,
         "launcher_entry": {
             "title": "OpenRefine",
             "icon_path": "/etc/jupyter/openrefine.svg",

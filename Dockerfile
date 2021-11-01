@@ -42,7 +42,7 @@ RUN jupyter sparqlkernel install
 
 # Install Java
 RUN apt-get update && \
-    apt-get install default-jdk curl -y
+    apt-get install default-jdk curl zsh vim -y
 
 # Install Ijava kernel
 RUN curl -L https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip > /opt/ijava-kernel.zip && \
@@ -76,8 +76,10 @@ ADD jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
 USER $NB_USER
 
 # Install ZSH
-RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.1/zsh-in-docker.sh)" -- \
-    -t bira 
+RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+RUN echo 'ZSH_THEME="bira"' >> ~/.zshrc
+# RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.1/zsh-in-docker.sh)" -- \
+#     -t bira 
     # -p git 
     # -p https://github.com/zsh-users/zsh-autosuggestions \
     # -p https://github.com/zsh-users/zsh-completions \

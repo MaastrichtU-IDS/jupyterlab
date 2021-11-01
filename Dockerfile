@@ -1,4 +1,6 @@
-FROM jupyter/scipy-notebook:latest
+ARG PYTHON_VERSION=python-3.8.8
+
+FROM jupyter/scipy-notebook:$PYTHON_VERSION
 
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
 
@@ -30,8 +32,8 @@ RUN pip install --upgrade pip && \
     pip install --upgrade \
       sparqlkernel \
       mitosheet3 \
-      jupyterlab-system-monitor && \
-    jupyter labextension install jupyterlab-spreadsheet
+      jupyterlab-system-monitor 
+    # jupyter labextension install jupyterlab-spreadsheet
 #   @jupyterlab/server-proxy \
 # elyra : Pipeline builder for Kubeflow and Airflow
 
@@ -60,7 +62,7 @@ RUN curl -L https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-
 
 
 # Install VS Code server
-# RUN curl -fsSL https://code-server.dev/install.sh | sh
+RUN curl -fsSL https://code-server.dev/install.sh | sh
 
 
 # Nicer Bash terminal
@@ -98,6 +100,7 @@ RUN cd /opt && \
     wget -q https://repo1.maven.org/maven2/commons-io/commons-io/2.11.0/commons-io-2.11.0.jar && \
     wget -q https://downloads.apache.org/jena/binaries/apache-jena-4.2.0.tar.gz && \
     wget -q http://download.eclipse.org/rdf4j/eclipse-rdf4j-3.7.3-onejar.jar 
+
 
 RUN mkdir -p /home/$NB_USER/work
 WORKDIR /home/$NB_USER/work

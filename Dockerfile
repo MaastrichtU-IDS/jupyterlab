@@ -23,8 +23,8 @@ RUN conda install --quiet -y \
       jupyter_bokeh \
       jupyterlab-drawio \
       'jupyter-server-proxy>=3.1.0' && \
-    conda install -y -c plotly 'plotly>=4.8.2' && \
-    mamba install -c defaults rstudio
+    conda install -y -c plotly 'plotly>=4.8.2'
+    # mamba install -c defaults rstudio
     # conda install -y -c defaults rstudio r-shiny
     #   rise && \ # Issue when building with GitHub Actions related to jedi package
 
@@ -45,8 +45,8 @@ RUN pip install --upgrade pip && \
 USER root
 
 RUN apt-get update && \
-    apt-get install -y curl zsh vim libxkbcommon-x11-dev
-    # libxkbcommon required for RStudio
+    apt-get install -y curl zsh vim libxkbcommon-x11-dev libreadline-dev libqt5gui5
+    # libxkbcommon and libreadline required for RStudio
 
 # Install SPARQL kernel
 RUN jupyter sparqlkernel install 
@@ -69,6 +69,16 @@ RUN code-server --install-extension redhat.vscode-yaml \
 
 COPY --chown=$NB_USER:0 settings.json /home/$NB_USER/.local/share/code-server/User/settings.json
 COPY icons/*.svg /etc/jupyter/
+
+# Install RStudio
+RUN apt-get install -y r-base \
+    libapparmor1 libgc1c2 libclang-dev \
+    libcurl4-openssl-dev libedit2 libobjc4 libssl-dev \
+    libpq5 lsb-release psmisc procps
+RUN export DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download-server/debian-ubuntu/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-[0-9]+" -m 1) && \
+    export RSTUDIO_URL="https://download2.rstudio.org/server/bionic/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb" && \
+    dpkg -i rstudio-server-*-amd64.deb && \
+    rm rstudio-server-*-amd64.deb
 
 # Nicer Bash terminal
 # RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it && \

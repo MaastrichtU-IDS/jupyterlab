@@ -122,7 +122,9 @@ ENV OPENREFINE_VERSION=3.4.1
 RUN cd /opt && \
     wget https://github.com/OpenRefine/OpenRefine/releases/download/$OPENREFINE_VERSION/openrefine-linux-$OPENREFINE_VERSION.tar.gz && \
     tar xzf openrefine-linux-$OPENREFINE_VERSION.tar.gz && \
-    ln -s /opt/openrefine-$OPENREFINE_VERSION/refine /opt/refine 
+    mv /opt/openrefine-$OPENREFINE_VERSION /opt/openrefine && \
+    rm openrefine-linux-$OPENREFINE_VERSION.tar.gz
+    # ln -s /opt/openrefine-$OPENREFINE_VERSION/refine /opt/refine 
 ENV REFINE_DIR=/home/$NB_USER/work/openrefine
 ENV PATH=$PATH:/opt/refine
 

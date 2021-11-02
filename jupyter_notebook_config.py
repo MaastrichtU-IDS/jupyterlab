@@ -49,7 +49,7 @@ c.ServerProxy.servers = {
     },
     "openrefine": {
         "command": [
-            "/opt/refine",
+            "/opt/openrefine/refine",
             # "-i", "0.0.0.0",
             "-m", "2048m"
             "-p", "{port}"

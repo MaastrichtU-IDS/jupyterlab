@@ -6,6 +6,10 @@ JupyterLab image based on the [jupyter/docker-stacks](https://github.com/jupyter
 
 > This image is compatible with OpenShift security constraints, see below for more information to deploy on OpenShift, or on the [Data Science Research Infrastructure (DSRI)](https://maastrichtu-ids.github.io/dsri-documentation/docs/deploy-jupyter) at Maastricht University 🌉
 
+
+![Screenshot](/icons/screenshot.png)
+
+
 **Installed kernels**
 
 🐍 Python 3.8 kernel with autocomplete and suggestions ([jupyterlab-lsp 💬](https://github.com/krassowski/jupyterlab-lsp))
@@ -30,9 +34,6 @@ JupyterLab image based on the [jupyter/docker-stacks](https://github.com/jupyter
 💎 OpenRefine (start it from the JupyterLab UI)
 
 ☕️ Some `.jar` programs for knowledge graph processing are pre-downloaded in the `/opt` folder, such as RDF4J, Apache Jena, OWLAPI, RML mapper.
-
-
-![Screenshot](/icons/screenshot.png)
 
 
 ## Customize your JupyterLab image

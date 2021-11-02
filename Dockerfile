@@ -36,7 +36,7 @@ RUN pip install --upgrade pip && \
     #   jupyter-rsession-proxy \
     #   jupyter-shiny-proxy \
     #   nb-serverproxy-openrefine \
-      git+https://github.com/vemonet/nb_serverproxy_openrefine.git \
+      git+https://github.com/vemonet/nb_serverproxy_openrefine.git@main \
       jupyterlab-system-monitor 
 #   @jupyterlab/server-proxy \
 # elyra : Pipeline builder for Kubeflow and Airflow

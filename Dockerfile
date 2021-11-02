@@ -1,5 +1,5 @@
-# ARG PYTHON_VERSION=python-3.8.8
-ARG PYTHON_VERSION=latest
+ARG PYTHON_VERSION=python-3.8.8
+# ARG PYTHON_VERSION=latest
 FROM jupyter/scipy-notebook:$PYTHON_VERSION
 
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
@@ -69,14 +69,16 @@ RUN code-server --install-extension redhat.vscode-yaml \
 COPY --chown=$NB_USER:0 settings.json /home/$NB_USER/.local/share/code-server/User/settings.json
 COPY icons/*.svg /etc/jupyter/
 
-# Install RStudio
+
+
+# TODO: remove install RStudio
 RUN apt-get install -y r-base \
     libapparmor1 libgc1c2 libclang-dev \
     libcurl4-openssl-dev libedit2 libobjc4 libssl-dev \
     libpq5 lsb-release psmisc procps
 RUN export DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download-server/debian-ubuntu/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-[0-9]+" -m 1) && \
     export RSTUDIO_URL="https://download2.rstudio.org/server/bionic/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb" && \
-    wget RSTUDIO_URL && \
+    wget $RSTUDIO_URL && \
     dpkg -i rstudio-server-*-amd64.deb && \
     rm rstudio-server-*-amd64.deb
 ENV OPENBLAS_NUM_THREADS=1
@@ -84,9 +86,6 @@ ENV OPENBLAS_NUM_THREADS=1
 # Leave empty for default, e.g. 64 on DSRI
 
 
-# Nicer Bash terminal
-# RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it && \
-#     bash ~/.bash_it/install.sh --silent
 
 RUN fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER && \
@@ -152,5 +151,10 @@ ENV SHELL=/bin/zsh
 USER root
 RUN chsh -s /bin/zsh 
 USER $NB_USER
+
+# Nicer Bash terminal
+# RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it && \
+#     bash ~/.bash_it/install.sh --silent
+
 
 ENTRYPOINT [ "start-notebook.sh", "--no-browser", "--ip=0.0.0.0", "--config=/etc/jupyter/jupyter_notebook_config.py" ]

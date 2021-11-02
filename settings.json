@@ -21,5 +21,6 @@
         "editor.quickSuggestions": {
             "strings": true
         }
-    }
+    },
+    "redhat.telemetry.enabled": false
 }

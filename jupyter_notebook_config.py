@@ -54,10 +54,10 @@ c.ServerProxy.servers = {
             "-httpPort", "{port}",
             "-resetExtract"
         ],
-        "timeout": 40,
+        "timeout": 60,
         "launcher_entry": {
             "title": "Nanobench",
-            "icon_path": "/etc/jupyter/openrefine.svg",
+            "icon_path": "/etc/jupyter/rdf.svg",
             "enabled" : True
         },
     },

@@ -31,6 +31,10 @@ JupyterLab image based on the [jupyter/docker-stacks](https://github.com/jupyter
 
 ☕️ Some `.jar` programs for knowledge graph processing are pre-downloaded in the `/opt` folder, such as RDF4J, Apache Jena, OWLAPI, RML mapper.
 
+
+![Screenshot](/icons/screenshot.png)
+
+
 ## Customize your JupyterLab image
 
 Choose which image fits your need: base image, gpu, FSL, FreeSurfer, Python2,7

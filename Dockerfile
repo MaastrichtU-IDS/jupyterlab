@@ -33,9 +33,9 @@ RUN pip install --upgrade pip && \
       mitosheet3 \
       jupyterlab-spreadsheet-editor \
       jupyterlab_latex \
-      jupyter-rsession-proxy \
-      jupyter-shiny-proxy \
-    #   nb-serverproxy-openrefine \
+    #   jupyter-rsession-proxy \
+    #   jupyter-shiny-proxy \
+      nb-serverproxy-openrefine \
       jupyterlab-system-monitor 
 #   @jupyterlab/server-proxy \
 # elyra : Pipeline builder for Kubeflow and Airflow
@@ -68,23 +68,6 @@ RUN code-server --install-extension redhat.vscode-yaml \
 
 COPY --chown=$NB_USER:0 settings.json /home/$NB_USER/.local/share/code-server/User/settings.json
 COPY icons/*.svg /etc/jupyter/
-
-
-
-# TODO: remove install RStudio
-RUN apt-get install -y r-base \
-    libapparmor1 libgc1c2 libclang-dev \
-    libcurl4-openssl-dev libedit2 libobjc4 libssl-dev \
-    libpq5 lsb-release psmisc procps
-RUN export DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download-server/debian-ubuntu/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-[0-9]+" -m 1) && \
-    export RSTUDIO_URL="https://download2.rstudio.org/server/bionic/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb" && \
-    wget $RSTUDIO_URL && \
-    dpkg -i rstudio-server-*-amd64.deb && \
-    rm rstudio-server-*-amd64.deb
-ENV OPENBLAS_NUM_THREADS=1
-# Restricting the number of thread allocated to OpenBLAS can speed up computations using OpenBLAS 
-# Leave empty for default, e.g. 64 on DSRI
-
 
 
 RUN fix-permissions $CONDA_DIR && \
@@ -129,7 +112,7 @@ RUN cd /opt && \
     rm openrefine-linux-$OPENREFINE_VERSION.tar.gz
     # ln -s /opt/openrefine-$OPENREFINE_VERSION/refine /opt/refine 
 ENV REFINE_DIR=/home/$NB_USER/work/openrefine
-ENV PATH=$PATH:/opt/refine
+ENV PATH=$PATH:/opt/openrefine
 
 RUN mkdir -p /home/$NB_USER/work
 WORKDIR /home/$NB_USER/work

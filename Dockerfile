@@ -35,7 +35,7 @@ RUN pip install --upgrade pip && \
       jupyterlab_latex \
     #   jupyter-rsession-proxy \
     #   jupyter-shiny-proxy \
-      nb-serverproxy-openrefine \
+    #   nb-serverproxy-openrefine \
       jupyterlab-system-monitor 
 #   @jupyterlab/server-proxy \
 # elyra : Pipeline builder for Kubeflow and Airflow
@@ -44,7 +44,7 @@ RUN pip install --upgrade pip && \
 USER root
 
 RUN apt-get update && \
-    apt-get install -y curl zsh vim libxkbcommon-x11-dev libreadline-dev libqt5gui5
+    apt-get install -y curl zsh vim
     # libxkbcommon and libreadline required for RStudio
 
 # Install SPARQL kernel

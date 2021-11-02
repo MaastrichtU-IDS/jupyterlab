@@ -47,18 +47,18 @@ c.ServerProxy.servers = {
             "enabled" : True
         },
     },
-    # "openrefine": {
-    #     "command": [
-    #         "refine",
-    #         # "-i", "0.0.0.0",
-    #         "-m", "2048m"
-    #         "-p", "{port}"
-    #     ],
-    #     "timeout": 40,
-    #     "launcher_entry": {
-    #         "title": "OpenRefine",
-    #         "icon_path": "/etc/jupyter/openrefine.svg",
-    #         "enabled" : True
-    #     },
-    # }
+    "openrefine": {
+        "command": [
+            "refine",
+            # "-i", "0.0.0.0",
+            "-m", "2048m"
+            "-p", "{port}"
+        ],
+        "timeout": 40,
+        "launcher_entry": {
+            "title": "OpenRefine",
+            "icon_path": "/etc/jupyter/openrefine.svg",
+            "enabled" : True
+        },
+    }
 }

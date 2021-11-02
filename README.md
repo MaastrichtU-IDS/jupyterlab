@@ -53,6 +53,12 @@ docker run -it --rm -p 8888:8888 -e JUPYTER_TOKEN=yourpassword ghcr.io/maastrich
 
 If the built Docker image works well feel free to send a pull request to get your changes merged to the main repository and integrated in the corresponding published Docker image.
 
+You can check the size of the image built in MB:
+
+```bash
+expr $(docker image inspect ghcr.io/maastrichtu-ids/jupyterlab:latest --format='{{.Size}}') / 1000000
+```
+
 ## Run with Docker 🐳
 
 Volumes can be mounted into `/home/jovyan`  or `/home/jovyan/work` folder.
@@ -120,16 +126,6 @@ Push:
 ```bash
 docker push ghcr.io/maastrichtu-ids/jupyterlab
 ```
-
-Get size of published image:
-
-```bash
-# With docker-compose:
-docker-compose images
-# Or with docker, in MB:
-expr $(docker image inspect ghcr.io/maastrichtu-ids/jupyterlab:latest --format='{{.Size}}') / 1000000
-```
-
 
 ### JupyterLab on GPU
 

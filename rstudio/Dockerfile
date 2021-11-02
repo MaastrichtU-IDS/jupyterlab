@@ -9,9 +9,10 @@ ENV OPENBLAS_NUM_THREADS=1
 
 # Install RStudio
 RUN apt-get install -y r-base \
-    libapparmor1 libgc1c2 libclang-dev \
-    libcurl4-openssl-dev libedit2 libobjc4 libssl-dev \
-    libpq5 lsb-release psmisc procps
+        libxkbcommon-x11-dev libreadline-dev libqt5gui5 \
+        libapparmor1 libgc1c2 libclang-dev \
+        libcurl4-openssl-dev libedit2 libobjc4 libssl-dev \
+        libpq5 lsb-release psmisc procps
 
 RUN export DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download-server/debian-ubuntu/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-[0-9]+" -m 1) && \
     export RSTUDIO_URL="https://download2.rstudio.org/server/bionic/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb" && \

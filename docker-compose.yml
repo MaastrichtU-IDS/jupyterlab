@@ -2,7 +2,7 @@ version: "3"
 services:
   jupyterlab:
     container_name: jupyterlab
-    image: ghcr.io/maastrichtu-ids/jupyterlab
+    image: ghcr.io/maastrichtu-ids/jupyterlab:latest
     restart: unless-stopped
     # user: "1000"
     user: root
@@ -10,11 +10,12 @@ services:
     ports:
       - 8888:8888
     volumes:
-      - ./data/jupyterlab:/home/jovyan/work
+      - ./data:/home/jovyan/work
       # Share your local nanopub keys to login auto with the Nanobench
-      - ~/.nanopub:~/.nanopub
+      - ${HOME}/.nanopub:/home/jovyan/.nanopub
     ## Without password:
-    command: "--NotebookApp.token=''"
+    # command: "--NotebookApp.token=''"
+    command: "--ServerApp.token=''"
     ## With password:
     # environment:
     #   - JUPYTER_TOKEN=password

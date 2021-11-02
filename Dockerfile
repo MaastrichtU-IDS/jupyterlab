@@ -114,7 +114,9 @@ RUN cd /opt && \
     mv /opt/openrefine-$OPENREFINE_VERSION /opt/openrefine && \
     rm openrefine-linux-$OPENREFINE_VERSION.tar.gz
     # ln -s /opt/openrefine-$OPENREFINE_VERSION/refine /opt/refine 
-ENV REFINE_DIR=/home/$NB_USER/work/openrefine
+ENV REFINE_DIR=/home/$NB_USER/openrefine
+RUN mkdir -p /home/$NB_USER/openrefine
+# ENV REFINE_DIR=/home/$NB_USER/work/openrefine
 ENV PATH=$PATH:/opt/openrefine:/opt/nanobench
 
 

@@ -47,6 +47,20 @@ c.ServerProxy.servers = {
             "enabled" : True
         },
     },
+    "nanobench": {
+        "command": [
+            "java",
+            "-jar", "/opt/nanobench/nanobench.jar",
+            "-httpPort", "{port}",
+            "-resetExtract"
+        ],
+        "timeout": 40,
+        "launcher_entry": {
+            "title": "Nanobench",
+            "icon_path": "/etc/jupyter/openrefine.svg",
+            "enabled" : True
+        },
+    },
     # "openrefine": {
     #     "command": [
     #         "refine",

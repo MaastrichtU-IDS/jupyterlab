@@ -71,6 +71,7 @@ COPY --chown=$NB_USER:0 settings.json /home/$NB_USER/.local/share/code-server/Us
 COPY icons/*.svg /etc/jupyter/
 
 
+
 RUN fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER && \
     fix-permissions /opt
@@ -113,7 +114,17 @@ RUN cd /opt && \
     rm openrefine-linux-$OPENREFINE_VERSION.tar.gz
     # ln -s /opt/openrefine-$OPENREFINE_VERSION/refine /opt/refine 
 ENV REFINE_DIR=/home/$NB_USER/work/openrefine
-ENV PATH=$PATH:/opt/openrefine
+ENV PATH=$PATH:/opt/openrefine:/opt/nanobench
+
+
+# Install Nanobench
+ENV NANOBENCH_VERSION=1.37
+RUN mkdir -p /opt/nanobench && cd /opt/nanobench && \
+    wget https://github.com/peta-pico/nanobench/releases/download/nanobench-$NANOBENCH_VERSION/nanobench-$NANOBENCH_VERSION.zip && \
+    unzip nanobench-$NANOBENCH_VERSION.zip
+
+
+
 
 RUN mkdir -p /home/$NB_USER/work
 WORKDIR /home/$NB_USER/work

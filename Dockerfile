@@ -9,7 +9,6 @@ ENV JUPYTER_ENABLE_LAB=yes \
     # CHOWN_HOME=yes \
     # CHOWN_HOME_OPTS='-R' \
 
-
 RUN npm install --global yarn 
 
 # Install jupyterlab extensions with conda and pip
@@ -77,8 +76,13 @@ RUN apt-get install -y r-base \
     libpq5 lsb-release psmisc procps
 RUN export DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download-server/debian-ubuntu/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-[0-9]+" -m 1) && \
     export RSTUDIO_URL="https://download2.rstudio.org/server/bionic/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb" && \
+    wget RSTUDIO_URL && \
     dpkg -i rstudio-server-*-amd64.deb && \
     rm rstudio-server-*-amd64.deb
+ENV OPENBLAS_NUM_THREADS=1
+# Restricting the number of thread allocated to OpenBLAS can speed up computations using OpenBLAS 
+# Leave empty for default, e.g. 64 on DSRI
+
 
 # Nicer Bash terminal
 # RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it && \

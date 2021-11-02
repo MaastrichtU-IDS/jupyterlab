@@ -10,7 +10,9 @@ services:
     ports:
       - 8888:8888
     volumes:
-      - ./data/jupyterlab:/home/jovyan
+      - ./data/jupyterlab:/home/jovyan/work
+      # Share your local nanopub keys to login auto with the Nanobench
+      - ~/.nanopub:~/.nanopub
     ## Without password:
     command: "--NotebookApp.token=''"
     ## With password:

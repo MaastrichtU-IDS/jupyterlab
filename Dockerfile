@@ -12,7 +12,7 @@ ENV JUPYTER_ENABLE_LAB=yes \
 RUN npm install --global yarn 
 
 # Install jupyterlab extensions with conda and pip
-RUN conda install --quiet -y \
+RUN mamba install --quiet -y \
       openjdk maven \
       ipywidgets \
       jupyterlab \
@@ -22,7 +22,7 @@ RUN conda install --quiet -y \
       jupyter_bokeh \
       jupyterlab-drawio \
       'jupyter-server-proxy>=3.1.0' && \
-    conda install -y -c plotly 'plotly>=4.8.2'
+    mamba install -y -c plotly 'plotly>=4.8.2'
     # mamba install -c defaults rstudio
     # conda install -y -c defaults rstudio r-shiny
     #   rise && \ # Issue when building with GitHub Actions related to jedi package

@@ -142,16 +142,63 @@ You can use other images from Nvidia by changing the `NVIDIA_IMAGE` build argume
 * [PyTorch](https://ngc.nvidia.com/catalog/containers/nvidia:pytorch): `nvcr.io/nvidia/pytorch:21.08-py3`
 * [CUDA](https://ngc.nvidia.com/catalog/containers/nvidia:cuda): `nvcr.io/nvidia/cuda:10.2-devel-ubuntu18.04`
 
+#### Tensorflow on GPU
+
 To build an image, change the `build-arg` and run from the root folder of this repository:
 
 ```bash
-docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:21.08-tf2-py3 -f gpu/Dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:tensorflow .
+docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:21.08-tf2-py3 -f gpu.dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:tensorflow .
 ```
 
 Run an image on http://localhost:8888
 
 ```bash
 docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/root ghcr.io/maastrichtu-ids/jupyterlab:tensorflow
+```
+
+#### CUDA on GPU
+
+To build an image, change the `build-arg` and run from the root folder of this repository:
+
+```bash
+docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/cuda:11.4.2-devel-ubuntu20.04 -f gpu.dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:tensorflow .
+```
+
+Run an image on http://localhost:8888
+
+```bash
+docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/root ghcr.io/maastrichtu-ids/jupyterlab:cuda
+```
+
+#### PyTorch on GPU
+
+To build an image, change the `build-arg` and run from the root folder of this repository:
+
+```bash
+docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:21.09-py3 -f gpu-pytorch.dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:pytorch .
+```
+
+Run an image on http://localhost:8888
+
+```bash
+docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/root ghcr.io/maastrichtu-ids/jupyterlab:pytorch
+```
+
+#### FSL on GPU
+
+Change the `build-arg` and go to the `gpu-fsl` folder. Checkout the `gpu-fsl/README.md` for more details.
+
+Build:
+
+```bash
+cd gpu-fsl
+docker build -t ghcr.io/maastrichtu-ids/jupyterlab:fsl-gpu .
+```
+
+Run (workdir is `/root`):
+
+```bash
+docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:fsl-gpu
 ```
 
 ### Python 2.7

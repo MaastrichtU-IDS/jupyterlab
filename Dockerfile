@@ -71,16 +71,13 @@ COPY --chown=$NB_USER:0 settings.json /home/$NB_USER/.local/share/code-server/Us
 COPY icons/*.svg /etc/jupyter/
 
 
-
 RUN fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER && \
     fix-permissions /opt
 
 ADD jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
 
-
 USER $NB_USER
-
 
 # Update and compile JupyterLab extensions
 RUN jupyter labextension update --all && \
@@ -91,7 +88,7 @@ ADD requirements.txt requirements.txt
 RUN pip install -r requirements.txt && \
     rm requirements.txt
 
-# Add jar files in /opt for RDF processing
+# Install jar files in /opt, mainly for RDF processing
 RUN npm i -g @rmlio/yarrrml-parser && \
     wget -O /opt/rmlmapper.jar https://github.com/RMLio/rmlmapper-java/releases/download/v4.11.0/rmlmapper.jar && \
     wget -O /opt/widoco.jar https://github.com/dgarijo/Widoco/releases/download/v1.4.15/widoco-1.4.15-jar-with-dependencies.jar && \
@@ -116,9 +113,6 @@ RUN cd /opt && \
     # ln -s /opt/openrefine-$OPENREFINE_VERSION/refine /opt/refine 
 ENV REFINE_DIR=/home/$NB_USER/openrefine
 RUN mkdir -p /home/$NB_USER/openrefine
-# ENV REFINE_DIR=/home/$NB_USER/work/openrefine
-ENV PATH=$PATH:/opt/openrefine:/opt/nanobench
-
 
 # Install Nanobench
 ENV NANOBENCH_VERSION=1.37
@@ -126,19 +120,15 @@ RUN mkdir -p /opt/nanobench && cd /opt/nanobench && \
     wget https://github.com/peta-pico/nanobench/releases/download/nanobench-$NANOBENCH_VERSION/nanobench-$NANOBENCH_VERSION.zip && \
     unzip nanobench-$NANOBENCH_VERSION.zip
 
-
-
-
-RUN mkdir -p /home/$NB_USER/work
-WORKDIR /home/$NB_USER/work
+ENV PATH=$PATH:/opt/openrefine:/opt/nanobench
 
 # Download latest simpleowlapi jar in /opt/simpleowlapi.jar
-RUN curl -s https://api.github.com/repos/kodymoodley/simpleowlapi/releases/latest \
-    | grep "browser_download_url.*-jar-with-dependencies.jar" \
-    | cut -d : -f 2,3 \
-    | tr -d \" \
-    | wget -O /opt/simpleowlapi.jar -qi -
-
+RUN cd /opt && \
+    curl -s https://api.github.com/repos/kodymoodley/simpleowlapi/releases/latest \
+        | grep "browser_download_url.*-jar-with-dependencies.jar" \
+        | cut -d : -f 2,3 \
+        | tr -d \" \
+        | wget -O /opt/simpleowlapi.jar -qi -
 
 
 # Install ZSH
@@ -149,6 +139,9 @@ ENV SHELL=/bin/zsh
 USER root
 RUN chsh -s /bin/zsh 
 USER $NB_USER
+
+RUN mkdir -p /home/$NB_USER/work
+WORKDIR /home/$NB_USER/work
 
 # Nicer Bash terminal
 # RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it && \

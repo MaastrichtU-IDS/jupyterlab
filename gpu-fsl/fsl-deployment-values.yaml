@@ -1,0 +1,89 @@
+# Default values for jupyterlab.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Password to access the web interface
+password: ""
+
+# Git URL to be cloned in the workspace
+gitUrl: ""
+
+image:
+  repository: ghcr.io/maastrichtu-ids/jupyterlab
+  tag: "fsl-gpu"
+  pullPolicy: IfNotPresent
+
+storage:
+  enabled: true
+  size: 20Gi
+  mountPath: /root
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  name: "anyuid"
+  # Annotations to add to the service account
+  annotations: {}
+
+securityContext: {}
+  # runAsUser: 0
+  # supplementalGroups:
+  # - 100
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  port: 8888
+  type: ClusterIP
+
+openshiftRoute:
+  enabled: true
+  host: ""
+  path: ""
+  wildcardPolicy: None
+  tls:
+    enabled: true
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+
+ingress:
+  enabled: false
+  annotations: {}
+  hosts:
+    - host: chart-example.local
+      paths: []
+  tls: []
+
+extraEnvs: []
+# extraEnvs: 
+#   - name: PASSWORD
+#     value: mypassword
+
+resources: 
+  # Assign a GPU to this JupyterLab
+  requests:
+    nvidia.com/gpu: '1'
+  limits:
+    nvidia.com/gpu: '1'
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+podSecurityContext: {}
+  # fsGroup: 2000
+imagePullSecrets: []
+podAnnotations: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}

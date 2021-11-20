@@ -8,7 +8,7 @@ git_email = os.getenv('GIT_EMAIL', 'default@maastrichtuniversity.nl')
 os.system('git config --global user.name "' + git_name + '"')
 os.system('git config --global user.email "' + git_email + '"')
 
-os.chdir('/home/jovyan/work')
+# os.chdir('/home/jovyan/work')
 
 if git_url:
     # repo_id = git_url.rsplit('/', 1)[-1].replace('.git', '')

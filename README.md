@@ -186,12 +186,12 @@ docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/root 
 
 #### FSL on GPU
 
-Change the `build-arg` and go to the `gpu-fsl` folder. Checkout the `gpu-fsl/README.md` for more details.
+Change the `build-arg` and go to the `fsl-gpu` folder. Checkout the `fsl-gpu/README.md` for more details.
 
 Build:
 
 ```bash
-cd gpu-fsl
+cd fsl-gpu
 docker build -t ghcr.io/maastrichtu-ids/jupyterlab:fsl-gpu .
 ```
 

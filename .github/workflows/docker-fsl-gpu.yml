@@ -1,0 +1,26 @@
+name: Publish FSL with GPU image
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+    - 'fsl-gpu/Dockerfile'
+    - '.github/workflows/docker-fsl-gpu.yml'
+env:
+  IMAGE_ID: ghcr.io/maastrichtu-ids/jupyterlab:fsl-gpu
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build image
+        run: docker build . --file fsl-gpu/Dockerfile --tag $IMAGE_ID
+
+      - name: Log into GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Push image to GitHub Container Registry
+        run: |
+          docker push $IMAGE_ID

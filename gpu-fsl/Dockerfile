@@ -10,7 +10,7 @@ FROM nvcr.io/nvidia/cuda:${CUDA_VERSION}
 # FROM nvcr.io/nvidia/tensorflow:21.08-tf2-py3
 
 USER root
-WORKDIR /root
+WORKDIR /workspace
 
 ARG DEBIAN_FRONTEND="noninteractive"
 

@@ -7,7 +7,7 @@ ARG NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:21.09-py3
 FROM ${NVIDIA_IMAGE}
 
 USER root
-WORKDIR /workspace/persistent
+WORKDIR /workspace
 
 RUN apt-get update && \
     apt-get install -y zsh 

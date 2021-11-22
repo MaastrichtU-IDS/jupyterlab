@@ -9,7 +9,7 @@ ARG NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:21.08-tf2-py3
 FROM ${NVIDIA_IMAGE}
 
 USER root
-WORKDIR /workspace/persistent
+WORKDIR /workspace
 
 RUN apt-get update && \
     apt-get install -y curl wget git vim zsh

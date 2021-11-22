@@ -11,10 +11,10 @@ os.system('git config --global user.email "' + git_email + '"')
 # os.chdir('/home/jovyan/work')
 
 if git_url:
-    # repo_id = git_url.rsplit('/', 1)[-1].replace('.git', '')
+    repo_id = git_url.rsplit('/', 1)[-1].replace('.git', '')
     # os.system('git clone --quiet --recursive ' + git_url + ' .')
     os.system('git clone --quiet --recursive ' + git_url)
-    # os.chdir(repo_id)
+    os.chdir(repo_id)
     # os.chdir('work')
 
 if os.path.exists('packages.txt'):

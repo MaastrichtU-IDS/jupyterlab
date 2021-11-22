@@ -46,13 +46,12 @@ USER root
 
 RUN apt-get update && \
     apt-get install -y curl zsh vim
-    # libxkbcommon and libreadline required for RStudio
+    # libxkbcommon libreadline required for RStudio
 
 # Install SPARQL kernel
 RUN jupyter sparqlkernel install 
 
-
-# Install Ijava kernel
+# Install Java kernel
 RUN curl -L https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip > /opt/ijava-kernel.zip && \
     unzip /opt/ijava-kernel.zip -d /opt/ijava-kernel && \
     cd /opt/ijava-kernel && \
@@ -60,7 +59,7 @@ RUN curl -L https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-
     rm /opt/ijava-kernel.zip
 
 
-# Install VS Code server
+# Install VS Code server and extensions
 RUN curl -fsSL https://code-server.dev/install.sh | sh
 RUN code-server --install-extension redhat.vscode-yaml \
         --install-extension ms-python.python \

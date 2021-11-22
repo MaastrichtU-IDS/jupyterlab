@@ -41,6 +41,7 @@ RUN mamba install --quiet -y \
       jupyter-lsp-python \
       jupyter_bokeh \
       jupyterlab-drawio \
+      tensorboard \
       'jupyter-server-proxy>=3.1.0' && \
     mamba install -y -c plotly 'plotly>=4.8.2'
 

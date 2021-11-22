@@ -9,8 +9,9 @@ FROM ${NVIDIA_IMAGE}
 USER root
 WORKDIR /workspace/persistent
 
-# RUN apt-get update && \
-#     apt-get install -y curl wget
+RUN apt-get update && \
+    apt-get install -y zsh 
+# curl wget
 
 # Install JupyterLab with conda
 RUN conda install --quiet -y \

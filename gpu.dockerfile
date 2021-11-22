@@ -12,7 +12,7 @@ USER root
 WORKDIR /workspace/persistent
 
 RUN apt-get update && \
-    apt-get install -y curl wget git vim
+    apt-get install -y curl wget git vim zsh
 
 ## Install Conda
 ENV CONDA_DIR=/opt/conda \

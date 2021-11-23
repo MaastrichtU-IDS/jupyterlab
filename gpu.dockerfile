@@ -35,7 +35,9 @@ RUN pip install --upgrade pip && \
     #   jupyter-tensorboard \
     # https://github.com/lspvic/jupyter_tensorboard
 
-RUN jupyter labextension install jupyterlab_tensorboard
+## Conflicting with jupyterlab 3
+# RUN jupyter labextension install jupyterlab_tensorboard
+
 
 # RUN jupyter labextension update --all && \
 #     jupyter lab build 
@@ -45,7 +47,7 @@ RUN jupyter labextension install jupyterlab_tensorboard
 RUN curl -fsSL https://code-server.dev/install.sh | sh
 RUN code-server --install-extension redhat.vscode-yaml \
         --install-extension ms-python.python \
-        --install-extension vscjava.vscode-java-pack \
+        # --install-extension vscjava.vscode-java-pack \
         --install-extension ginfuru.ginfuru-better-solarized-dark-theme
 
 COPY settings.json /root/.local/share/code-server/User/settings.json

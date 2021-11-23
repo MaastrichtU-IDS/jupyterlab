@@ -16,7 +16,7 @@ WORKDIR /workspace
 RUN apt-get update && \
     apt-get install -y curl wget git vim zsh python3-pip gnupg
 
-RUN curl -sL https://deb.nodesource.com/setup_11.x  | bash -
+RUN curl -sL https://deb.nodesource.com/setup_16.x  | bash -
 RUN apt-get -y install nodejs
 
 

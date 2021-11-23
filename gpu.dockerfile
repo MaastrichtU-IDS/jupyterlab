@@ -15,46 +15,50 @@ RUN apt-get update && \
     apt-get install -y curl wget git vim zsh
 
 ## Install Conda
-ENV CONDA_DIR=/opt/conda \
-    SHELL=/bin/bash \
-    LANG=en_US.UTF-8 \
-    LANGUAGE=en_US.UTF-8
-ENV PATH="${CONDA_DIR}/bin:${PATH}" 
-# Automatically download the latest release of conda miniforge
-RUN export download_url=$(curl -s https://api.github.com/repos/conda-forge/miniforge/releases/latest | grep browser_download_url | grep -P "Mambaforge-\d+((\.|-)\d+)*-Linux-x86_64.sh" | grep -v sha256 | cut -d '"' -f 4) && \
-    echo "Downloading latest miniforge from $download_url" && \
-    curl -Lf -o miniforge.sh $download_url && \
-    # curl -Lf "https://github.com/conda-forge/miniforge/releases/download/${miniforge_version}/${miniforge_installer}" -o miniforge.sh && \
-    /bin/bash "miniforge.sh" -f -b -p "${CONDA_DIR}" && \
-    rm "miniforge.sh" && \
-    mamba config --system --set auto_update_conda false && \
-    mamba config --system --set show_channel_urls true
+# ENV CONDA_DIR=/opt/conda \
+#     SHELL=/bin/bash \
+#     LANG=en_US.UTF-8 \
+#     LANGUAGE=en_US.UTF-8
+# ENV PATH="${CONDA_DIR}/bin:${PATH}" 
+# # Automatically download the latest release of conda miniforge
+# RUN export download_url=$(curl -s https://api.github.com/repos/conda-forge/miniforge/releases/latest | grep browser_download_url | grep -P "Mambaforge-\d+((\.|-)\d+)*-Linux-x86_64.sh" | grep -v sha256 | cut -d '"' -f 4) && \
+#     echo "Downloading latest miniforge from $download_url" && \
+#     curl -Lf -o miniforge.sh $download_url && \
+#     # curl -Lf "https://github.com/conda-forge/miniforge/releases/download/${miniforge_version}/${miniforge_installer}" -o miniforge.sh && \
+#     /bin/bash "miniforge.sh" -f -b -p "${CONDA_DIR}" && \
+#     rm "miniforge.sh" && \
+#     mamba config --system --set auto_update_conda false && \
+#     mamba config --system --set show_channel_urls true
 
 # Install nodejs, java, JupyterLab with conda
-RUN mamba install --quiet -y \
-      openjdk maven \
-      nodejs yarn \
-      ipywidgets \
-      jupyterlab \
-      jupyterlab-git \
-      jupyterlab-lsp \
-      jupyter-lsp-python \
-      jupyter_bokeh \
-      jupyterlab-drawio \
-      tensorflow \
-    #   tensorboard \
-      'jupyter-server-proxy>=3.1.0' && \
-    mamba install -y -c plotly 'plotly>=4.8.2'
+# RUN mamba install --quiet -y \
+#       openjdk maven \
+#       nodejs yarn \
+#       ipywidgets \
+#       jupyterlab \
+#       jupyterlab-git \
+#       jupyterlab-lsp \
+#       jupyter-lsp-python \
+#       jupyter_bokeh \
+#       jupyterlab-drawio \
+#       tensorflow \
+#     #   tensorboard \
+#       'jupyter-server-proxy>=3.1.0' && \
+#     mamba install -y -c plotly 'plotly>=4.8.2'
 
 # Install GPU dashboard: https://developer.nvidia.com/blog/gpu-dashboards-in-jupyter-lab/
 RUN pip install --upgrade pip && \
     pip install --upgrade \
+      ipywidgets \
       jupyterlab-nvdashboard \
       mitosheet3 \
       jupyterlab-spreadsheet-editor \
-      jupyter-tensorboard
+    #   jupyter-tensorboard \
+      jupyterlab-lsp python-lsp-server[all] \
+      jupyter_bokeh \
+      jupyter-server-proxy>=3.1.0
 
-RUN jupyter labextension install jupyterlab_tensorboard
+# RUN jupyter labextension install jupyterlab_tensorboard
 
 # RUN jupyter labextension update --all && \
 #     jupyter lab build 

@@ -14,7 +14,7 @@ USER root
 WORKDIR /workspace
 
 RUN apt-get update && \
-    apt-get install -y curl wget git vim zsh
+    apt-get install -y curl wget git vim zsh python3-pip
 
 
 # Install GPU dashboard: https://developer.nvidia.com/blog/gpu-dashboards-in-jupyter-lab/

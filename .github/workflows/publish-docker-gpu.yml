@@ -10,8 +10,14 @@ on:
     - '.github/workflows/publish-docker-gpu.yml'
 
 env:
-  TENSORFLOW_TAG: 21.09-tf1-py3
-  PYTORCH_TAG: 21.09-py3
+  ## https://catalog.ngc.nvidia.com/orgs/nvidia/containers/tensorflow
+  TENSORFLOW_TAG: 21.11-tf2-py3
+  # TENSORFLOW_TAG: 21.09-tf1-py3
+  
+  ## https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch
+  PYTORCH_TAG: 21.11-py3
+
+  ## https://catalog.ngc.nvidia.com/orgs/nvidia/containers/cuda
   CUDA_TAG: 11.4.2-devel-ubuntu20.04
 
   PUBLISH_TENSORFLOW: ghcr.io/maastrichtu-ids/jupyterlab:tensorflow

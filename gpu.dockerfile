@@ -22,16 +22,17 @@ RUN pip install --upgrade pip && \
     pip install --upgrade \
       jupyterlab ipywidgets \
       jupyterlab-git \
-      jupyterlab-lsp python-lsp-server[all] \
+      jupyterlab-lsp 'python-lsp-server[all]' \
       jupyterlab-nvdashboard \
       jupyterlab-spreadsheet-editor \
       mitosheet3 \
       jupyter_bokeh \
-      plotly>=4.8.2 \
-      jupyter-server-proxy>=3.1.0
+      'plotly>=4.8.2' \
+      'jupyter-server-proxy>=3.1.0'
     #   jupyter-tensorboard \
+    # https://github.com/lspvic/jupyter_tensorboard
 
-# RUN jupyter labextension install jupyterlab_tensorboard
+RUN jupyter labextension install jupyterlab_tensorboard
 
 # RUN jupyter labextension update --all && \
 #     jupyter lab build 

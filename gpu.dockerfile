@@ -31,6 +31,8 @@ RUN pip install --upgrade pip && \
       mitosheet3 \
       jupyter_bokeh \
       'plotly>=4.8.2' \
+      git+https://github.com/cliffwoolley/jupyter_tensorboard.git \
+      git+https://github.com/chaoleili/jupyterlab_tensorboard.git \
       'jupyter-server-proxy>=3.1.0'
     #   jupyter-tensorboard \
     # https://github.com/lspvic/jupyter_tensorboard

@@ -16,7 +16,7 @@ RUN npm install --global yarn
 RUN mamba install --quiet -y \
       openjdk maven \
       ipywidgets \
-    #   nb_conda_kernels \
+      nb_conda_kernels \
       jupyterlab \
       jupyterlab-git \
       jupyterlab-lsp \

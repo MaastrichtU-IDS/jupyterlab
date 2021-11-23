@@ -32,15 +32,17 @@ RUN pip install --upgrade pip && \
       jupyter_bokeh \
       'plotly>=4.8.2' \
       # Issue tensorboard with Jupyterlab3: https://github.com/chaoleili/jupyterlab_tensorboard/issues/28
-      # 'git+https://github.com/cliffwoolley/jupyter_tensorboard.git' \
+      'git+https://github.com/cliffwoolley/jupyter_tensorboard.git' \
       # 'git+https://github.com/chaoleili/jupyterlab_tensorboard.git' \
+      # 'tensorboard==2.2.1' \
+      # 'jupyter-tensorboard==0.2.0' \
       'jupyter-server-proxy>=3.1.0'
     #   jupyter-tensorboard \
     
     # https://github.com/lspvic/jupyter_tensorboard
 
 ## Conflicting with jupyterlab 3
-# RUN jupyter labextension install jupyterlab_tensorboard
+RUN jupyter labextension install jupyterlab_tensorboard
 
 
 # RUN jupyter labextension update --all && \

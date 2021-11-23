@@ -14,7 +14,10 @@ USER root
 WORKDIR /workspace
 
 RUN apt-get update && \
-    apt-get install -y curl wget git vim zsh python3-pip
+    apt-get install -y curl wget git vim zsh python3-pip gnupg
+
+RUN curl -sL https://deb.nodesource.com/setup_11.x  | bash -
+RUN apt-get -y install nodejs
 
 
 # Install GPU dashboard: https://developer.nvidia.com/blog/gpu-dashboards-in-jupyter-lab/

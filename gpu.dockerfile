@@ -42,7 +42,7 @@ RUN mamba install --quiet -y \
       jupyter_bokeh \
       jupyterlab-drawio \
       tensorflow \
-      tensorboard \
+    #   tensorboard \
       'jupyter-server-proxy>=3.1.0' && \
     mamba install -y -c plotly 'plotly>=4.8.2'
 
@@ -51,7 +51,10 @@ RUN pip install --upgrade pip && \
     pip install --upgrade \
       jupyterlab-nvdashboard \
       mitosheet3 \
-      jupyterlab-spreadsheet-editor
+      jupyterlab-spreadsheet-editor \
+      jupyter-tensorboard
+
+RUN jupyter labextension install jupyterlab_tensorboard
 
 # RUN jupyter labextension update --all && \
 #     jupyter lab build 

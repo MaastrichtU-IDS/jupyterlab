@@ -33,6 +33,11 @@ if os.path.exists('extensions.txt'):
 # os.chdir(home_dir)
 c.ServerApp.terminado_settings = {'shell_command': ['/bin/zsh']}
 
+# Avoid duplicate conda kernel starters https://github.com/Anaconda-Platform/nb_conda_kernels/issues/141
+# c.NotebookApp.kernel_spec_manager_class = 'nb_conda_kernels.CondaKernelSpecManager'
+c.ServerApp.kernel_spec_manager_class = 'nb_conda_kernels.CondaKernelSpecManager'
+c.CondaKernelSpecManager.env_filter = '/opt/conda/share/jupyter/kernels/*|/usr/local/share/jupyter/kernels/sparql'
+
 c.ServerProxy.servers = {
     "code-server": {
         "command": [

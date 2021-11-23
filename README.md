@@ -138,16 +138,16 @@ To deploy JupyterLab on GPU we use the [official Nvidia images](https://ngc.nvid
 
 You can use other images from Nvidia by changing the `NVIDIA_IMAGE` build argument, popular images are:
 
-* [Tensorflow](https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow): `nvcr.io/nvidia/tensorflow:21.08-tf2-py3`
-* [PyTorch](https://ngc.nvidia.com/catalog/containers/nvidia:pytorch): `nvcr.io/nvidia/pytorch:21.08-py3`
-* [CUDA](https://ngc.nvidia.com/catalog/containers/nvidia:cuda): `nvcr.io/nvidia/cuda:10.2-devel-ubuntu18.04`
+* [Tensorflow](https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow), e.g. `nvcr.io/nvidia/tensorflow:21.11-tf2-py3`
+* [PyTorch](https://ngc.nvidia.com/catalog/containers/nvidia:pytorch), e.g. `nvcr.io/nvidia/pytorch:21.11-py3`
+* [CUDA](https://ngc.nvidia.com/catalog/containers/nvidia:cuda), e.g. `nvcr.io/nvidia/cuda:10.2-devel-ubuntu18.04`
 
 #### Tensorflow on GPU
 
 To build an image, change the `build-arg` and run from the root folder of this repository:
 
 ```bash
-docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:21.08-tf2-py3 -f gpu.dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:tensorflow .
+docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:21.11-tf2-py3 -f gpu.dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:tensorflow .
 ```
 
 Run an image on http://localhost:8888
@@ -175,7 +175,7 @@ docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/root 
 To build an image, change the `build-arg` and run from the root folder of this repository:
 
 ```bash
-docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:21.09-py3 -f gpu-pytorch.dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:pytorch .
+docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:21.11-py3 -f gpu.dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:pytorch .
 ```
 
 Run an image on http://localhost:8888

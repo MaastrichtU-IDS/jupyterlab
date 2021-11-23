@@ -11,11 +11,10 @@ os.system('git config --global user.email "' + git_email + '"')
 # os.chdir('/home/jovyan/work')
 
 if git_url:
-    repo_id = git_url.rsplit('/', 1)[-1].replace('.git', '')
-    # os.system('git clone --quiet --recursive ' + git_url + ' .')
-    os.system('git clone --quiet --recursive ' + git_url)
-    os.chdir(repo_id)
-    # os.chdir('work')
+    os.system('git clone --quiet --recursive ' + git_url + ' .')
+    # repo_id = git_url.rsplit('/', 1)[-1].replace('.git', '')
+    # os.system('git clone --quiet --recursive ' + git_url)
+    # os.chdir(repo_id)
 
 if os.path.exists('packages.txt'):
     os.system('sudo apt-get update')
@@ -26,6 +25,9 @@ if os.path.exists('requirements.txt'):
 
 if os.path.exists('extensions.txt'):
     os.system('cat extensions.txt | xargs -I {} jupyter {} install --user')
+
+# https://github.com/jupyter/docker-stacks/blob/master/base-notebook/jupyter_notebook_config.py
+# c = get_config() 
 
 # home_dir = os.environ.get('HOME')
 # os.chdir(home_dir)
@@ -77,3 +79,6 @@ c.ServerProxy.servers = {
     #     },
     # }
 }
+
+# https://github.com/jupyter/notebook/issues/3130
+# c.FileContentsManager.delete_to_trash = False

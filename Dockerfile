@@ -36,6 +36,7 @@ RUN pip install --upgrade pip && \
     #   jupyter-rsession-proxy \
     #   jupyter-shiny-proxy \
     #   nb-serverproxy-openrefine \
+    #   git+https://github.com/innovationOUtside/nb_serverproxy_openrefine.git@main \
       git+https://github.com/vemonet/nb_serverproxy_openrefine.git@main \
       jupyterlab-system-monitor 
 #   @jupyterlab/server-proxy \
@@ -65,16 +66,16 @@ RUN code-server --install-extension redhat.vscode-yaml \
         --install-extension ms-python.python \
         --install-extension vscjava.vscode-java-pack \
         --install-extension ginfuru.ginfuru-better-solarized-dark-theme
-
 COPY --chown=$NB_USER:0 settings.json /home/$NB_USER/.local/share/code-server/User/settings.json
 COPY icons/*.svg /etc/jupyter/
 
 
+ADD jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
+
 RUN fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER && \
     fix-permissions /opt
-
-ADD jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
+    # fix-permissions /etc/jupyter
 
 USER $NB_USER
 
@@ -142,9 +143,7 @@ USER $NB_USER
 RUN mkdir -p /home/$NB_USER/work
 WORKDIR /home/$NB_USER/work
 
-# Nicer Bash terminal
-# RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it && \
-#     bash ~/.bash_it/install.sh --silent
-
 
 ENTRYPOINT [ "start-notebook.sh", "--no-browser", "--ip=0.0.0.0", "--config=/etc/jupyter/jupyter_notebook_config.py" ]
+
+# ENTRYPOINT ["jupyter", "lab", "--allow-root", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--config=/etc/jupyter/jupyter_notebook_config.py"]

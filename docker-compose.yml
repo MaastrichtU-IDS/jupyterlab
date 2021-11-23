@@ -1,23 +1,24 @@
 version: "3"
 services:
   jupyterlab:
-    container_name: jupyterlab
     image: ghcr.io/maastrichtu-ids/jupyterlab:latest
-    restart: unless-stopped
-    # user: "1000"
     user: root
+    # user: "1000"
     # user: ${UID}
     ports:
       - 8888:8888
     volumes:
-      # Share your local nanopub keys to login auto with the Nanobench
-      - ${HOME}/.nanopub:/home/jovyan/.nanopub
       # Share volumes for jupyterlab and openrefine:
-      # - ./data/work:/home/jovyan/work
-      # - ./data/openrefine:/home/jovyan/openrefine
+      - ./data/work:/home/jovyan/work
+      - ./data/openrefine:/home/jovyan/openrefine
+      # Share your local nanopub keys to login auto with the Nanobench (experimental)
+      # - ${HOME}/.nanopub:/home/jovyan/.nanopub
+    
     ## Without password:
     # command: "--NotebookApp.token=''"
     command: "--ServerApp.token=''"
     ## With password:
     # environment:
     #   - JUPYTER_TOKEN=password
+    
+    # entrypoint: jupyter lab --allow-root --ip=0.0.0.0 --port=8888 --no-browser --config=/etc/jupyter/jupyter_notebook_config.py

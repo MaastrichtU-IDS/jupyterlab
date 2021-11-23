@@ -12,9 +12,11 @@ ENV JUPYTER_ENABLE_LAB=yes \
 RUN npm install --global yarn 
 
 # Install jupyterlab extensions with conda and pip
+# Multi conda kernels: #   https://stackoverflow.com/questions/53004311/how-to-add-conda-environment-to-jupyter-lab
 RUN mamba install --quiet -y \
       openjdk maven \
       ipywidgets \
+    #   nb_conda_kernels \
       jupyterlab \
       jupyterlab-git \
       jupyterlab-lsp \

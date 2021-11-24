@@ -6,7 +6,7 @@ metadata:
   annotations:
     opendatahub.io/notebook-image-url: "https://github.com/MaastrichtU-IDS/jupyterlab"
     opendatahub.io/notebook-image-name: "JupyterLab for Data Science and Knowledge Graph"
-    opendatahub.io/notebook-image-desc: "Jupyter notebooks, Java and SPARQL notebooks, VS Code, RStudio, OpenRefine."
+    opendatahub.io/notebook-image-desc: "Jupyter notebooks, Java and SPARQL notebooks, VisualStudio Code, OpenRefine."
   name: jupyterlab
 spec:
   lookupPolicy:
@@ -17,6 +17,8 @@ spec:
     from:
       kind: DockerImage
       name: ghcr.io/maastrichtu-ids/jupyterlab:latest
+    importPolicy:
+        scheduled: false
     name: "latest"
     referencePolicy:
       type: Source

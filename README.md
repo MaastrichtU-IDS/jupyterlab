@@ -9,7 +9,6 @@ JupyterLab image based on the [jupyter/docker-stacks](https://github.com/jupyter
 
 ![Screenshot](/icons/screenshot.png)
 
-
 **Installed kernels**
 
 🐍 Python 3.8 kernel with autocomplete and suggestions ([jupyterlab-lsp 💬](https://github.com/krassowski/jupyterlab-lsp))
@@ -66,12 +65,12 @@ expr $(docker image inspect ghcr.io/maastrichtu-ids/jupyterlab:latest --format='
 
 ## Run with Docker 🐳
 
-Volumes can be mounted into `/home/jovyan`  or `/home/jovyan/work` folder.
+For the `ghcr.io/maastrichtu-ids/jupyterlab:latest` image volumes should be mounted into `/home/jovyan/work` folder.
 
-Run as `jovyan` user with `sudo` privileges, use `JUPYTER_TOKEN` to define your password:
+This command will start JupyterLab as `jovyan` user with `sudo` privileges, use `JUPYTER_TOKEN` to define your password:
 
 ```bash
-docker run --rm -it --user root -p 8888:8888 -e GRANT_SUDO=yes -e JUPYTER_TOKEN=password -v $(pwd)/data:/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab
+docker run --rm -it --user root -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab
 ```
 
 > You should now be able to install anything in the JupyterLab container, try:
@@ -85,19 +84,21 @@ You can check the `docker-compose.yml` file to run it easily with Docker Compose
 Run with a restricted `jovyan` user, without `sudo` privileges:
 
 ```bash
-docker run --rm -it --user $(id -u) -p 8888:8888 -e CHOWN_HOME=yes -e CHOWN_HOME_OPTS='-R' -e JUPYTER_TOKEN=password -v $(pwd)/data:/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab
+docker run --rm -it --user $(id -u) -p 8888:8888 -e CHOWN_HOME=yes -e CHOWN_HOME_OPTS='-R' -e JUPYTER_TOKEN=password -v $(pwd)/data:/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab:latest
 ```
 
-Potential permission issue when running locally ⚠️
-
-The official [jupyter/docker-stacks](jupyter/docker-stacks) images use the `jovyan` user by default which does not grant admin rights (`sudo`). This can cause issues when writing to the shared volumes, to fix it you can change the owner of the folder, or start JupyterLab as root user.
-
-Create the folder with the right permissions, replace `1000` by your username
-
-```bash
-mkdir -p data/
-sudo chown -R 1000:1000 data/
-```
+> ⚠️ Potential permission issue when running locally
+>
+> The official [jupyter/docker-stacks](jupyter/docker-stacks) images use the `jovyan` user by default which does not grant admin rights (`sudo`). This can cause issues when writing to the shared volumes, to fix it you can change the owner of the folder, or start JupyterLab as root user.
+>
+> To create the folder with the right permissions, replace `1000` by your username if necessary and run:
+>
+> ```bash
+> mkdir -p data/
+> sudo chown -R 1000:1000 data/
+> ```
+>
+> ## 
 
 ## Deploy on OpenShift ☁️
 
@@ -142,6 +143,8 @@ You can use other images from Nvidia by changing the `NVIDIA_IMAGE` build argume
 * [PyTorch](https://ngc.nvidia.com/catalog/containers/nvidia:pytorch), e.g. `nvcr.io/nvidia/pytorch:21.11-py3`
 * [CUDA](https://ngc.nvidia.com/catalog/containers/nvidia:cuda), e.g. `nvcr.io/nvidia/cuda:10.2-devel-ubuntu18.04`
 
+Volumes should be mounted into `/workspace` folder.
+
 #### Tensorflow on GPU
 
 To build an image, change the `build-arg` and run from the root folder of this repository:
@@ -153,7 +156,7 @@ docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:21.11-tf2-py3 -f
 Run an image on http://localhost:8888
 
 ```bash
-docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/root ghcr.io/maastrichtu-ids/jupyterlab:tensorflow
+docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/workspace ghcr.io/maastrichtu-ids/jupyterlab:tensorflow
 ```
 
 #### CUDA on GPU
@@ -167,7 +170,7 @@ docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/cuda:11.4.2-devel-ubuntu20.
 Run an image on http://localhost:8888
 
 ```bash
-docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/root ghcr.io/maastrichtu-ids/jupyterlab:cuda
+docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/workspace ghcr.io/maastrichtu-ids/jupyterlab:cuda
 ```
 
 #### PyTorch on GPU
@@ -181,7 +184,7 @@ docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:21.11-py3 -f gpu.do
 Run an image on http://localhost:8888
 
 ```bash
-docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/root ghcr.io/maastrichtu-ids/jupyterlab:pytorch
+docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/workspace ghcr.io/maastrichtu-ids/jupyterlab:pytorch
 ```
 
 #### FSL on GPU
@@ -195,7 +198,7 @@ cd fsl-gpu
 docker build -t ghcr.io/maastrichtu-ids/jupyterlab:fsl-gpu .
 ```
 
-Run (workdir is `/root`):
+Run (workdir is `/workspace`):
 
 ```bash
 docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:fsl-gpu

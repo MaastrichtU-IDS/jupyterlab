@@ -33,7 +33,7 @@ RUN pip install --upgrade pip && \
       'plotly>=4.8.2' \
       # Issue tensorboard with Jupyterlab3: https://github.com/chaoleili/jupyterlab_tensorboard/issues/28
       'git+https://github.com/cliffwoolley/jupyter_tensorboard.git' \
-      # 'git+https://github.com/chaoleili/jupyterlab_tensorboard.git' \
+      'git+https://github.com/chaoleili/jupyterlab_tensorboard.git' \
       # 'tensorboard==2.2.1' \
       # 'jupyter-tensorboard==0.2.0' \
       'jupyter-server-proxy>=3.1.0'
@@ -42,7 +42,7 @@ RUN pip install --upgrade pip && \
     # https://github.com/lspvic/jupyter_tensorboard
 
 ## Conflicting with jupyterlab 3
-RUN jupyter labextension install jupyterlab_tensorboard
+# RUN jupyter labextension install jupyterlab_tensorboard
 
 
 # RUN jupyter labextension update --all && \
@@ -71,5 +71,6 @@ RUN chsh -s /bin/zsh
 COPY jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
 
 WORKDIR /workspace
+VOLUME [ "/workspace" ]
 EXPOSE 8888
 ENTRYPOINT ["jupyter", "lab", "--allow-root", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--config=/etc/jupyter/jupyter_notebook_config.py"]

@@ -29,6 +29,9 @@ if os.path.exists('extensions.txt'):
 if os.path.exists('environment.yml'):
     os.system('mamba env create -f environment.yml')
 
+if os.path.exists('environment.yaml'):
+    os.system('mamba env create -f environment.yaml')
+
 
 # https://github.com/jupyter/docker-stacks/blob/master/base-notebook/jupyter_notebook_config.py
 # c = get_config() 

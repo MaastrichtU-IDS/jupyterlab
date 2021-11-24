@@ -1,6 +1,8 @@
 
 ARG NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:21.09-py3
 
+## DEPRECATED: we now use gpu.dockerfile for PyTorch too
+
 ## Example Nvidia images available:
 # PyTorch: https://ngc.nvidia.com/catalog/containers/nvidia:pytorch
 

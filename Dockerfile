@@ -23,10 +23,11 @@ RUN mamba install --quiet -y \
       jupyter-lsp-python \
       jupyter_bokeh \
       jupyterlab-drawio \
+      rise \
       'jupyter-server-proxy>=3.1.0' && \
     mamba install -y -c plotly 'plotly>=4.8.2'
     # mamba install -c defaults rstudio
-    # conda install -y -c defaults rstudio r-shiny
+    # mamba install -y -c defaults rstudio r-shiny
     #   rise && \ # Issue when building with GitHub Actions related to jedi package
 
 RUN pip install --upgrade pip && \
@@ -35,21 +36,24 @@ RUN pip install --upgrade pip && \
       mitosheet3 \
       jupyterlab-spreadsheet-editor \
       jupyterlab_latex \
+    #   nb-serverproxy-openrefine \ 
+      git+https://github.com/innovationOUtside/nb_serverproxy_openrefine.git@main \
+    #   git+https://github.com/vemonet/nb_serverproxy_openrefine.git@main \
+      jupyterlab-system-monitor 
+
+    ## Could also be interesting to install:
     #   jupyter-rsession-proxy \
     #   jupyter-shiny-proxy \
-    #   nb-serverproxy-openrefine \
-    #   git+https://github.com/innovationOUtside/nb_serverproxy_openrefine.git@main \
-      git+https://github.com/vemonet/nb_serverproxy_openrefine.git@main \
-      jupyterlab-system-monitor 
-#   @jupyterlab/server-proxy \
-# elyra : Pipeline builder for Kubeflow and Airflow
+    #   @jupyterlab/server-proxy \
+    #   elyra (pipeline builder for Kubeflow and Airflow)
 
 # Change to root user to install things
 USER root
 
 RUN apt-get update && \
     apt-get install -y curl zsh vim
-    # libxkbcommon libreadline required for RStudio
+    # libxkbcommon libreadline might be required for RStudio
+
 
 # Install SPARQL kernel
 RUN jupyter sparqlkernel install 
@@ -79,6 +83,7 @@ RUN fix-permissions $CONDA_DIR && \
     fix-permissions /opt
     # fix-permissions /etc/jupyter
 
+# Switch back to the notebook user to finish installation
 USER $NB_USER
 
 # Update and compile JupyterLab extensions
@@ -90,7 +95,7 @@ ADD requirements.txt requirements.txt
 RUN pip install -r requirements.txt && \
     rm requirements.txt
 
-# Install jar files in /opt, mainly for RDF processing
+# Download jar files in /opt, mainly for RDF processing
 RUN npm i -g @rmlio/yarrrml-parser && \
     wget -O /opt/rmlmapper.jar https://github.com/RMLio/rmlmapper-java/releases/download/v4.11.0/rmlmapper.jar && \
     wget -O /opt/widoco.jar https://github.com/dgarijo/Widoco/releases/download/v1.4.15/widoco-1.4.15-jar-with-dependencies.jar && \
@@ -116,12 +121,11 @@ RUN cd /opt && \
 ENV REFINE_DIR=/home/$NB_USER/openrefine
 RUN mkdir -p /home/$NB_USER/openrefine
 
-# Install Nanobench
+# Download the Nanobench
 ENV NANOBENCH_VERSION=1.37
 RUN mkdir -p /opt/nanobench && cd /opt/nanobench && \
     wget https://github.com/peta-pico/nanobench/releases/download/nanobench-$NANOBENCH_VERSION/nanobench-$NANOBENCH_VERSION.zip && \
     unzip nanobench-$NANOBENCH_VERSION.zip
-
 ENV PATH=$PATH:/opt/openrefine:/opt/nanobench
 
 # Download latest simpleowlapi jar in /opt/simpleowlapi.jar

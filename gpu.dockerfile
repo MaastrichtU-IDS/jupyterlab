@@ -23,7 +23,8 @@ RUN apt-get -y install nodejs
 # Install GPU dashboard: https://developer.nvidia.com/blog/gpu-dashboards-in-jupyter-lab/
 RUN pip install --upgrade pip && \
     pip install --upgrade \
-      jupyterlab ipywidgets \
+      # jupyterlab \
+      ipywidgets \
       jupyterlab-git \
       jupyterlab-lsp 'python-lsp-server[all]' \
       jupyterlab-nvdashboard \

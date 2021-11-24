@@ -34,19 +34,66 @@ JupyterLab image based on the [jupyter/docker-stacks](https://github.com/jupyter
 
 ☕️ Some `.jar` programs for knowledge graph processing are pre-downloaded in the `/opt` folder, such as RDF4J, Apache Jena, OWLAPI, RML mapper.
 
+**Automatically install your dependencies**
 
-## Customize your JupyterLab image
+You can provide the URL to a git repository to be automatically cloned in the workspace at the start of the container.
+
+The following file will be automatically installed if they are present at the root of the provided Git repository:
+
+* The conda environment described in `environment.yml` will be installed, make sure you added `ipykernel` and `nb_conda_kernels` to the `environment.yml` to be able to easily start notebooks using this environment from the JupyterLab Launcher page. See [this repository as example]( https://github.com/MaastrichtU-IDS/dsri-demo).
+* The packages in `requirements.txt` will be installed with `pip`
+* The packages in `packages.txt` will be installed with `apt`
+* The JupyterLab extensions in `extensions.txt` will be installed with `jupyter labextension`
+
+You can also create conda environment in a running JupyterLab (we use `mamba` which is like `conda` but faster):
+
+```bash
+mamba env create -f environment.yml
+```
+
+You'll need to wait for 1 or 2 minutes before the new conda environment becomes available on the JupyterLab Launcher page.
+
+## Customize the JupyterLab images
+
+### Extend an image
+
+The easiest way to build a custom image is to extend the existing images.
+
+Here is an example `Dockerfile` to extend `ghcr.io/maastrichtu-ids/jupyterlab:latest` based on the jupyter/docker-stacks:
+
+```dockerfile
+FROM ghcr.io/maastrichtu-ids/jupyterlab:latest
+# Change to root user to install packages requiring admin privileges:
+USER root
+RUN apt update && \
+    apt install -y vim
+# Switch back to the notebook user for other packages:
+USER $NB_USER
+RUN mamba install -c defaults -y rstudio
+RUN pip install jupyter-rsession-proxy
+```
+
+For docker image not based on the jupyter/docker-stack (such as the GPU images) you will need to use the root user by default:
+
+```dockerfile
+FROM ghcr.io/maastrichtu-ids/jupyterlab:tensorflow
+RUN apt update && \
+    apt install -y vim
+RUN pip install jupyter-tensorboard
+```
+
+### Contribute to this repository
 
 Choose which image fits your need: base image, gpu, FSL, FreeSurfer, Python2,7
 
 1. Fork this repository.
-2. Clone the fork repository 
+2. Clone the forked repository 
 3. Edit the `Dockerfile` for this image to install the packages you need. Preferably use `conda` to install new packages, you can also install with `apt-get` (need to run as root or with `sudo`) and `pip`
 
 4. Go to the folder and rebuild the `Dockerfile`:
 
 ```bash
-docker build -t jupyterlab .
+docker build -t jupyterlab -f Dockerfile .
 ```
 
 5. Run the docker image built on http://localhost:8888

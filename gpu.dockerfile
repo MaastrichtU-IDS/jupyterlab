@@ -13,11 +13,11 @@ FROM ${NVIDIA_IMAGE}
 USER root
 WORKDIR /workspace
 
-RUN apt-get update && \
-    apt-get install -y curl wget git vim zsh python3-pip gnupg
+RUN apt update && \
+    apt install -y curl wget git vim zsh python3-pip gnupg
 
 RUN curl -sL https://deb.nodesource.com/setup_16.x  | bash -
-RUN apt-get -y install nodejs
+RUN apt -y install nodejs
 
 
 # Install GPU dashboard: https://developer.nvidia.com/blog/gpu-dashboards-in-jupyter-lab/
@@ -32,19 +32,17 @@ RUN pip install --upgrade pip && \
       mitosheet3 \
       jupyter_bokeh \
       'plotly>=4.8.2' \
-      # Issue tensorboard with Jupyterlab3: https://github.com/chaoleili/jupyterlab_tensorboard/issues/28
-      'git+https://github.com/cliffwoolley/jupyter_tensorboard.git' \
-      'git+https://github.com/chaoleili/jupyterlab_tensorboard.git' \
+      ## Issue tensorboard with Jupyterlab3: https://github.com/chaoleili/jupyterlab_tensorboard/issues/28
+      ## https://github.com/lspvic/jupyter_tensorboard
+      # 'git+https://github.com/cliffwoolley/jupyter_tensorboard.git' \
+      # 'git+https://github.com/chaoleili/jupyterlab_tensorboard.git' \
       # 'tensorboard==2.2.1' \
       # 'jupyter-tensorboard==0.2.0' \
       'jupyter-server-proxy>=3.1.0'
-    #   jupyter-tensorboard \
     
-    # https://github.com/lspvic/jupyter_tensorboard
 
-## Conflicting with jupyterlab 3
+## Conflicting with jupyterlab 3 apparently
 # RUN jupyter labextension install jupyterlab_tensorboard
-
 
 # RUN jupyter labextension update --all && \
 #     jupyter lab build 

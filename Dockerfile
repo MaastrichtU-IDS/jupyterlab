@@ -50,8 +50,8 @@ RUN pip install --upgrade pip && \
 # Change to root user to install things
 USER root
 
-RUN apt-get update && \
-    apt-get install -y curl zsh vim
+RUN apt update && \
+    apt install -y curl zsh vim
     # libxkbcommon libreadline might be required for RStudio
 
 

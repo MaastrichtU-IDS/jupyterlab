@@ -5,12 +5,13 @@ ARG NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:21.11-tf2-py3
 
 ## Example Nvidia images available:
 # Tensorflow: https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow
-# PyTorch: https://ngc.nvidia.com/catalog/containers/nvidia:pytorch
-# CUDA: https://ngc.nvidia.com/catalog/containers/nvidia:cuda
+# CUDA: pip and git not installed by default https://ngc.nvidia.com/catalog/containers/nvidia:cuda
+# PyTorch: conda installed by default https://ngc.nvidia.com/catalog/containers/nvidia:pytorch
 
 FROM ${NVIDIA_IMAGE}
 
 USER root
+RUN mkdir -p /workspace
 WORKDIR /workspace
 
 RUN apt update && \

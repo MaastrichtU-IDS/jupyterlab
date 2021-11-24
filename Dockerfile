@@ -81,14 +81,14 @@ ADD jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
 RUN fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER && \
     fix-permissions /opt
-    # fix-permissions /etc/jupyter
+
 
 # Switch back to the notebook user to finish installation
 USER $NB_USER
 
 # Update and compile JupyterLab extensions
-RUN jupyter labextension update --all && \
-    jupyter lab build 
+# RUN jupyter labextension update --all && \
+#     jupyter lab build 
 
 # Install packages for RDF processing
 ADD requirements.txt requirements.txt

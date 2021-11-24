@@ -6,7 +6,6 @@ on:
       - main
     paths:
     - 'gpu.dockerfile'
-    - 'gpu-pytorch.dockerfile'
     - '.github/workflows/publish-docker-gpu.yml'
 
 env:

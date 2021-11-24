@@ -57,9 +57,9 @@ You'll need to wait for 1 or 2 minutes before the new conda environment becomes 
 
 ### Extend an image
 
-The easiest way to build a custom image is to extend the existing images.
+The easiest way to build a custom image is to extend the [existing images](https://github.com/MaastrichtU-IDS/jupyterlab).
 
-Here is an example `Dockerfile` to extend `ghcr.io/maastrichtu-ids/jupyterlab:latest` based on the jupyter/docker-stacks:
+Here is an example `Dockerfile` to extend [`ghcr.io/maastrichtu-ids/jupyterlab:latest`](https://github.com/MaastrichtU-IDS/jupyterlab/blob/main/Dockerfile) based on the jupyter/docker-stacks:
 
 ```dockerfile
 FROM ghcr.io/maastrichtu-ids/jupyterlab:latest
@@ -73,7 +73,7 @@ RUN mamba install -c defaults -y rstudio
 RUN pip install jupyter-rsession-proxy
 ```
 
-For docker image not based on the jupyter/docker-stack (such as the GPU images) you will need to use the root user by default:
+For docker image that are not based on the jupyter/docker-stack, such as the GPU images defined by the [`gpu.dockerfile`](https://github.com/MaastrichtU-IDS/jupyterlab/blob/main/gpu.dockerfile), you will need to use the root user by default. For example:
 
 ```dockerfile
 FROM ghcr.io/maastrichtu-ids/jupyterlab:tensorflow
@@ -145,10 +145,10 @@ docker run --rm -it --user $(id -u) -p 8888:8888 -e CHOWN_HOME=yes -e CHOWN_HOME
 > sudo chown -R 1000:1000 data/
 > ```
 >
-> ## 
 
-## Deploy on OpenShift ☁️
+## Deploy on Kubernetes and OpenShift ☁️
 
+* We recommend [this Helm chart to deploy these JupyterLab images](https://artifacthub.io/packages/helm/dsri-helm-charts/jupyterlab) on Kubernetes or OpenShift.
 * See this template to [deploy JupyterLab on OpenShift with `sudo` privileges](https://github.com/MaastrichtU-IDS/dsri-documentation/blob/master/applications/templates/template-jupyterlab-root.yml).
 * See this template to [deploy JupyterLab on OpenShift with restricted user](https://github.com/MaastrichtU-IDS/dsri-documentation/blob/master/applications/templates/restricted/template-jupyterlab-restricted.yml).
 

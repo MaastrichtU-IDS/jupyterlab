@@ -20,6 +20,7 @@ RUN mamba install --quiet -y \
       ipywidgets \
       nb_conda_kernels \
       beakerx_kernel_java \
+      beakerx_kernel_scala \
       jupyterlab \
       jupyterlab-git \
       jupyterlab-lsp \

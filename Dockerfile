@@ -19,8 +19,7 @@ RUN mamba install --quiet -y \
       openjdk maven \
       ipywidgets \
       nb_conda_kernels \
-      beakerx \
-    #   scijava-jupyter-kernel \
+      beakerx_kernel_java \
       jupyterlab \
       jupyterlab-git \
       jupyterlab-lsp \
@@ -89,8 +88,6 @@ RUN fix-permissions $CONDA_DIR && \
 
 # Switch back to the notebook user to finish installation
 USER $NB_USER
-
-RUN jupyter labextension install beakerx-jupyterlab
 
 # Update and compile JupyterLab extensions
 # RUN jupyter labextension update --all && \

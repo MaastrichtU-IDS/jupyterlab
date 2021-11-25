@@ -5,7 +5,7 @@
     "git.autofetch": false,
     "yaml.schemas": {
         "https://raw.githubusercontent.com/bio2kg/bio2kg-etl/main/resources/yarrrml.schema.json": ["*.yarrr.yml"],
-        "https://raw.githubusercontent.com/d2s/d2s-cli/master/resources/d2s-config.schema.json": ["d2s.yml"],
+        "https://raw.githubusercontent.com/MaastrichtU-IDS/d2s-cli/master/resources/d2s-config.schema.json": ["d2s.yml"]
     },
     "[yaml]": {
         "editor.insertSpaces": true,

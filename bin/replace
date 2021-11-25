@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Don't forget to escape / in the 2 args, and . in the first arg only
+#find . -type f -exec sed -i 's/<http:\/\/example\.com\/test>/<http:\/\/example.com\/replaced>/g' {} +
+
+if [ -z "$1" ] ; then
+    echo "Provide 2 arguments for find and replace, you will need to escape / in the 2 args and . in the first arg only."
+    echo "Usage:"
+    echo 'replace "http:\/\/replace\.me" "http:\/\/new.string"'
+    exit 1
+fi
+
+find . -type f -exec sed -i "s/$1/$2/g" {} +
+
+#Not recursive:
+#sed -i -- 's/<http:\/\/data2services\/biolink\/drugbank\/direct_link>/<http:\/\/data2services\/biolink\/drugbank\/4.5.0\/direct_link>/g' *

@@ -1,0 +1,8 @@
+#!/bin/bash
+git_folder=`git rev-parse --git-dir`
+if [ -z "$1" ]
+then
+  vim $git_folder/COMMITMSG
+else
+  echo "$1" >> $git_folder/COMMITMSG
+fi

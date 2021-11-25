@@ -1,0 +1,3 @@
+#!/bin/bash
+# reset what have not been commited (clean directory to the last commit)
+git reset --hard HEAD

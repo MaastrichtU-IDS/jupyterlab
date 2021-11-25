@@ -1,0 +1,10 @@
+#!/bin/bash -e
+git add .
+if [ -z "$1" ]
+then
+  git_folder=`git rev-parse --git-dir`
+  git commit -F "$git_folder/COMMITMSG"
+  > $git_folder/COMMITMSG
+else
+  git commit -m "$1"
+fi

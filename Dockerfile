@@ -53,7 +53,7 @@ RUN pip install --upgrade pip && \
 USER root
 
 RUN apt update && \
-    apt install -y curl zsh vim
+    apt install -y curl zsh vim htop
     # libxkbcommon libreadline might be required for RStudio
 
 
@@ -147,6 +147,8 @@ ENV SHELL=/bin/zsh
 USER root
 RUN chsh -s /bin/zsh 
 USER $NB_USER
+ADD bin ~/bin
+ENV PATH=$PATH:$HOME/bin
 
 RUN mkdir -p /home/$NB_USER/work
 WORKDIR /home/$NB_USER/work

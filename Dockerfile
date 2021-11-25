@@ -9,7 +9,9 @@ ENV JUPYTER_ENABLE_LAB=yes \
     # CHOWN_HOME=yes \
     # CHOWN_HOME_OPTS='-R' \
 
-RUN npm install --global yarn 
+RUN npm install --global yarn
+# Enable yarn global add:
+ENV PATH="$PATH:$HOME/.yarn/bin"
 
 # Install jupyterlab extensions with conda and pip
 # Multi conda kernels: #   https://stackoverflow.com/questions/53004311/how-to-add-conda-environment-to-jupyter-lab

@@ -42,7 +42,7 @@ helm install jupyterlab-fsl dsri/jupyterlab \
   --set openshiftRoute.enabled=true \
   --set image.repository=ghcr.io/maastrichtu-ids/jupyterlab \
   --set image.tag=fsl-gpu \
-  --set storage.mountPath=/root \
+  --set storage.mountPath=/workspace \
   --set resources.requests."nvidia\.com/gpu"=1 \
   --set resources.limits."nvidia\.com/gpu"=1 \
   --set password=changeme

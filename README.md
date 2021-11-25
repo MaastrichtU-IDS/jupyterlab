@@ -53,9 +53,7 @@ mamba env create -f environment.yml
 
 You'll need to wait for 1 or 2 minutes before the new conda environment becomes available on the JupyterLab Launcher page.
 
-## Customize the JupyterLab images
-
-### Extend an image
+### Extend the image
 
 The easiest way to build a custom image is to extend the [existing images](https://github.com/MaastrichtU-IDS/jupyterlab).
 
@@ -110,7 +108,7 @@ You can check the size of the image built in MB:
 expr $(docker image inspect ghcr.io/maastrichtu-ids/jupyterlab:latest --format='{{.Size}}') / 1000000
 ```
 
-## Run with Docker 🐳
+### Run with Docker 🐳
 
 For the `ghcr.io/maastrichtu-ids/jupyterlab:latest` image volumes should be mounted into `/home/jovyan/work` folder.
 
@@ -146,21 +144,13 @@ docker run --rm -it --user $(id -u) -p 8888:8888 -e CHOWN_HOME=yes -e CHOWN_HOME
 > ```
 >
 
-## Deploy on Kubernetes and OpenShift ☁️
+### Build CPU images 📦
 
-* We recommend [this Helm chart to deploy these JupyterLab images](https://artifacthub.io/packages/helm/dsri-helm-charts/jupyterlab) on Kubernetes or OpenShift.
-* See this template to [deploy JupyterLab on OpenShift with `sudo` privileges](https://github.com/MaastrichtU-IDS/dsri-documentation/blob/master/applications/templates/template-jupyterlab-root.yml).
-* See this template to [deploy JupyterLab on OpenShift with restricted user](https://github.com/MaastrichtU-IDS/dsri-documentation/blob/master/applications/templates/restricted/template-jupyterlab-restricted.yml).
-
-If you are working or studying at Maastricht University you can easily [deploy this notebook on the Data Science Research Infrastructure (DSRI)](https://maastrichtu-ids.github.io/dsri-documentation/docs/deploy-jupyter).
-
-## Build and publish 📦
+#### JupyterLab for Data Science
 
 This repository contains multiple folders with `Dockerfile` to build various flavor of JupyterLab for Data Science.
 
-### JupyterLab for knowledge graphs
-
-With Python 3+, Java and SPARQL kernel
+With Python 3.8, conda integration, VisualStudio Code, Java and SPARQL kernels
 
 Build:
 
@@ -180,78 +170,7 @@ Push:
 docker push ghcr.io/maastrichtu-ids/jupyterlab
 ```
 
-### JupyterLab on GPU
-
-To deploy JupyterLab on GPU we use the [official Nvidia images](https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow) with `conda` and `jupyterlab`, 
-
-You can use other images from Nvidia by changing the `NVIDIA_IMAGE` build argument, popular images are:
-
-* [Tensorflow](https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow), e.g. `nvcr.io/nvidia/tensorflow:21.11-tf2-py3`
-* [PyTorch](https://ngc.nvidia.com/catalog/containers/nvidia:pytorch), e.g. `nvcr.io/nvidia/pytorch:21.11-py3`
-* [CUDA](https://ngc.nvidia.com/catalog/containers/nvidia:cuda), e.g. `nvcr.io/nvidia/cuda:10.2-devel-ubuntu18.04`
-
-Volumes should be mounted into `/workspace` folder.
-
-#### Tensorflow on GPU
-
-To build an image, change the `build-arg` and run from the root folder of this repository:
-
-```bash
-docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:21.11-tf2-py3 -f gpu.dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:tensorflow .
-```
-
-Run an image on http://localhost:8888
-
-```bash
-docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/workspace ghcr.io/maastrichtu-ids/jupyterlab:tensorflow
-```
-
-#### CUDA on GPU
-
-To build an image, change the `build-arg` and run from the root folder of this repository:
-
-```bash
-docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/cuda:11.4.2-devel-ubuntu20.04 -f gpu.dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:tensorflow .
-```
-
-Run an image on http://localhost:8888
-
-```bash
-docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/workspace ghcr.io/maastrichtu-ids/jupyterlab:cuda
-```
-
-#### PyTorch on GPU
-
-To build an image, change the `build-arg` and run from the root folder of this repository:
-
-```bash
-docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:21.11-py3 -f gpu.dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:pytorch .
-```
-
-Run an image on http://localhost:8888
-
-```bash
-docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/workspace ghcr.io/maastrichtu-ids/jupyterlab:pytorch
-```
-
-#### FSL on GPU
-
-Change the `build-arg` and go to the `fsl-gpu` folder. Checkout the `fsl-gpu/README.md` for more details.
-
-Build:
-
-```bash
-cd fsl-gpu
-docker build -t ghcr.io/maastrichtu-ids/jupyterlab:fsl-gpu .
-```
-
-Run (workdir is `/workspace`):
-
-```bash
-docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:fsl-gpu
-```
-
-### Python 2.7
+#### Python 2.7
 
 With a python2.7 kernel (python3 not installed)
 
@@ -268,7 +187,7 @@ Run (workdir is `/root`):
 docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:python2.7
 ```
 
-### Ricopili
+#### Ricopili
 
 Based on https://github.com/bruggerk/ricopili_docker
 
@@ -285,7 +204,7 @@ Run (workdir is `/root`):
 docker run --rm -it -p 8888:8888 -v $(pwd)/data:/root -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:ricopili
 ```
 
-### FSL on CPU
+#### FSL on CPU
 
 Built with https://github.com/ReproNim/neurodocker
 
@@ -302,3 +221,99 @@ Run (workdir is `/root`):
 docker run --rm -it -p 8888:8888 -v $(pwd)/data:/root -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:fsl
 ```
 
+## JupyterLab on GPU
+
+To deploy JupyterLab on GPU we use the [official Nvidia images](https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow), we defined the same [`gpu.dockerfile`](https://github.com/MaastrichtU-IDS/jupyterlab/blob/main/gpu.dockerfile) to install additional dependencies, such as JupyterLab and VisualStudio Code, with different images from Nvidia:
+
+* Tensorflow with [`nvcr.io/nvidia/tensorflow`](https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow):
+  * `ghcr.io/maastrichtu-ids/jupyterlab:tensorflow` 
+* PyTorch with [`nvcr.io/nvidia/pytorch`](https://ngc.nvidia.com/catalog/containers/pytorch):
+  * `ghcr.io/maastrichtu-ids/jupyterlab:pytorch` 
+
+* CUDA with [`nvcr.io/nvidia/cuda`](https://ngc.nvidia.com/catalog/containers/cuda):
+  * `ghcr.io/maastrichtu-ids/jupyterlab:cuda`
+
+
+Volumes should be mounted into the `/workspace` folder.
+
+### Extend an image
+
+The easiest way to build a custom image is to extend the [existing images](https://github.com/MaastrichtU-IDS/jupyterlab).
+
+Here is an example `Dockerfile` to extend [`ghcr.io/maastrichtu-ids/jupyterlab:tensorflow`](https://github.com/MaastrichtU-IDS/jupyterlab/blob/main/gpu.dockerfile) based on `nvcr.io/nvidia/tensorflow`:
+
+```dockerfile
+FROM ghcr.io/maastrichtu-ids/jupyterlab:tensorflow
+RUN apt update && \
+    apt install -y vim
+RUN pip install jupyter-tensorboard
+```
+
+### Build GPU images
+
+You will find here the commands to use to build our different GPU docker images, most of them are based on [`gpu.dockerfile`](https://github.com/MaastrichtU-IDS/jupyterlab/blob/main/gpu.dockerfile)
+
+#### Tensorflow on GPU
+
+Change the `build-arg` and run from the root folder of this repository:
+
+```bash
+docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:21.11-tf2-py3 -f gpu.dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:tensorflow .
+```
+
+Run an image on http://localhost:8888
+
+```bash
+docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/workspace ghcr.io/maastrichtu-ids/jupyterlab:tensorflow
+```
+
+#### CUDA on GPU
+
+Change the `build-arg` and run from the root folder of this repository:
+
+```bash
+docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/cuda:11.4.2-devel-ubuntu20.04 -f gpu.dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:tensorflow .
+```
+
+Run an image on http://localhost:8888
+
+```bash
+docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/workspace ghcr.io/maastrichtu-ids/jupyterlab:cuda
+```
+
+#### PyTorch on GPU
+
+Change the `build-arg` and run from the root folder of this repository:
+
+```bash
+docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:21.11-py3 -f gpu.dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:pytorch .
+```
+
+Run an image on http://localhost:8888
+
+```bash
+docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/workspace ghcr.io/maastrichtu-ids/jupyterlab:pytorch
+```
+
+#### FSL on GPU
+
+This build use a different image, go to the `fsl-gpu` folder. And check the `README.md` for more details.
+
+Build:
+
+```bash
+cd fsl-gpu
+docker build -t ghcr.io/maastrichtu-ids/jupyterlab:fsl-gpu .
+```
+
+Run (workdir is `/workspace`):
+
+```bash
+docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:fsl-gpu
+```
+
+## Deploy on Kubernetes and OpenShift ☁️
+
+We recommend to use this Helm chart to deploy these JupyterLab images on Kubernetes or OpenShift: https://artifacthub.io/packages/helm/dsri-helm-charts/jupyterlab
+
+If you are working or studying at Maastricht University you can easily [deploy this notebook on the Data Science Research Infrastructure (DSRI)](https://maastrichtu-ids.github.io/dsri-documentation/docs/deploy-jupyter).

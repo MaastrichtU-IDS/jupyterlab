@@ -19,6 +19,7 @@ RUN mamba install --quiet -y \
       openjdk maven \
       ipywidgets \
       nb_conda_kernels \
+      scijava-jupyter-kernel \
       jupyterlab \
       jupyterlab-git \
       jupyterlab-lsp \
@@ -60,12 +61,12 @@ RUN apt update && \
 # Install SPARQL kernel
 RUN jupyter sparqlkernel install 
 
-# Install Java kernel
-RUN curl -L https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip > /opt/ijava-kernel.zip && \
-    unzip /opt/ijava-kernel.zip -d /opt/ijava-kernel && \
-    cd /opt/ijava-kernel && \
-    python3 install.py --sys-prefix && \
-    rm /opt/ijava-kernel.zip
+# # Install Java kernel
+# RUN curl -L https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip > /opt/ijava-kernel.zip && \
+#     unzip /opt/ijava-kernel.zip -d /opt/ijava-kernel && \
+#     cd /opt/ijava-kernel && \
+#     python3 install.py --sys-prefix && \
+#     rm /opt/ijava-kernel.zip
 
 
 # Install VS Code server and extensions
@@ -124,11 +125,11 @@ ENV REFINE_DIR=/home/$NB_USER/openrefine
 RUN mkdir -p /home/$NB_USER/openrefine
 
 # Download the Nanobench
-ENV NANOBENCH_VERSION=1.37
-RUN mkdir -p /opt/nanobench && cd /opt/nanobench && \
-    wget https://github.com/peta-pico/nanobench/releases/download/nanobench-$NANOBENCH_VERSION/nanobench-$NANOBENCH_VERSION.zip && \
-    unzip nanobench-$NANOBENCH_VERSION.zip
-ENV PATH=$PATH:/opt/openrefine:/opt/nanobench
+# ENV NANOBENCH_VERSION=1.37
+# RUN mkdir -p /opt/nanobench && cd /opt/nanobench && \
+#     wget https://github.com/peta-pico/nanobench/releases/download/nanobench-$NANOBENCH_VERSION/nanobench-$NANOBENCH_VERSION.zip && \
+#     unzip nanobench-$NANOBENCH_VERSION.zip
+# ENV PATH=$PATH:/opt/openrefine:/opt/nanobench
 
 # Download latest simpleowlapi jar in /opt/simpleowlapi.jar
 RUN cd /opt && \

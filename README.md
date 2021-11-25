@@ -132,19 +132,19 @@ Run with a restricted `jovyan` user, without `sudo` privileges:
 docker run --rm -it --user $(id -u) -p 8888:8888 -e CHOWN_HOME=yes -e CHOWN_HOME_OPTS='-R' -e JUPYTER_TOKEN=password -v $(pwd)/data:/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab:latest
 ```
 
-> ⚠️ Potential permission issue when running locally
->
-> The official [jupyter/docker-stacks](jupyter/docker-stacks) images use the `jovyan` user by default which does not grant admin rights (`sudo`). This can cause issues when writing to the shared volumes, to fix it you can change the owner of the folder, or start JupyterLab as root user.
+> ⚠️ Potential permission issue when running locally. The official [jupyter/docker-stacks](jupyter/docker-stacks) images use the `jovyan` user by default which does not grant admin rights (`sudo`). This can cause issues when writing to the shared volumes, to fix it you can change the owner of the folder, or start JupyterLab as root user.
 >
 > To create the folder with the right permissions, replace `1000` by your username if necessary and run:
 >
 > ```bash
-> mkdir -p data/
+>mkdir -p data/
 > sudo chown -R 1000:1000 data/
 > ```
->
+> 
 
 ### Build CPU images 📦
+
+Instructions to build the various image aimed to run on CPU in this repository.
 
 #### JupyterLab for Data Science
 
@@ -172,56 +172,35 @@ docker push ghcr.io/maastrichtu-ids/jupyterlab
 
 #### Python 2.7
 
-With a python2.7 kernel (python3 not installed)
-
-Build:
+With a python2.7 kernel only (python3 not installed). Build and run (workdir is `/root`):
 
 ```bash
 cd python2.7
 docker build -t ghcr.io/maastrichtu-ids/jupyterlab:python2.7 .
-```
-
-Run (workdir is `/root`):
-
-```bash
 docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:python2.7
 ```
 
 #### Ricopili
 
-Based on https://github.com/bruggerk/ricopili_docker
-
-Build:
+Based on https://github.com/bruggerk/ricopili_docker. Build and run (workdir is `/root`):
 
 ```bash
 cd ricopili
 docker build -t ghcr.io/maastrichtu-ids/jupyterlab:ricopili .
-```
-
-Run (workdir is `/root`):
-
-```bash
 docker run --rm -it -p 8888:8888 -v $(pwd)/data:/root -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:ricopili
 ```
 
 #### FSL on CPU
 
-Built with https://github.com/ReproNim/neurodocker
-
-Build:
+Built with https://github.com/ReproNim/neurodocker. Build and run (workdir is `/root`):
 
 ```bash
 cd fsl
 docker build -t ghcr.io/maastrichtu-ids/jupyterlab:fsl .
-```
-
-Run (workdir is `/root`):
-
-```bash
 docker run --rm -it -p 8888:8888 -v $(pwd)/data:/root -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:fsl
 ```
 
-## JupyterLab on GPU
+## JupyterLab on GPU ⚡️
 
 To deploy JupyterLab on GPU we use the [official Nvidia images](https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow), we defined the same [`gpu.dockerfile`](https://github.com/MaastrichtU-IDS/jupyterlab/blob/main/gpu.dockerfile) to install additional dependencies, such as JupyterLab and VisualStudio Code, with different images from Nvidia:
 
@@ -236,7 +215,7 @@ To deploy JupyterLab on GPU we use the [official Nvidia images](https://ngc.nvid
 
 Volumes should be mounted into the `/workspace` folder.
 
-### Extend an image
+### Extend an image 🏷️
 
 The easiest way to build a custom image is to extend the [existing images](https://github.com/MaastrichtU-IDS/jupyterlab).
 
@@ -249,7 +228,7 @@ RUN apt update && \
 RUN pip install jupyter-tensorboard
 ```
 
-### Build GPU images
+### Build GPU images 📦
 
 You will find here the commands to use to build our different GPU docker images, most of them are based on [`gpu.dockerfile`](https://github.com/MaastrichtU-IDS/jupyterlab/blob/main/gpu.dockerfile)
 

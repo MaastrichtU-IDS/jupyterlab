@@ -1,8 +1,7 @@
 requests
 pandas
 networkx
-rdflib
-rdflib-jsonld
+rdflib>=6.0.0
 SPARQLWrapper
 ontospy
 pyshacl

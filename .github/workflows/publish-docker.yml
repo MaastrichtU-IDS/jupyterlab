@@ -14,6 +14,7 @@ on:
     # Publish `main` branch as Docker `latest` image.
     branches:
       - main
+      - dev
     paths:
     - 'Dockerfile'
     - 'jupyter_notebook_config.py'

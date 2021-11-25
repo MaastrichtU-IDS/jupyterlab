@@ -19,7 +19,8 @@ RUN mamba install --quiet -y \
       openjdk maven \
       ipywidgets \
       nb_conda_kernels \
-      scijava-jupyter-kernel \
+      beakerx \
+    #   scijava-jupyter-kernel \
       jupyterlab \
       jupyterlab-git \
       jupyterlab-lsp \
@@ -61,12 +62,12 @@ RUN apt update && \
 # Install SPARQL kernel
 RUN jupyter sparqlkernel install 
 
-# # Install Java kernel
-# RUN curl -L https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip > /opt/ijava-kernel.zip && \
-#     unzip /opt/ijava-kernel.zip -d /opt/ijava-kernel && \
-#     cd /opt/ijava-kernel && \
-#     python3 install.py --sys-prefix && \
-#     rm /opt/ijava-kernel.zip
+# Install Java kernel
+RUN curl -L https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip > /opt/ijava-kernel.zip && \
+    unzip /opt/ijava-kernel.zip -d /opt/ijava-kernel && \
+    cd /opt/ijava-kernel && \
+    python3 install.py --sys-prefix && \
+    rm /opt/ijava-kernel.zip
 
 
 # Install VS Code server and extensions
@@ -88,6 +89,8 @@ RUN fix-permissions $CONDA_DIR && \
 
 # Switch back to the notebook user to finish installation
 USER $NB_USER
+
+RUN jupyter labextension install beakerx-jupyterlab
 
 # Update and compile JupyterLab extensions
 # RUN jupyter labextension update --all && \

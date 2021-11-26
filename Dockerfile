@@ -27,10 +27,10 @@ RUN mamba install --quiet -y \
       jupyterlab-drawio \
       rise \
       'jupyter-server-proxy>=3.1.0' && \
-    mamba install -y -c plotly 'plotly>=4.8.2' && \
-    mamba install -y -c beakerx \
-      beakerx_kernel_java \
-      beakerx_kernel_scala
+    mamba install -y -c plotly 'plotly>=4.8.2'
+    # mamba install -y -c beakerx \
+    #   beakerx_kernel_java \
+    #   beakerx_kernel_scala
     # mamba install -c defaults rstudio
     # mamba install -y -c defaults rstudio r-shiny
     #   rise && \ # Issue when building with GitHub Actions related to jedi package

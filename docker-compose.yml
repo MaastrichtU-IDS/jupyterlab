@@ -1,16 +1,24 @@
 version: "3"
 services:
   jupyterlab:
-    image: ghcr.io/maastrichtu-ids/jupyterlab:latest
+    # image: ghcr.io/maastrichtu-ids/jupyterlab:latest
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      # dockerfile: gpu.dockerfile
+      # args:
+      #   NVIDIA_IMAGE: nvcr.io/nvidia/tensorflow:21.11-tf2-py3
+
     user: root
     # user: "1000"
     # user: ${UID}
     ports:
       - 8888:8888
-    volumes:
+    # volumes:
       # Share volumes for jupyterlab and openrefine:
-      - ./data/work:/home/jovyan/work
-      - ./data/openrefine:/home/jovyan/openrefine
+      # - ./data/workspace:/workspace
+      # - ./data/work:/home/jovyan/work
+      # - ./data/openrefine:/home/jovyan/openrefine
       # Share your local nanopub keys to login auto with the Nanobench (experimental)
       # - ${HOME}/.nanopub:/home/jovyan/.nanopub
     

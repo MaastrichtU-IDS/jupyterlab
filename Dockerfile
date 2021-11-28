@@ -28,9 +28,13 @@ RUN mamba install --quiet -y \
       rise \
       'jupyter-server-proxy>=3.1.0' && \
     mamba install -y -c plotly 'plotly>=4.8.2'
+
+    ## Install BeakerX kernels (requires python 3.7):
     # mamba install -y -c beakerx \
     #   beakerx_kernel_java \
     #   beakerx_kernel_scala
+
+    ## Install RStudio:
     # mamba install -c defaults rstudio
     # mamba install -y -c defaults rstudio r-shiny
     #   rise && \ # Issue when building with GitHub Actions related to jedi package
@@ -76,7 +80,21 @@ RUN curl -fsSL https://code-server.dev/install.sh | sh
 RUN code-server --install-extension redhat.vscode-yaml \
         --install-extension ms-python.python \
         --install-extension vscjava.vscode-java-pack \
-        --install-extension ginfuru.ginfuru-better-solarized-dark-theme
+        --install-extension ginfuru.ginfuru-better-solarized-dark-theme \
+        --install-extension mechatroner.rainbow-csv
+
+# https://github.com/stardog-union/stardog-vsc/issues/81
+# https://open-vsx.org/extension/vemonet/stardog-rdf-grammars
+RUN cd /opt && \
+    export EXT_VERSION=0.1.2 && \
+    wget https://open-vsx.org/api/vemonet/stardog-rdf-grammars/$EXT_VERSION/file/vemonet.stardog-rdf-grammars-$EXT_VERSION.vsix && \
+    code-server --install-extension vemonet.stardog-rdf-grammars-$EXT_VERSION.vsix
+
+RUN cd /opt && \
+    export EXT_VERSION=0.6.4 && \
+    wget https://github.com/janisdd/vscode-edit-csv/releases/download/v$EXT_VERSION/vscode-edit-csv-$EXT_VERSION.vsix && \
+    code-server --install-extension vscode-edit-csv-$EXT_VERSION.vsix
+
 COPY --chown=$NB_USER:0 settings.json /home/$NB_USER/.local/share/code-server/User/settings.json
 COPY icons/*.svg /etc/jupyter/
 

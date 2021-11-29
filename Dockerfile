@@ -179,7 +179,8 @@ RUN sed -i 's/robbyrussell/vemonet_bira/g' ~/.zshrc
 ENV SHELL=/bin/zsh
 USER root
 RUN chsh -s /bin/zsh 
-USER $NB_USER
+
+USER $NB_USER:100
 ADD bin ~/bin
 ENV PATH=$PATH:$HOME/bin
 

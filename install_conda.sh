@@ -15,7 +15,8 @@ if [[ ! -z "${CONDA_DIR}" && ! -d "${CONDA_DIR}" ]] ; then
     mamba config --system --set show_channel_urls true
 
     # Install Tensorflow
-    mamba install -y tensorflow tensorboard jupyter_tensorboard
+    mamba install -y tensorflow tensorboard
+    pip install jupyter_tensorboard
 
 else
     echo "Conda already installed."

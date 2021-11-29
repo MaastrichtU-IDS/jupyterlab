@@ -183,11 +183,12 @@ ENV SHELL=/bin/zsh
 USER root
 RUN chsh -s /bin/zsh 
 RUN fix-permissions /home/$NB_USER && \
-    fix-permissions /home/$NB_USER/.local
+    fix-permissions /home/$NB_USER/.local && \
+    fix-permissions /home/$NB_USER/.local/share/jupyter 
 
 USER ${NB_UID}
-ADD bin ~/bin
-ENV PATH=$PATH:$HOME/bin
+ADD bin /home/$NB_USER/bin
+ENV PATH=$PATH:/home/$NB_USER/bin
 
 WORKDIR /home/$NB_USER/work
 

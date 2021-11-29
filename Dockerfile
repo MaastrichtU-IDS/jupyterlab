@@ -111,6 +111,7 @@ COPY icons/*.svg /etc/jupyter/
 
 
 COPY --chown=$NB_USER:100 jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
+RUN mkdir -p /home/$NB_USER/work
 
 RUN fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER && \
@@ -119,7 +120,7 @@ RUN fix-permissions $CONDA_DIR && \
 
 
 # Switch back to the notebook user to finish installation
-USER $NB_USER
+USER ${NB_UID}
 
 # Update and compile JupyterLab extensions
 # RUN jupyter labextension update --all && \
@@ -180,13 +181,11 @@ ENV SHELL=/bin/zsh
 USER root
 RUN chsh -s /bin/zsh 
 
-USER $NB_USER:100
+USER ${NB_UID}
 ADD bin ~/bin
 ENV PATH=$PATH:$HOME/bin
 
-RUN mkdir -p /home/$NB_USER/work
 WORKDIR /home/$NB_USER/work
-
 
 ENTRYPOINT [ "start-notebook.sh", "--no-browser", "--ip=0.0.0.0", "--config=/etc/jupyter/jupyter_notebook_config.py" ]
 

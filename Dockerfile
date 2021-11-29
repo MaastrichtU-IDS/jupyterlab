@@ -115,6 +115,7 @@ RUN mkdir -p /home/$NB_USER/work
 
 RUN fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER && \
+    fix-permissions /home/$NB_USER/.local && \
     fix-permissions /opt && \
     fix-permissions /etc/jupyter
 
@@ -178,8 +179,11 @@ RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/too
 RUN wget -O ~/.oh-my-zsh/custom/themes/vemonet_bira.zsh-theme https://raw.githubusercontent.com/vemonet/zsh-theme-biradate/master/zsh/vemonet_bira.zsh-theme
 RUN sed -i 's/robbyrussell/vemonet_bira/g' ~/.zshrc
 ENV SHELL=/bin/zsh
+
 USER root
 RUN chsh -s /bin/zsh 
+RUN fix-permissions /home/$NB_USER && \
+    fix-permissions /home/$NB_USER/.local
 
 USER ${NB_UID}
 ADD bin ~/bin

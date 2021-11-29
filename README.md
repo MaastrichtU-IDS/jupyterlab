@@ -115,7 +115,7 @@ For the `ghcr.io/maastrichtu-ids/jupyterlab:latest` image volumes should be moun
 This command will start JupyterLab as `jovyan` user with `sudo` privileges, use `JUPYTER_TOKEN` to define your password:
 
 ```bash
-docker run --rm -it --user root -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab
+docker run --rm -it --user root -p 8888:8888 -e GRANT_SUDO=yes -e JUPYTER_TOKEN=password -v $(pwd)/data:/home/jovyan ghcr.io/maastrichtu-ids/jupyterlab
 ```
 
 > You should now be able to install anything in the JupyterLab container, try:

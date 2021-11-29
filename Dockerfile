@@ -106,15 +106,16 @@ RUN cd /opt && \
 #     wget https://github.com/janisdd/vscode-edit-csv/releases/download/v$EXT_VERSION/vscode-edit-csv-$EXT_VERSION.vsix && \
 #     code-server --install-extension vscode-edit-csv-$EXT_VERSION.vsix
 
-COPY --chown=$NB_USER:0 settings.json /home/$NB_USER/.local/share/code-server/User/settings.json
+COPY --chown=$NB_USER:100 settings.json /home/$NB_USER/.local/share/code-server/User/settings.json
 COPY icons/*.svg /etc/jupyter/
 
 
-ADD jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
+COPY --chown=$NB_USER:100 jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
 
 RUN fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER && \
-    fix-permissions /opt
+    fix-permissions /opt && \
+    fix-permissions /etc/jupyter
 
 
 # Switch back to the notebook user to finish installation

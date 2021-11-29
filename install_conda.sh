@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ ! -z "${CONDA_DIR}" && ! -d "${CONDA_DIR}" ] ; then
+if [[ ! -z "${CONDA_DIR}" && ! -d "${CONDA_DIR}" ]] ; then
     echo "Conda not installed, installing it."
 
     # Automatically download the latest release of miniforge conda/mamba

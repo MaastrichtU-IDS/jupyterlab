@@ -6,6 +6,7 @@ on:
       - main
     paths:
     - 'gpu.dockerfile'
+    - 'conda_install.sh'
     - '.github/workflows/publish-docker-gpu.yml'
 
 env:

@@ -22,5 +22,9 @@
             "strings": true
         }
     },
-    "redhat.telemetry.enabled": false
+    "redhat.telemetry.enabled": false,
+    "telemetry.enableTelemetry": false,
+    "vscode-json-editor.theme": "dark",
+    "resmon.updatefrequencyms": 3000,
+    "resmon.color": "#b0bec5"
 }

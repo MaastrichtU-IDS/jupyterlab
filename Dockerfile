@@ -19,6 +19,7 @@ RUN mamba install --quiet -y \
       openjdk maven \
       ipywidgets \
       nb_conda_kernels \
+      ipython-sql \
       jupyterlab \
       jupyterlab-git \
       jupyterlab-lsp \
@@ -60,7 +61,7 @@ RUN pip install --upgrade pip && \
 USER root
 
 RUN apt update && \
-    apt install -y curl zsh vim htop
+    apt install -y curl zsh vim htop raptor2-utils
     # libxkbcommon libreadline might be required for RStudio
 
 
@@ -81,7 +82,16 @@ RUN code-server --install-extension redhat.vscode-yaml \
         --install-extension ms-python.python \
         --install-extension vscjava.vscode-java-pack \
         --install-extension ginfuru.ginfuru-better-solarized-dark-theme \
-        --install-extension mechatroner.rainbow-csv
+        --install-extension oderwat.indent-rainbow \
+        --install-extension mutantdino.resourcemonitor \
+        --install-extension mechatroner.rainbow-csv \
+        --install-extension GrapeCity.gc-excelviewer \
+        --install-extension tht13.html-preview-vscode \
+        --install-extension mdickin.markdown-shortcuts \
+        --install-extension redhat.vscode-xml \
+        --install-extension nickdemayo.vscode-json-editor \
+        --install-extension ms-mssql.mssql \
+        --install-extension ms-azuretools.vscode-docker
 
 # https://github.com/stardog-union/stardog-vsc/issues/81
 # https://open-vsx.org/extension/vemonet/stardog-rdf-grammars
@@ -90,10 +100,11 @@ RUN cd /opt && \
     wget https://open-vsx.org/api/vemonet/stardog-rdf-grammars/$EXT_VERSION/file/vemonet.stardog-rdf-grammars-$EXT_VERSION.vsix && \
     code-server --install-extension vemonet.stardog-rdf-grammars-$EXT_VERSION.vsix
 
-RUN cd /opt && \
-    export EXT_VERSION=0.6.4 && \
-    wget https://github.com/janisdd/vscode-edit-csv/releases/download/v$EXT_VERSION/vscode-edit-csv-$EXT_VERSION.vsix && \
-    code-server --install-extension vscode-edit-csv-$EXT_VERSION.vsix
+## Not compatible with web yet: https://github.com/janisdd/vscode-edit-csv/issues/67
+# RUN cd /opt && \
+#     export EXT_VERSION=0.6.4 && \
+#     wget https://github.com/janisdd/vscode-edit-csv/releases/download/v$EXT_VERSION/vscode-edit-csv-$EXT_VERSION.vsix && \
+#     code-server --install-extension vscode-edit-csv-$EXT_VERSION.vsix
 
 COPY --chown=$NB_USER:0 settings.json /home/$NB_USER/.local/share/code-server/User/settings.json
 COPY icons/*.svg /etc/jupyter/

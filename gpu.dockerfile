@@ -32,7 +32,7 @@ COPY install_conda.sh .
 RUN ./install_conda.sh
 
 ## Install packages with Conda
-RUN mamba install --quiet -y \
+RUN conda install --quiet -y \
     #   openjdk maven \
       nodejs \
       ipywidgets \
@@ -46,7 +46,7 @@ RUN mamba install --quiet -y \
       rise \
     #   tensorflow tensorboard jupyter_tensorboard \
       'jupyter-server-proxy>=3.1.0' && \
-    mamba install -y -c plotly 'plotly>=4.8.2'
+    conda install -y -c plotly 'plotly>=4.8.2'
 
 
 ## Install packages with pip

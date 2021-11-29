@@ -28,8 +28,8 @@ ENV CONDA_DIR=${CONDA_DIR:-/opt/conda} \
     LANG=${LANG:-en_US.UTF-8} \
     LANGUAGE=${LANGUAGE:-en_US.UTF-8}
 ENV PATH="${CONDA_DIR}/bin:${PATH}"
-COPY install_conda.sh .
-RUN ./install_conda.sh
+COPY install_conda.sh /tmp/
+RUN /tmp/install_conda.sh
 
 ## Install packages with Conda
 RUN conda install --quiet -y \
@@ -37,7 +37,7 @@ RUN conda install --quiet -y \
       nodejs \
       ipywidgets \
       nb_conda_kernels \
-    #   jupyterlab \
+      jupyterlab \
       jupyterlab-git \
       jupyterlab-lsp \
       jupyter-lsp-python \

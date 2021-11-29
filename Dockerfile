@@ -4,8 +4,8 @@ FROM jupyter/scipy-notebook:$PYTHON_VERSION
 
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
 
-ENV JUPYTER_ENABLE_LAB=yes \
-    GRANT_SUDO=yes
+ENV JUPYTER_ENABLE_LAB=yes
+    # GRANT_SUDO=yes
     # CHOWN_HOME=yes \
     # CHOWN_HOME_OPTS='-R' \
 

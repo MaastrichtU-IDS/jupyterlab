@@ -1,5 +1,5 @@
-# FROM ghcr.io/maastrichtu-ids/jupyterlab:latest
 FROM ghcr.io/maastrichtu-ids/jupyterlab:r-notebook
+# FROM ghcr.io/maastrichtu-ids/jupyterlab:latest
 
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
 
@@ -8,7 +8,6 @@ ENV OPENBLAS_NUM_THREADS=1
 # Leave empty for default, e.g. 64 on DSRI
 
 # USER root
-
 # ## https://github.com/jupyter/docker-stacks/blob/master/r-notebook/Dockerfile
 # # R pre-requisites
 # RUN apt-get update --yes && \
@@ -23,7 +22,6 @@ ENV OPENBLAS_NUM_THREADS=1
 #     # libxkbcommon libreadline might be required for RStudio
 
 # USER ${NB_UID}
-
 # # R packages including IRKernel which gets installed globally.
 # # r-e1071: dependency of the caret R package
 # RUN mamba install --quiet --yes \
@@ -49,7 +47,7 @@ ENV OPENBLAS_NUM_THREADS=1
 #     fix-permissions "${CONDA_DIR}" && \
 #     fix-permissions "/home/${NB_USER}"
 
-# # Install RStudio
+# # Install RStudio manually
 # RUN apt-get install -y r-base \
 #         libxkbcommon-x11-dev libreadline-dev libqt5gui5 \
 #         libapparmor1 libgc1c2 libclang-dev \
@@ -61,6 +59,7 @@ ENV OPENBLAS_NUM_THREADS=1
 #     dpkg -i rstudio-server-*-amd64.deb && \
 #     rm rstudio-server-*-amd64.deb
 
+# Install RStudio with conda
 RUN mamba install -c defaults rstudio
 
 # Install Jupyter proxy for RStudio

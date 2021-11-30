@@ -108,7 +108,7 @@ COPY --chown=$NB_USER:100 settings.json /home/$NB_USER/.local/share/code-server/
 COPY icons/*.svg /etc/jupyter/
 
 
-COPY --chown=$NB_USER:100 jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
+COPY jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
 RUN mkdir -p /home/$NB_USER/work
 
 RUN fix-permissions $CONDA_DIR && \
@@ -187,7 +187,7 @@ ENV PATH=$PATH:/home/$NB_USER/bin
 
 WORKDIR /home/$NB_USER/work
 
-# CMD [ "start-notebook.sh", "--no-browser", "--ip=0.0.0.0", "--config=/etc/jupyter/jupyter_notebook_config.py" ]
+CMD [ "start-notebook.sh", "--no-browser", "--ip=0.0.0.0", "--config=/etc/jupyter/jupyter_notebook_config.py" ]
 
 # ENTRYPOINT [ "start-notebook.sh", "--no-browser", "--ip=0.0.0.0", "--config=/etc/jupyter/jupyter_notebook_config.py" ]
 # ENTRYPOINT ["jupyter", "lab", "--allow-root", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--config=/etc/jupyter/jupyter_notebook_config.py"]

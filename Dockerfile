@@ -1,13 +1,12 @@
 ARG PYTHON_VERSION=python-3.8.8
-# ARG PYTHON_VERSION=latest
-FROM jupyter/scipy-notebook:$PYTHON_VERSION
+FROM jupyter/pyspark-notebook:$PYTHON_VERSION
 
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
 
-ENV JUPYTER_ENABLE_LAB=yes \
+ENV JUPYTER_ENABLE_LAB=yes
     # GRANT_SUDO=yes
-    CHOWN_HOME=yes \
-    CHOWN_HOME_OPTS='-R'
+    # CHOWN_HOME=yes \
+    # CHOWN_HOME_OPTS='-R'
 
 RUN npm install --global yarn
 # Enable yarn global add:
@@ -180,9 +179,6 @@ ENV SHELL=/bin/zsh
 
 USER root
 RUN chsh -s /bin/zsh 
-# RUN fix-permissions /home/$NB_USER && \
-RUN fix-permissions /home/$NB_USER/.local && \
-    fix-permissions /home/$NB_USER/.local/share/jupyter 
 
 USER ${NB_UID}
 ADD bin /home/$NB_USER/bin

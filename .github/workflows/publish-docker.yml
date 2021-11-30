@@ -86,8 +86,8 @@ jobs:
       - name: Build and publish RStudio Docker image
         uses: docker/build-push-action@v2
         with:
-          context: ./rstudio
-          file: ./Dockerfile
+          context: ./
+          file: ./rstudio/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ env.RSTUDIO_IMAGE }}

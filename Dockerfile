@@ -182,8 +182,8 @@ ENV SHELL=/bin/zsh
 
 USER root
 RUN chsh -s /bin/zsh 
-RUN fix-permissions /home/$NB_USER && \
-    fix-permissions /home/$NB_USER/.local && \
+# RUN fix-permissions /home/$NB_USER && \
+RUN fix-permissions /home/$NB_USER/.local && \
     fix-permissions /home/$NB_USER/.local/share/jupyter 
 
 USER ${NB_UID}

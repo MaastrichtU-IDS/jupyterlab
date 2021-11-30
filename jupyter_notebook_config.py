@@ -45,8 +45,7 @@ if workspace:
 # https://github.com/jupyter/docker-stacks/blob/master/base-notebook/jupyter_notebook_config.py
 # c = get_config() 
 
-# home_dir = os.environ.get('HOME')
-# os.chdir(home_dir)
+
 c.ServerApp.terminado_settings = {'shell_command': ['/bin/zsh']}
 
 # Avoid duplicate conda kernel starters https://github.com/Anaconda-Platform/nb_conda_kernels/issues/141
@@ -54,7 +53,6 @@ c.ServerApp.terminado_settings = {'shell_command': ['/bin/zsh']}
 # c.CondaKernelSpecManager.env_filter = '/opt/conda/share/jupyter/kernels/*'
 # c.ServerApp.kernel_spec_manager_class = 'nb_conda_kernels.CondaKernelSpecManager'
 # c.CondaKernelSpecManager.env_filter = '/opt/conda/share/jupyter/kernels/*|/usr/local/share/jupyter/kernels/sparql'
-
 
 c.ServerProxy.servers = {
     "code-server": {

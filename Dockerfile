@@ -1,5 +1,6 @@
 ARG PYTHON_VERSION=python-3.8.8
-FROM jupyter/pyspark-notebook:$PYTHON_VERSION
+ARG BASE_IMAGE=jupyter/pyspark-notebook
+FROM $BASE_IMAGE:$PYTHON_VERSION
 
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
 

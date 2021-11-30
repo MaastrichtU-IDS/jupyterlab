@@ -30,42 +30,92 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build image
-        run: docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:$TENSORFLOW_TAG -f gpu.dockerfile -t $PUBLISH_TENSORFLOW .
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1 
 
-      - name: Log into GitHub Container Registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
 
-      - name: Push image to GitHub Container Registry
-        run: |
-          docker push $PUBLISH_TENSORFLOW
+      ## Cache: https://github.com/docker/build-push-action/blob/master/docs/advanced/cache.md#github-cache
+      - name: Build and publish ${{ env.PUBLISH_TENSORFLOW }} Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./gpu.dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          tags: ${{ env.PUBLISH_TENSORFLOW }}
+          build-args: NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:${{ env.TENSORFLOW_TAG }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # - name: Build image
+      #   run: docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:$TENSORFLOW_TAG -f gpu.dockerfile -t $PUBLISH_TENSORFLOW .
+      # - name: Log into GitHub Container Registry
+      #   run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
+      # - name: Push image to GitHub Container Registry
+      #   run: |
+      #     docker push $PUBLISH_TENSORFLOW
+
 
   publish-cuda:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build image
-        run: docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/cuda:$CUDA_TAG -f gpu.dockerfile -t $PUBLISH_CUDA .
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1 
 
-      - name: Log into GitHub Container Registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
 
-      - name: Push image to GitHub Container Registry
-        run: |
-          docker push $PUBLISH_CUDA
+      - name: Build and publish ${{ env.PUBLISH_CUDA }} Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./gpu.dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          tags: ${{ env.PUBLISH_CUDA }}
+          build-args: NVIDIA_IMAGE=nvcr.io/nvidia/cuda:${{ env.CUDA_TAG }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
 
   publish-pytorch:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build image
-        run: docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:$PYTORCH_TAG -f gpu.dockerfile -t $PUBLISH_PYTORCH .
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1 
 
-      - name: Log into GitHub Container Registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
 
-      - name: Push image to GitHub Container Registry
-        run: |
-          docker push $PUBLISH_PYTORCH
+      - name: Build and publish ${{ env.PUBLISH_PYTORCH }} Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./gpu.dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          tags: ${{ env.PUBLISH_PYTORCH }}
+          build-args: NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:${{ env.PYTORCH_TAG }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

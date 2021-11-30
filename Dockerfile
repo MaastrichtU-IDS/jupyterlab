@@ -61,9 +61,7 @@ RUN pip install --upgrade pip && \
 USER root
 
 RUN apt update && \
-    apt install -y curl zsh vim htop raptor2-utils
-    # libxkbcommon libreadline might be required for RStudio
-
+    apt install -y curl zsh vim htop gfortran raptor2-utils
 
 # Install SPARQL kernel
 RUN jupyter sparqlkernel install 

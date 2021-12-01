@@ -61,7 +61,9 @@ RUN pip install --upgrade pip && \
 USER root
 
 RUN apt update && \
-    apt install -y curl zsh vim htop gfortran raptor2-utils
+    apt install -y curl zsh vim htop gfortran raptor2-utils \
+        ffmpeg libsm6 libxext6
+        # for opencv
 
 # Install SPARQL kernel
 RUN jupyter sparqlkernel install 

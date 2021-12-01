@@ -9,7 +9,7 @@ JupyterLab image based on the [jupyter/docker-stacks](https://github.com/jupyter
 
 ![Screenshot](/icons/screenshot.png)
 
-**Installed kernels**
+**Installed notebook kernels**
 
 🐍 Python 3.8 kernel with autocomplete and suggestions ([jupyterlab-lsp 💬](https://github.com/krassowski/jupyterlab-lsp))
 
@@ -17,7 +17,21 @@ JupyterLab image based on the [jupyter/docker-stacks](https://github.com/jupyter
 
 ✨️ [SPARQL kernel](https://github.com/paulovn/sparql-kernel) to query RDF knowledge graphs
 
-**Installed extensions**
+**Installed programs**
+
+🐍 **Conda** and mamba installed, each conda environment created will add a new option to create a notebook using this environment in the JupyterLab Launcher (with `nb_conda_kernels`). You can create environments using different version of Python if necessary.
+
+📋️ **VisualStudio Code** server installed, and accessible from the JupyterLab Launcher
+
+💎 **OpenRefine** installed, and accessible from the JupyterLab Launcher
+
+✨️ **Apache Spark** and PySpark installed for distributed data processing
+
+🧑‍💻 **ZSH** is used by default for the JupyterLab and VisualStudio Code terminals
+
+☕️ Some `.jar` programs for knowledge graph processing are pre-downloaded in the `/opt` folder, such as RDF4J, Apache Jena, OWLAPI, RML mapper.
+
+**Installed JupyterLab extensions**
 
 * [jupyterlab-git](https://github.com/jupyterlab/jupyterlab-git)
 * [jupyterlab-system-monitor](https://github.com/jtpio/jupyterlab-system-monitor) to monitor the resources used
@@ -26,23 +40,15 @@ JupyterLab image based on the [jupyter/docker-stacks](https://github.com/jupyter
 * [jupyterlab-spreadsheet](https://github.com/quigleyj97/jupyterlab-spreadsheet)
 * [jupyterlab-drawio](https://github.com/QuantStack/jupyterlab-drawio)
 
-**Additional programs**
-
-🧑‍💻 VisualStudio Code server (start it from the JupyterLab UI)
-
-💎 OpenRefine (start it from the JupyterLab UI)
-
-☕️ Some `.jar` programs for knowledge graph processing are pre-downloaded in the `/opt` folder, such as RDF4J, Apache Jena, OWLAPI, RML mapper.
-
 **Automatically install your dependencies**
 
-You can provide the URL to a git repository to be automatically cloned in the workspace at the start of the container.
+You can provide the URL to a git repository to be automatically cloned in the workspace at the start of the container using the environment variable `GIT_URL`
 
-The following file will be automatically installed if they are present at the root of the provided Git repository:
+The following files will be automatically installed if they are present at the root of the provided Git repository:
 
 * The conda environment described in `environment.yml` will be installed, make sure you added `ipykernel` and `nb_conda_kernels` to the `environment.yml` to be able to easily start notebooks using this environment from the JupyterLab Launcher page. See [this repository as example]( https://github.com/MaastrichtU-IDS/dsri-demo).
-* The packages in `requirements.txt` will be installed with `pip`
-* The packages in `packages.txt` will be installed with `apt`
+* The python packages in `requirements.txt` will be installed with `pip`
+* The debian packages in `packages.txt` will be installed with `apt`
 * The JupyterLab extensions in `extensions.txt` will be installed with `jupyter labextension`
 
 You can also create conda environment in a running JupyterLab (we use `mamba` which is like `conda` but faster):

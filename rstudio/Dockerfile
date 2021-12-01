@@ -60,7 +60,7 @@ ENV OPENBLAS_NUM_THREADS=1
 #     rm rstudio-server-*-amd64.deb
 
 # Install RStudio with conda
-RUN mamba install -c defaults rstudio
+RUN conda install -c defaults rstudio
 
 # Install Jupyter proxy for RStudio
 RUN pip install --upgrade pip && \

@@ -1,5 +1,5 @@
 ARG PYTHON_VERSION=python-3.8.8
-ARG BASE_IMAGE=jupyter/pyspark-notebook
+ARG BASE_IMAGE=jupyter/scipy-notebook
 FROM $BASE_IMAGE:$PYTHON_VERSION
 
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
@@ -46,6 +46,7 @@ RUN pip install --upgrade pip && \
       mitosheet3 \
       jupyterlab-spreadsheet-editor \
       jupyterlab_latex \
+      pyspark==2.4.5 \
     #   nb-serverproxy-openrefine \ 
       git+https://github.com/innovationOUtside/nb_serverproxy_openrefine.git@main \
     #   git+https://github.com/vemonet/nb_serverproxy_openrefine.git@main \
@@ -56,6 +57,7 @@ RUN pip install --upgrade pip && \
     #   jupyter-shiny-proxy \
     #   @jupyterlab/server-proxy \
     #   elyra (pipeline builder for Kubeflow and Airflow)
+
 
 # Change to root user to install things
 USER root
@@ -75,7 +77,6 @@ RUN curl -L https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-
     python3 install.py --sys-prefix && \
     rm /opt/ijava-kernel.zip
 
-
 # Install VS Code server and extensions
 RUN curl -fsSL https://code-server.dev/install.sh | sh
 RUN code-server --install-extension redhat.vscode-yaml \
@@ -93,8 +94,6 @@ RUN code-server --install-extension redhat.vscode-yaml \
         --install-extension ms-mssql.mssql \
         --install-extension ms-azuretools.vscode-docker
 
-# https://github.com/stardog-union/stardog-vsc/issues/81
-# https://open-vsx.org/extension/vemonet/stardog-rdf-grammars
 RUN cd /opt && \
     export EXT_VERSION=0.1.2 && \
     wget https://open-vsx.org/api/vemonet/stardog-rdf-grammars/$EXT_VERSION/file/vemonet.stardog-rdf-grammars-$EXT_VERSION.vsix && \
@@ -126,6 +125,20 @@ USER ${NB_UID}
 # Update and compile JupyterLab extensions
 # RUN jupyter labextension update --all && \
 #     jupyter lab build 
+
+## Install Spark for standalone context in /opt
+# ENV APACHE_SPARK_VERSION=3.2.0 \
+#     HADOOP_VERSION=3.2
+ENV APACHE_SPARK_VERSION=2.4.5 \
+    HADOOP_VERSION=2.7 \
+    SPARK_HOME=/opt/spark \
+    SPARK_OPTS="--driver-java-options=-Xms1024M --driver-java-options=-Xmx2048M --driver-java-options=-Dlog4j.logLevel=info"
+ENV PATH=$PATH:$SPARK_HOME/bin
+RUN wget -q -O spark.tgz https://archive.apache.org/dist/spark/spark-${APACHE_SPARK_VERSION}/spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
+    tar xzf spark.tgz -C /opt && \
+    rm "spark.tgz" && \
+    ln -s "/opt/spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}" $SPARK_HOME
+
 
 # Install packages for RDF processing
 ADD requirements.txt requirements.txt

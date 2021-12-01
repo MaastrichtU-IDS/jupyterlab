@@ -70,7 +70,7 @@ RUN apt-get update && \
 # Dockerfile: https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/3.6.3.Dockerfile
 RUN export DOWNLOAD_VERSION=2021.09.1-372 && \
     wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb && \
-    # gdebi -y rstudio-server-$DOWNLOAD_VERSION-amd64.deb && \
+    # gdebi rstudio-server-$DOWNLOAD_VERSION-amd64.deb && \
     dpkg -i rstudio-server-*-amd64.deb && \
     # apt-get install -y ./rstudio-server-*-amd64.deb && \
     rm rstudio-server-*-amd64.deb

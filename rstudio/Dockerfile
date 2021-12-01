@@ -3,9 +3,11 @@ FROM ghcr.io/maastrichtu-ids/jupyterlab:r-notebook
 
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
 
-ENV OPENBLAS_NUM_THREADS=1
 # Restricting the number of thread allocated to OpenBLAS can speed up computations using OpenBLAS 
 # Leave empty for default, e.g. 64 on DSRI
+ENV OPENBLAS_NUM_THREADS=1 \
+    DISABLE_AUTH=true
+    # ROOT= TRUE
 
 # USER root
 # ## https://github.com/jupyter/docker-stacks/blob/master/r-notebook/Dockerfile
@@ -85,7 +87,7 @@ USER ${NB_UID}
 # Install Jupyter proxy for RStudio
 RUN pip install --upgrade pip && \
     pip install --upgrade \
-      jupyter-rsession-proxy \
+      jupyter-rsession-proxy>=2.0.1 \
       jupyter-shiny-proxy
 
 

@@ -56,8 +56,7 @@ ENV OPENBLAS_NUM_THREADS=1
 USER root
 RUN apt-get update && \
     apt-get install -y gdebi-core
-RUN wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-2021.09.1-372-amd64.deb && \
-    gdebi rstudio-server-2021.09.1-372-amd64.deb
+
 # RUN export DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download-server/debian-ubuntu/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-[0-9]+" -m 1) && \
 RUN export DOWNLOAD_VERSION=2021.09.1-372 && \
     wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb && \

@@ -81,6 +81,7 @@ jobs:
           # cache-from: type=local,src=/tmp/.buildx-cache
           # cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
 
+  # Our custom Dockerfile based on jupyter/r-notebook
   build-and-publish-r-notebook:
     runs-on: ubuntu-latest
     steps:

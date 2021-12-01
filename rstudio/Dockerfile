@@ -51,7 +51,7 @@ ENV OPENBLAS_NUM_THREADS=1 \
 # # Install RStudio manually
 # RUN apt-get install -y \
 #         libxkbcommon-x11-dev libreadline-dev libqt5gui5 \
-#         libapparmor1 libgc1c2 \libclang-dev \
+#         libapparmor1 libgc1c2 libclang-dev \
 #         libcurl4-openssl-dev libedit2 libobjc4 libssl-dev \
 #         libpq5 lsb-release psmisc procps
 
@@ -61,7 +61,7 @@ ENV OPENBLAS_NUM_THREADS=1 \
 
 USER root
 RUN apt-get update && \
-    apt-get install -y libclang-dev psmisc libpq5
+    apt-get install -y libclang-dev psmisc libpq5 lsb-release
     # apt-get install -y gdebi-core 
 
 ## Get latest version:

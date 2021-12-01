@@ -16,7 +16,9 @@ RUN mkdir -p /workspace/scratch
 WORKDIR /workspace
 
 RUN apt update && \
-    apt install -y curl wget git vim zsh python3-pip gnupg htop
+    apt install -y curl wget git vim zsh python3-pip gnupg htop \
+      ffmpeg libsm6 libxext6
+      # For opencv
 
 ## Install NodeJS
 RUN curl -sL https://deb.nodesource.com/setup_16.x  | bash -

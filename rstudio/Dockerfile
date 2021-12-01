@@ -53,14 +53,25 @@ ENV OPENBLAS_NUM_THREADS=1
 #         libapparmor1 libgc1c2 libclang-dev \
 #         libcurl4-openssl-dev libedit2 libobjc4 libssl-dev \
 #         libpq5 lsb-release psmisc procps
-# RUN export DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download-server/debian-ubuntu/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-[0-9]+" -m 1) && \
-#     export RSTUDIO_URL="https://download2.rstudio.org/server/bionic/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb" && \
-#     wget $RSTUDIO_URL && \
-#     dpkg -i rstudio-server-*-amd64.deb && \
-#     rm rstudio-server-*-amd64.deb
+USER root
+RUN export DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download-server/debian-ubuntu/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-[0-9]+" -m 1) && \
+    export RSTUDIO_URL="https://download2.rstudio.org/server/bionic/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb" && \
+    wget $RSTUDIO_URL && \
+    apt install -y ./rstudio-server-*-amd64.deb && \
+    rm rstudio-server-*-amd64.deb
+USER ${NB_UID}
+
+# USER root
+# RUN apt-get update && \
+#     curl --silent -L --fail https://download2.rstudio.org/rstudio-server-1.1.419-amd64.deb > /tmp/rstudio.deb && \
+#     echo '24cd11f0405d8372b4168fc9956e0386 /tmp/rstudio.deb' | md5sum -c - && \
+#     apt-get install -y /tmp/rstudio.deb && \
+#     rm /tmp/rstudio.deb && \
+#     apt-get clean && rm -rf /var/lib/apt/lists/*
+# ENV PATH=$PATH:/usr/lib/rstudio-server/bin
 
 # Install RStudio with conda
-RUN conda install -c defaults rstudio
+# RUN conda install -c defaults rstudio
 
 # Install Jupyter proxy for RStudio
 RUN pip install --upgrade pip && \

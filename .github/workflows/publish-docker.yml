@@ -82,7 +82,7 @@ jobs:
           # cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
 
   # Our custom Dockerfile based on jupyter/r-notebook
-  build-and-publish-r-notebook:
+  build-and-publish-rstudio:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

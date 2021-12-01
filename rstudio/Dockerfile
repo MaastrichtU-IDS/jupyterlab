@@ -1,5 +1,4 @@
 FROM ghcr.io/maastrichtu-ids/jupyterlab:r-notebook
-# FROM ghcr.io/maastrichtu-ids/jupyterlab:latest
 
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
 
@@ -50,14 +49,20 @@ ENV OPENBLAS_NUM_THREADS=1 \
 #     fix-permissions "/home/${NB_USER}"
 
 # # Install RStudio manually
-# RUN apt-get install -y r-base \
+# RUN apt-get install -y \
 #         libxkbcommon-x11-dev libreadline-dev libqt5gui5 \
-#         libapparmor1 libgc1c2 libclang-dev \
+#         libapparmor1 libgc1c2 \libclang-dev \
 #         libcurl4-openssl-dev libedit2 libobjc4 libssl-dev \
 #         libpq5 lsb-release psmisc procps
+
+# Package psmisc is not installed.
+# #7 6.886   Package libclang-dev is not installed.
+# #7 6.886   Package libpq5 is not installed.
+
 USER root
 RUN apt-get update && \
-    apt-get install -y gdebi-core
+    apt-get install -y gdebi-core 
+    # apt-get install -y libclang-dev psmisc libpq5
 
 ## Get latest version:
 # RUN export DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download-server/debian-ubuntu/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-[0-9]+" -m 1) && \
@@ -65,21 +70,12 @@ RUN apt-get update && \
 # Dockerfile: https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/3.6.3.Dockerfile
 RUN export DOWNLOAD_VERSION=2021.09.1-372 && \
     wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb && \
-    # gdebi -y rstudio-server-$DOWNLOAD_VERSION-amd64.deb && \
-    dpkg -i rstudio-server-*-amd64.deb && \
+    gdebi -y rstudio-server-$DOWNLOAD_VERSION-amd64.deb && \
+    # dpkg -i rstudio-server-*-amd64.deb && \
     # apt-get install -y ./rstudio-server-*-amd64.deb && \
     rm rstudio-server-*-amd64.deb
-# Should install in /usr/lib/rstudio-server
-USER ${NB_UID}
-
-# USER root
-# RUN apt-get update && \
-#     curl --silent -L --fail https://download2.rstudio.org/rstudio-server-1.1.419-amd64.deb > /tmp/rstudio.deb && \
-#     echo '24cd11f0405d8372b4168fc9956e0386 /tmp/rstudio.deb' | md5sum -c - && \
-#     apt-get install -y /tmp/rstudio.deb && \
-#     rm /tmp/rstudio.deb && \
-#     apt-get clean && rm -rf /var/lib/apt/lists/*
 # ENV PATH=$PATH:/usr/lib/rstudio-server/bin
+USER ${NB_UID}
 
 # Install RStudio with conda
 # RUN conda install -c defaults rstudio
@@ -87,7 +83,8 @@ USER ${NB_UID}
 # Install Jupyter proxy for RStudio
 RUN pip install --upgrade pip && \
     pip install --upgrade \
-      jupyter-rsession-proxy>=2.0.1 \
+      jupyter-rsession-proxy \
+      # jupyter-rsession-proxy>=2.0.1 \
       jupyter-shiny-proxy
 
 

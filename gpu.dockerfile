@@ -43,27 +43,23 @@ RUN conda install --quiet -y \
       jupyterlab-git \
       jupyterlab-lsp \
       jupyter-lsp-python \
-      jupyter_bokeh \
-      jupyterlab-drawio \
-      rise \
+      # jupyter_bokeh \
+      # jupyterlab-drawio \
+      # rise \
     #   tensorflow tensorboard jupyter_tensorboard \
-      'jupyter-server-proxy>=3.1.0' && \
-    conda install -y -c plotly 'plotly>=4.8.2'
+      'jupyter-server-proxy>=3.1.0'
+    # conda install -y -c plotly 'plotly>=4.8.2'
 
 
 ## Install packages with pip
 # GPU dashboard: https://developer.nvidia.com/blog/gpu-dashboards-in-jupyter-lab/
 RUN pip install --upgrade pip && \
     pip install --upgrade \
-      # jupyterlab \
-    #   ipywidgets \
-    #   jupyterlab-git \
-    #   jupyterlab-lsp 'python-lsp-server[all]' \
       jupyterlab-nvdashboard \
-      jupyterlab-spreadsheet-editor \
-      mitosheet3
-    #   jupyter_bokeh \
-    #   'plotly>=4.8.2' \
+      jupyterlab-spreadsheet-editor
+      # mitosheet3
+      # jupyterlab-git jupyterlab-lsp 'python-lsp-server[all]' \
+
       ## Issue tensorboard with Jupyterlab3: https://github.com/chaoleili/jupyterlab_tensorboard/issues/28
       ## https://github.com/lspvic/jupyter_tensorboard
       # 'git+https://github.com/cliffwoolley/jupyter_tensorboard.git' \
@@ -72,8 +68,7 @@ RUN pip install --upgrade pip && \
       # 'jupyter-tensorboard==0.2.0' \
     #   'jupyter-server-proxy>=3.1.0'
     
-
-## Conflicting with jupyterlab 3 apparently
+## Conflicting with jupyterlab 3 apparently:
 # RUN jupyter labextension install jupyterlab_tensorboard
 
 # RUN jupyter labextension update --all && \

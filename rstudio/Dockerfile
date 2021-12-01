@@ -61,8 +61,8 @@ ENV OPENBLAS_NUM_THREADS=1 \
 
 USER root
 RUN apt-get update && \
-    apt-get install -y gdebi-core 
-    # apt-get install -y libclang-dev psmisc libpq5
+    apt-get install -y libclang-dev psmisc libpq5
+    # apt-get install -y gdebi-core 
 
 ## Get latest version:
 # RUN export DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download-server/debian-ubuntu/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-[0-9]+" -m 1) && \
@@ -70,8 +70,8 @@ RUN apt-get update && \
 # Dockerfile: https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/3.6.3.Dockerfile
 RUN export DOWNLOAD_VERSION=2021.09.1-372 && \
     wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb && \
-    gdebi -y rstudio-server-$DOWNLOAD_VERSION-amd64.deb && \
-    # dpkg -i rstudio-server-*-amd64.deb && \
+    # gdebi -y rstudio-server-$DOWNLOAD_VERSION-amd64.deb && \
+    dpkg -i rstudio-server-*-amd64.deb && \
     # apt-get install -y ./rstudio-server-*-amd64.deb && \
     rm rstudio-server-*-amd64.deb
 # ENV PATH=$PATH:/usr/lib/rstudio-server/bin

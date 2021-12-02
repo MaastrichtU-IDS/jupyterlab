@@ -8,9 +8,8 @@ LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyte
 # APACHE_SPARK_VERSION=3.0.1 and HADOOP_VERSION=3.2
 # Image tag: 3.0.1-2
 
-# Using 2.4.5 the version of the default Spark cluster automatically created
-# ARG APACHE_SPARK_VERSION=2.4.5
-# ARG HADOOP_VERSION=2.7
+# Using 2.4.5 is the default version of the Spark cluster automatically created
+# APACHE_SPARK_VERSION=2.4.5 and HADOOP_VERSION=2.7 -> Requires python 3.7 and java 8
 ARG APACHE_SPARK_VERSION=3.0.1
 ARG HADOOP_VERSION=3.2
 ENV APACHE_SPARK_VERSION=$APACHE_SPARK_VERSION \
@@ -27,7 +26,8 @@ ENV PATH="$PATH:$HOME/.yarn/bin"
 # Install jupyterlab extensions with conda and pip
 # Multi conda kernels: #   https://stackoverflow.com/questions/53004311/how-to-add-conda-environment-to-jupyter-lab
 RUN mamba install --quiet -y \
-      openjdk maven \
+      openjdk=11 \
+      maven \
       ipywidgets \
       nb_conda_kernels \
       ipython-sql \
@@ -38,6 +38,7 @@ RUN mamba install --quiet -y \
       jupyter_bokeh \
       jupyterlab-drawio \
       rise \
+      pyspark=$APACHE_SPARK_VERSION \
       'jupyter-server-proxy>=3.1.0' && \
     mamba install -y -c plotly 'plotly>=4.8.2'
 
@@ -57,7 +58,7 @@ RUN pip install --upgrade pip && \
       mitosheet3 \
       jupyterlab-spreadsheet-editor \
       jupyterlab_latex \
-      pyspark==$APACHE_SPARK_VERSION \
+    #   pyspark==$APACHE_SPARK_VERSION \
     #   nb-serverproxy-openrefine \ 
       git+https://github.com/innovationOUtside/nb_serverproxy_openrefine.git@main \
     #   git+https://github.com/vemonet/nb_serverproxy_openrefine.git@main \

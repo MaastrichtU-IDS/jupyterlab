@@ -52,7 +52,8 @@ USER ${NB_UID}
 # Install Jupyter proxy for RStudio
 RUN pip install --upgrade pip && \
     pip install --upgrade \
-      jupyter-rsession-proxy \
+      git+https://github.com/vemonet/jupyter-rsession-proxy@master \
+    #   jupyter-rsession-proxy \
       # jupyter-rsession-proxy>=2.0.1 \
       jupyter-shiny-proxy
 

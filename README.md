@@ -59,7 +59,7 @@ mamba env create -f environment.yml
 
 You'll need to wait for 1 or 2 minutes before the new conda environment becomes available on the JupyterLab Launcher page.
 
-### Extend the image
+### 📝 Extend a CPU image
 
 The easiest way to build a custom image is to extend the [existing images](https://github.com/MaastrichtU-IDS/jupyterlab).
 
@@ -86,35 +86,9 @@ RUN apt update && \
 RUN pip install jupyter-tensorboard
 ```
 
-### Contribute to this repository
+> See at the bottom of this README for more information on how to contribute.
 
-Choose which image fits your need: base image, gpu, FSL, FreeSurfer, Python2,7
-
-1. Fork this repository.
-2. Clone the forked repository 
-3. Edit the `Dockerfile` for this image to install the packages you need. Preferably use `conda` to install new packages, you can also install with `apt-get` (need to run as root or with `sudo`) and `pip`
-
-4. Go to the folder and rebuild the `Dockerfile`:
-
-```bash
-docker build -t jupyterlab -f Dockerfile .
-```
-
-5. Run the docker image built on http://localhost:8888
-
-```bash
-docker run -it --rm -p 8888:8888 -e JUPYTER_TOKEN=yourpassword ghcr.io/maastrichtu-ids/jupyterlab:latest
-```
-
-If the built Docker image works well feel free to send a pull request to get your changes merged to the main repository and integrated in the corresponding published Docker image.
-
-You can check the size of the image built in MB:
-
-```bash
-expr $(docker image inspect ghcr.io/maastrichtu-ids/jupyterlab:latest --format='{{.Size}}') / 1000000
-```
-
-### Run with Docker 🐳
+### 🐳 Run a CPU image with Docker
 
 For the `ghcr.io/maastrichtu-ids/jupyterlab:latest` image volumes should be mounted into `/home/jovyan/work` folder.
 
@@ -148,9 +122,9 @@ docker run --rm -it --user $(id -u) -p 8888:8888 -e CHOWN_HOME=yes -e CHOWN_HOME
 > ```
 > 
 
-### Build CPU images 📦
+### 📦 Build CPU images
 
-Instructions to build the various image aimed to run on CPU in this repository.
+Instructions to build the various image aiming to run on CPU.
 
 #### JupyterLab for Data Science
 
@@ -206,7 +180,7 @@ docker build -t ghcr.io/maastrichtu-ids/jupyterlab:fsl .
 docker run --rm -it -p 8888:8888 -v $(pwd)/data:/root -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:fsl
 ```
 
-## JupyterLab on GPU ⚡️
+## ⚡️JupyterLab on GPU
 
 To deploy JupyterLab on GPU we use the [official Nvidia images](https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow), we defined the same [`gpu.dockerfile`](https://github.com/MaastrichtU-IDS/jupyterlab/blob/main/gpu.dockerfile) to install additional dependencies, such as JupyterLab and VisualStudio Code, with different images from Nvidia:
 
@@ -221,7 +195,7 @@ To deploy JupyterLab on GPU we use the [official Nvidia images](https://ngc.nvid
 
 Volumes should be mounted into the `/workspace` folder.
 
-### Extend an image 🏷️
+### 📝 Extend a GPU image
 
 The easiest way to build a custom image is to extend the [existing images](https://github.com/MaastrichtU-IDS/jupyterlab).
 
@@ -234,9 +208,9 @@ RUN apt update && \
 RUN pip install jupyter-tensorboard
 ```
 
-### Build GPU images 📦
+### 📦 Build GPU images
 
-You will find here the commands to use to build our different GPU docker images, most of them are based on [`gpu.dockerfile`](https://github.com/MaastrichtU-IDS/jupyterlab/blob/main/gpu.dockerfile)
+You will find here the commands to use to build our different GPU docker images, most of them are using the [`gpu.dockerfile`](https://github.com/MaastrichtU-IDS/jupyterlab/blob/main/gpu.dockerfile)
 
 #### Tensorflow on GPU
 
@@ -297,8 +271,38 @@ Run (workdir is `/workspace`):
 docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:fsl-gpu
 ```
 
-## Deploy on Kubernetes and OpenShift ☁️
+## ☁️ Deploy on Kubernetes and OpenShift
 
 We recommend to use this Helm chart to deploy these JupyterLab images on Kubernetes or OpenShift: https://artifacthub.io/packages/helm/dsri-helm-charts/jupyterlab
 
 If you are working or studying at Maastricht University you can easily [deploy this notebook on the Data Science Research Infrastructure (DSRI)](https://maastrichtu-ids.github.io/dsri-documentation/docs/deploy-jupyter).
+
+## 🕊️ Contribute to this repository
+
+Choose which image fits your need: latest, gpu, FSL, FreeSurfer, Python2.7
+
+1. Fork this repository.
+2. Clone the forked repository 
+3. Edit the `Dockerfile` for the image you want to improve. Preferably use `mamba` or `conda` to install new packages, you can also install with `apt-get` (need to run as root or with `sudo`) and `pip`
+
+4. Go to the folder and rebuild the `Dockerfile`:
+
+```bash
+docker build -t jupyterlab -f Dockerfile .
+```
+
+5. Run the docker image built on http://localhost:8888 to test it
+
+```bash
+docker run -it --rm -p 8888:8888 -e JUPYTER_TOKEN=yourpassword jupyterlab
+```
+
+If the built Docker image works well feel free to send a pull request to get your changes merged to the main repository and integrated in the corresponding published Docker image.
+
+You can check the size of the image built in MB:
+
+```bash
+expr $(docker image inspect ghcr.io/maastrichtu-ids/jupyterlab:latest --format='{{.Size}}') / 1000000
+```
+
+### 

@@ -4,7 +4,18 @@ FROM $BASE_IMAGE:$PYTHON_VERSION
 
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
 
-ENV JUPYTER_ENABLE_LAB=yes
+# Check latest Spark image version: https://quay.io/repository/radanalyticsio/openshift-spark?tag=latest&tab=tags
+# APACHE_SPARK_VERSION=3.0.1 and HADOOP_VERSION=3.2
+# Image tag: 3.0.1-2
+
+# Using 2.4.5 the version of the default Spark cluster automatically created
+# ARG APACHE_SPARK_VERSION=2.4.5
+# ARG HADOOP_VERSION=2.7
+ARG APACHE_SPARK_VERSION=3.0.1
+ARG HADOOP_VERSION=3.2
+ENV APACHE_SPARK_VERSION=$APACHE_SPARK_VERSION \
+    HADOOP_VERSION=$HADOOP_VERSION \
+    JUPYTER_ENABLE_LAB=yes
     # GRANT_SUDO=yes
     # CHOWN_HOME=yes \
     # CHOWN_HOME_OPTS='-R'
@@ -46,7 +57,7 @@ RUN pip install --upgrade pip && \
       mitosheet3 \
       jupyterlab-spreadsheet-editor \
       jupyterlab_latex \
-      pyspark==2.4.5 \
+      pyspark==$APACHE_SPARK_VERSION \
     #   nb-serverproxy-openrefine \ 
       git+https://github.com/innovationOUtside/nb_serverproxy_openrefine.git@main \
     #   git+https://github.com/vemonet/nb_serverproxy_openrefine.git@main \
@@ -127,11 +138,7 @@ USER ${NB_UID}
 #     jupyter lab build 
 
 ## Install Spark for standalone context in /opt
-# ENV APACHE_SPARK_VERSION=3.2.0 \
-#     HADOOP_VERSION=3.2
-ENV APACHE_SPARK_VERSION=2.4.5 \
-    HADOOP_VERSION=2.7 \
-    SPARK_HOME=/opt/spark \
+ENV SPARK_HOME=/opt/spark \
     SPARK_OPTS="--driver-java-options=-Xms1024M --driver-java-options=-Xmx2048M --driver-java-options=-Dlog4j.logLevel=info"
 ENV PATH=$PATH:$SPARK_HOME/bin
 RUN wget -q -O spark.tgz https://archive.apache.org/dist/spark/spark-${APACHE_SPARK_VERSION}/spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \

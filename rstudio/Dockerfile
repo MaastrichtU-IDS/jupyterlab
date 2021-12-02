@@ -22,44 +22,13 @@ ENV OPENBLAS_NUM_THREADS=1 \
 #     apt-get clean && rm -rf /var/lib/apt/lists/*
 #     # libxkbcommon libreadline might be required for RStudio
 
-# USER ${NB_UID}
-# # R packages including IRKernel which gets installed globally.
-# # r-e1071: dependency of the caret R package
-# RUN mamba install --quiet --yes \
-#     'r-base' \
-#     'r-caret' \
-#     'r-crayon' \
-#     'r-devtools' \
-#     'r-e1071' \
-#     'r-forecast' \
-#     'r-hexbin' \
-#     'r-htmltools' \
-#     'r-htmlwidgets' \
-#     'r-irkernel' \
-#     'r-nycflights13' \
-#     'r-randomforest' \
-#     'r-rcurl' \
-#     'r-rodbc' \
-#     'r-rsqlite' \
-#     'r-shiny' \
-#     'unixodbc' && \
-#     mamba install -c defaults rstudio && \
-#     mamba clean --all -f -y && \
-#     fix-permissions "${CONDA_DIR}" && \
-#     fix-permissions "/home/${NB_USER}"
+USER root
 
-# # Install RStudio manually
+## Install RStudio manually
 # RUN apt-get install -y \
 #         libxkbcommon-x11-dev libreadline-dev libqt5gui5 \
-#         libapparmor1 libgc1c2 libclang-dev \
+#         libapparmor1 libgc1c2 procps \
 #         libcurl4-openssl-dev libedit2 libobjc4 libssl-dev \
-#         libpq5 lsb-release psmisc procps
-
-# Package psmisc is not installed.
-# #7 6.886   Package libclang-dev is not installed.
-# #7 6.886   Package libpq5 is not installed.
-
-USER root
 RUN apt-get update && \
     apt-get install -y libclang-dev psmisc libpq5 lsb-release
     # apt-get install -y gdebi-core 

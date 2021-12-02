@@ -35,9 +35,11 @@ RUN apt-get update && \
 
 ## Get latest version:
 # RUN export DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download-server/debian-ubuntu/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-[0-9]+" -m 1) && \
-
 # Dockerfile: https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/3.6.3.Dockerfile
-RUN export DOWNLOAD_VERSION=2021.09.1-372 && \
+
+## RStudio 1.4 not working: https://github.com/rstudio/rstudio/issues/8888
+# RUN export DOWNLOAD_VERSION=2021.09.1-372 && \
+RUN export DOWNLOAD_VERSION=1.3.1093 && \
     wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb && \
     # gdebi rstudio-server-$DOWNLOAD_VERSION-amd64.deb && \
     dpkg -i rstudio-server-*-amd64.deb && \

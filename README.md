@@ -4,28 +4,29 @@
 
 JupyterLab image based on the [jupyter/docker-stacks](https://github.com/jupyter/docker-stacks) scipy image, with additional packages and kernels installed for data science and knowledge graphs. 
 
-> This image is compatible with OpenShift security constraints, see below for more information to deploy on OpenShift, or on the [Data Science Research Infrastructure (DSRI)](https://maastrichtu-ids.github.io/dsri-documentation/docs/deploy-jupyter) at Maastricht University 🌉
-
-
 ![Screenshot](/icons/screenshot.png)
+
+List of features of the `ghcr.io/maastrichtu-ids/jupyterlab:latest` image for CPU:
 
 **Installed notebook kernels**
 
 🐍 Python 3.8 kernel with autocomplete and suggestions ([jupyterlab-lsp 💬](https://github.com/krassowski/jupyterlab-lsp))
 
-☕️ [IJava](https://github.com/SpencerPark/IJava) kernel with current default OpenJDK
+☕️ [IJava](https://github.com/SpencerPark/IJava) kernel with OpenJDK 11
 
 ✨️ [SPARQL kernel](https://github.com/paulovn/sparql-kernel) to query RDF knowledge graphs
 
+📈 R kernel in the `ghcr.io/maastrichtu-ids/jupyterlab:r-notebook` tag
+
 **Installed programs**
 
-🐍 **Conda** and mamba installed, each conda environment created will add a new option to create a notebook using this environment in the JupyterLab Launcher (with `nb_conda_kernels`). You can create environments using different version of Python if necessary.
+🐍 **Conda** and mamba are installed, each conda environment created will add a new option to create a notebook using this environment in the JupyterLab Launcher (with `nb_conda_kernels`). You can create environments using different version of Python if necessary.
 
-📋️ **VisualStudio Code** server installed, and accessible from the JupyterLab Launcher
+📋️ **VisualStudio Code** server is installed, and accessible from the JupyterLab Launcher
 
-💎 **OpenRefine** installed, and accessible from the JupyterLab Launcher
+💎 **OpenRefine** is installed, and accessible from the JupyterLab Launcher
 
-✨️ **Apache Spark** and PySpark installed for distributed data processing
+✨️ **Apache Spark** and PySpark are installed for distributed data processing
 
 🧑‍💻 **ZSH** is used by default for the JupyterLab and VisualStudio Code terminals
 
@@ -40,7 +41,7 @@ JupyterLab image based on the [jupyter/docker-stacks](https://github.com/jupyter
 * [jupyterlab-spreadsheet](https://github.com/quigleyj97/jupyterlab-spreadsheet)
 * [jupyterlab-drawio](https://github.com/QuantStack/jupyterlab-drawio)
 
-**Automatically install your dependencies**
+**Automatically install your code and dependencies**
 
 You can provide the URL to a git repository to be automatically cloned in the workspace at the start of the container using the environment variable `GIT_URL`
 
@@ -58,6 +59,8 @@ mamba env create -f environment.yml
 ```
 
 You'll need to wait for 1 or 2 minutes before the new conda environment becomes available on the JupyterLab Launcher page.
+
+> This image is compatible with OpenShift security constraints to run as non root user, see below for more information to deploy on OpenShift or Kubernetes, or on the [Data Science Research Infrastructure (DSRI)](https://maastrichtu-ids.github.io/dsri-documentation/docs/deploy-jupyter) at Maastricht University 🌉
 
 ### 📝 Extend a CPU image
 
@@ -184,16 +187,17 @@ docker run --rm -it -p 8888:8888 -v $(pwd)/data:/root -e JUPYTER_TOKEN=password 
 
 To deploy JupyterLab on GPU we use the [official Nvidia images](https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow), we defined the same [`gpu.dockerfile`](https://github.com/MaastrichtU-IDS/jupyterlab/blob/main/gpu.dockerfile) to install additional dependencies, such as JupyterLab and VisualStudio Code, with different images from Nvidia:
 
-* Tensorflow with [`nvcr.io/nvidia/tensorflow`](https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow):
-  * `ghcr.io/maastrichtu-ids/jupyterlab:tensorflow` 
-* PyTorch with [`nvcr.io/nvidia/pytorch`](https://ngc.nvidia.com/catalog/containers/pytorch):
-  * `ghcr.io/maastrichtu-ids/jupyterlab:pytorch` 
+🗜️ TensorFlow with [`nvcr.io/nvidia/tensorflow`](https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow):
+* `ghcr.io/maastrichtu-ids/jupyterlab:tensorflow` 
 
-* CUDA with [`nvcr.io/nvidia/cuda`](https://ngc.nvidia.com/catalog/containers/cuda):
-  * `ghcr.io/maastrichtu-ids/jupyterlab:cuda`
+🔥 PyTorch with [`nvcr.io/nvidia/pytorch`](https://ngc.nvidia.com/catalog/containers/pytorch):
+* `ghcr.io/maastrichtu-ids/jupyterlab:pytorch` 
+
+👁️ CUDA with [`nvcr.io/nvidia/cuda`](https://ngc.nvidia.com/catalog/containers/cuda):
+* `ghcr.io/maastrichtu-ids/jupyterlab:cuda`
 
 
-Volumes should be mounted into the `/workspace` folder.
+Volumes should be mounted into the `/workspace/persistent` or `/workspace` folder.
 
 ### 📝 Extend a GPU image
 

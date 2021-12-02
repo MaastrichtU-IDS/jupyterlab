@@ -18,11 +18,7 @@ WORKDIR /workspace
 RUN apt-get update && \
     apt-get install -y curl wget git vim zsh python3-pip gnupg htop
       # ffmpeg libsm6 libxext6
-      # For opencv
-
-## Install NodeJS (now done with conda)
-# RUN curl -sL https://deb.nodesource.com/setup_16.x  | bash -
-# RUN apt-get -y install nodejs
+      # For opencv, but causes pytorch and cuda build to crash
 
 ## Install Conda if not already installed
 ENV CONDA_DIR=${CONDA_DIR:-/opt/conda} \

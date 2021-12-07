@@ -124,6 +124,10 @@ COPY icons/*.svg /etc/jupyter/
 COPY jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
 RUN mkdir -p /home/$NB_USER/work
 
+# Install Oxigraph SPARQL endpoint
+RUN wget -O /usr/local/bin/oxigraph_server https://github.com/vemonet/oxigraph/releases/download/v0.2.5/oxigraph_server
+
+
 RUN fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER && \
     fix-permissions /home/$NB_USER/.local && \
@@ -156,6 +160,7 @@ RUN pip install -r requirements.txt && \
 # Download jar files in /opt, mainly for RDF processing
 RUN npm i -g @rmlio/yarrrml-parser && \
     wget -O /opt/rmlmapper.jar https://github.com/RMLio/rmlmapper-java/releases/download/v4.11.0/rmlmapper.jar && \
+    wget -O /opt/nanopub.jar https://github.com/Nanopublication/nanopub-java/releases/download/nanopub-1.34/nanopub-1.34-jar-with-dependencies.jar && \
     wget -O /opt/widoco.jar https://github.com/dgarijo/Widoco/releases/download/v1.4.15/widoco-1.4.15-jar-with-dependencies.jar && \
     wget -O /opt/limes.jar https://github.com/dice-group/LIMES/releases/download/1.7.5/limes.jar && \
     wget -O /opt/amie3.jar https://github.com/lajus/amie/releases/download/3.0/amie-milestone-intKB.jar && \

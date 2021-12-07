@@ -71,6 +71,21 @@ c.ServerProxy.servers = {
             "enabled" : True
         },
     },
+    "oxigraph-sparql": {
+        "command": [
+            "oxigraph_server",
+            "--bind",
+            "0.0.0.0:{port}",
+            "--location",
+            os.getenv("JUPYTER_SERVER_ROOT", ".")
+        ],
+        "timeout": 20,
+        "launcher_entry": {
+            "title": "Oxigraph SPARQL endpoint",
+            "icon_path": "/etc/jupyter/oxigraph.svg",
+            "enabled" : True
+        },
+    },
     # "nanobench": {
     #     "command": [
     #         "java",

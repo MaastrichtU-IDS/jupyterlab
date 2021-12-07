@@ -1,8 +1,8 @@
-## JupyterLab for knowledge graphs and data science
+## JupyterLab for Data Science and Knowledge Graphs
 
 [![Publish Docker image](https://github.com/MaastrichtU-IDS/jupyterlab/actions/workflows/publish-docker.yml/badge.svg)](https://github.com/MaastrichtU-IDS/jupyterlab/actions/workflows/publish-docker.yml) [![Publish GPU image](https://github.com/MaastrichtU-IDS/jupyterlab/actions/workflows/publish-docker-gpu.yml/badge.svg)](https://github.com/MaastrichtU-IDS/jupyterlab/actions/workflows/publish-docker-gpu.yml)
 
-JupyterLab image based on the [jupyter/docker-stacks](https://github.com/jupyter/docker-stacks) scipy image, with additional packages and kernels installed for data science and knowledge graphs. 
+JupyterLab image with VisualStudio Code server integrated, based on the [jupyter/docker-stacks](https://github.com/jupyter/docker-stacks) scipy image, with additional packages and kernels installed for data science and knowledge graphs.
 
 ![Screenshot](/icons/screenshot.png)
 
@@ -49,18 +49,16 @@ The following files will be automatically installed if they are present at the r
 
 * The conda environment described in `environment.yml` will be installed, make sure you added `ipykernel` and `nb_conda_kernels` to the `environment.yml` to be able to easily start notebooks using this environment from the JupyterLab Launcher page. See [this repository as example]( https://github.com/MaastrichtU-IDS/dsri-demo).
 * The python packages in `requirements.txt` will be installed with `pip`
-* The debian packages in `packages.txt` will be installed with `apt`
+* The debian packages in `packages.txt` will be installed with `apt-get`
 * The JupyterLab extensions in `extensions.txt` will be installed with `jupyter labextension`
 
-You can also create conda environment in a running JupyterLab (we use `mamba` which is like `conda` but faster):
+You can also create a conda environment from a file in a running JupyterLab (we use `mamba` which is like `conda` but faster):
 
 ```bash
 mamba env create -f environment.yml
 ```
 
-You'll need to wait for 1 or 2 minutes before the new conda environment becomes available on the JupyterLab Launcher page.
-
-> This image is compatible with OpenShift security constraints to run as non root user, see below for more information to deploy on OpenShift or Kubernetes, or on the [Data Science Research Infrastructure (DSRI)](https://maastrichtu-ids.github.io/dsri-documentation/docs/deploy-jupyter) at Maastricht University 🌉
+You'll need to wait a minute before the new conda environment becomes available on the JupyterLab Launcher page.
 
 ### 📝 Extend a CPU image
 
@@ -72,8 +70,8 @@ Here is an example `Dockerfile` to extend [`ghcr.io/maastrichtu-ids/jupyterlab:l
 FROM ghcr.io/maastrichtu-ids/jupyterlab:latest
 # Change to root user to install packages requiring admin privileges:
 USER root
-RUN apt update && \
-    apt install -y vim
+RUN apt-get update && \
+    apt-get install -y vim
 # Switch back to the notebook user for other packages:
 USER ${NB_UID}
 RUN mamba install -c defaults -y rstudio
@@ -84,8 +82,8 @@ For docker image that are not based on the jupyter/docker-stack, such as the GPU
 
 ```dockerfile
 FROM ghcr.io/maastrichtu-ids/jupyterlab:tensorflow
-RUN apt update && \
-    apt install -y vim
+RUN apt-get update && \
+    apt-get install -y vim
 RUN pip install jupyter-tensorboard
 ```
 
@@ -207,8 +205,8 @@ Here is an example `Dockerfile` to extend [`ghcr.io/maastrichtu-ids/jupyterlab:t
 
 ```dockerfile
 FROM ghcr.io/maastrichtu-ids/jupyterlab:tensorflow
-RUN apt update && \
-    apt install -y vim
+RUN apt-get update && \
+    apt-get install -y vim
 RUN pip install jupyter-tensorboard
 ```
 
@@ -277,13 +275,15 @@ docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-i
 
 ## ☁️ Deploy on Kubernetes and OpenShift
 
-We recommend to use this Helm chart to deploy these JupyterLab images on Kubernetes or OpenShift: https://artifacthub.io/packages/helm/dsri-helm-charts/jupyterlab
+This image is compatible with [OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) and [OKD](https://www.okd.io) security constraints to **run as non root user**.
 
-If you are working or studying at Maastricht University you can easily [deploy this notebook on the Data Science Research Infrastructure (DSRI)](https://maastrichtu-ids.github.io/dsri-documentation/docs/deploy-jupyter).
+We recommend to use this [Helm](https://helm.sh/) chart to deploy these JupyterLab images on Kubernetes or OpenShift: https://artifacthub.io/packages/helm/dsri-helm-charts/jupyterlab
+
+If you are working or studying at Maastricht University, you can easily deploy this notebook on the [Data Science Research Infrastructure (DSRI) 🌉](https://maastrichtu-ids.github.io/dsri-documentation/docs/deploy-jupyter)
 
 ## 🕊️ Contribute to this repository
 
-Choose which image fits your need: latest, gpu, FSL, FreeSurfer, Python2.7
+Choose which image fits your need: latest, tensorflow, cuda, pytorch, freesurfer, python2.7...
 
 1. Fork this repository.
 2. Clone the forked repository 

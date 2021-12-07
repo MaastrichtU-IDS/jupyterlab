@@ -82,7 +82,7 @@ c.ServerProxy.servers = {
         ],
         "timeout": 20,
         "launcher_entry": {
-            "title": "Oxigraph SPARQL endpoint",
+            "title": "Oxigraph database",
             "icon_path": "/etc/jupyter/oxigraph.svg",
             "enabled" : True
         },
@@ -99,7 +99,7 @@ c.ServerProxy.servers = {
         ],
         "timeout": 20,
         "launcher_entry": {
-            "title": "Blazegraph SPARQL endpoint",
+            "title": "Blazegraph database",
             "icon_path": "/etc/jupyter/blazegraph.svg",
             "enabled" : True
         },

@@ -75,7 +75,7 @@ c.ServerProxy.servers = {
         "command": [
             "oxigraph_server",
             "--location",
-            os.getenv("JUPYTER_SERVER_ROOT", ".") + '/oxygraph_data',
+            os.getenv("JUPYTER_SERVER_ROOT", ".") + '/oxigraph_data',
             "serve",
             "--bind",
             "0.0.0.0:{port}",
@@ -92,7 +92,7 @@ c.ServerProxy.servers = {
             "java",
             "-server",
             "-Xmx4g",
-            # "-Djetty.host=0.0.0.0",
+            "-Djetty.host=0.0.0.0",
             "-Djetty.port={port}",
             "-jar",
             "/opt/blazegraph.jar"

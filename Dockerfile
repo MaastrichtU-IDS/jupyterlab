@@ -192,6 +192,9 @@ RUN mkdir -p /opt/nanobench && cd /opt/nanobench && \
     unzip nanobench-$NANOBENCH_VERSION.zip
 ENV PATH=$PATH:/opt/openrefine:/opt/nanobench
 
+# Install Blazegraph SPARQL endpoint
+RUN wget -O /opt/blazegraph.jar https://github.com/blazegraph/database/releases/download/BLAZEGRAPH_2_1_6_RC/blazegraph.jar
+
 # Download latest simpleowlapi jar in /opt/simpleowlapi.jar
 RUN cd /opt && \
     curl -s https://api.github.com/repos/kodymoodley/simpleowlapi/releases/latest \

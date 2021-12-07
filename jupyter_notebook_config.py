@@ -74,15 +74,33 @@ c.ServerProxy.servers = {
     "oxigraph-sparql": {
         "command": [
             "oxigraph_server",
+            "--location",
+            os.getenv("JUPYTER_SERVER_ROOT", ".") + '/oxygraph_data',
+            "serve",
             "--bind",
             "0.0.0.0:{port}",
-            "--location",
-            os.getenv("JUPYTER_SERVER_ROOT", ".")
         ],
         "timeout": 20,
         "launcher_entry": {
             "title": "Oxigraph SPARQL endpoint",
             "icon_path": "/etc/jupyter/oxigraph.svg",
+            "enabled" : True
+        },
+    },
+    "blazegraph-sparql": {
+        "command": [
+            "java",
+            "-server",
+            "-Xmx4g",
+            # "-Djetty.host=0.0.0.0",
+            "-Djetty.port={port}",
+            "-jar",
+            "/opt/blazegraph.jar"
+        ],
+        "timeout": 20,
+        "launcher_entry": {
+            "title": "Blazegraph SPARQL endpoint",
+            "icon_path": "/etc/jupyter/blazegraph.svg",
             "enabled" : True
         },
     },

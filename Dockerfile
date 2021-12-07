@@ -124,10 +124,6 @@ COPY icons/*.svg /etc/jupyter/
 COPY jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
 RUN mkdir -p /home/$NB_USER/work
 
-# Install Oxigraph SPARQL endpoint
-RUN wget -O /usr/local/bin/oxigraph_server https://github.com/vemonet/oxigraph/releases/download/v0.2.5/oxigraph_server && \
-    chmod +x /usr/local/bin/oxigraph_server
-
 
 RUN fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER && \
@@ -191,9 +187,6 @@ RUN mkdir -p /opt/nanobench && cd /opt/nanobench && \
     wget https://github.com/peta-pico/nanobench/releases/download/nanobench-$NANOBENCH_VERSION/nanobench-$NANOBENCH_VERSION.zip && \
     unzip nanobench-$NANOBENCH_VERSION.zip
 ENV PATH=$PATH:/opt/openrefine:/opt/nanobench
-
-# Install Blazegraph SPARQL endpoint
-RUN wget -O /opt/blazegraph.jar https://github.com/blazegraph/database/releases/download/BLAZEGRAPH_2_1_6_RC/blazegraph.jar
 
 # Download latest simpleowlapi jar in /opt/simpleowlapi.jar
 RUN cd /opt && \

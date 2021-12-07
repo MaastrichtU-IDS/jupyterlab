@@ -71,6 +71,39 @@ c.ServerProxy.servers = {
             "enabled" : True
         },
     },
+    "oxigraph-sparql": {
+        "command": [
+            "oxigraph_server",
+            "--location",
+            os.getenv("JUPYTER_SERVER_ROOT", ".") + '/oxigraph_data',
+            "serve",
+            "--bind",
+            "0.0.0.0:{port}",
+        ],
+        "timeout": 20,
+        "launcher_entry": {
+            "title": "Oxigraph database",
+            "icon_path": "/etc/jupyter/oxigraph.svg",
+            "enabled" : True
+        },
+    },
+    "blazegraph-sparql": {
+        "command": [
+            "java",
+            "-server",
+            "-Xmx4g",
+            "-Djetty.host=0.0.0.0",
+            "-Djetty.port={port}",
+            "-jar",
+            "/opt/blazegraph.jar"
+        ],
+        "timeout": 20,
+        "launcher_entry": {
+            "title": "Blazegraph database",
+            "icon_path": "/etc/jupyter/blazegraph.svg",
+            "enabled" : True
+        },
+    },
     # "nanobench": {
     #     "command": [
     #         "java",

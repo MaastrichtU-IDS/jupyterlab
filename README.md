@@ -30,7 +30,7 @@ List of features of the `ghcr.io/maastrichtu-ids/jupyterlab:latest` image for CP
 
 🧑‍💻 **ZSH** is used by default for the JupyterLab and VisualStudio Code terminals
 
-**Additionally installed in `ghcr.io/maastrichtu-ids/jupyterlab:knowledge-graph` **
+**Additionally installed in `ghcr.io/maastrichtu-ids/jupyterlab:knowledge-graph`**
 
 🦀 [**Oxigraph**](https://github.com/oxigraph/oxigraph) SPARQL database
 

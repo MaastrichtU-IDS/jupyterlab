@@ -75,7 +75,6 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ env.IMAGE_ID }}:${{ env.VERSION }}
-          # tags: ${{ env.LATEST_IMAGE }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           # cache-from: type=local,src=/tmp/.buildx-cache
@@ -103,8 +102,8 @@ jobs:
       - name: Build and publish Knowledge Graph Docker image
         uses: docker/build-push-action@v2
         with:
-          context: ./knowledge-graph
-          file: ./Dockerfile
+          context: ./
+          file: ./knowledge-graph/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ env.GRAPH_IMAGE }}

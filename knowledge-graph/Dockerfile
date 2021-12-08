@@ -17,7 +17,7 @@ RUN wget -O /opt/blazegraph.jar https://github.com/blazegraph/database/releases/
 
 
 # Install packages for RDF processing
-ADD requirements.txt requirements.txt
+COPY ./knowledge-graph/requirements.txt requirements.txt
 RUN pip install -r requirements.txt && \
     rm requirements.txt
 

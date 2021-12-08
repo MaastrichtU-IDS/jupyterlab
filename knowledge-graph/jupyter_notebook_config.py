@@ -74,7 +74,7 @@ c.ServerProxy.servers = {
             "enabled" : True
         },
     },
-    "oxigraph-sparql": {
+    "oxigraph": {
         "command": [
             "oxigraph_server",
             "--location",
@@ -90,7 +90,7 @@ c.ServerProxy.servers = {
             "enabled" : True
         },
     },
-    "blazegraph-sparql": {
+    "blazegraph": {
         "command": [
             "java",
             "-server",

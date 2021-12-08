@@ -107,8 +107,8 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ env.GRAPH_IMAGE }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          # cache-from: type=gha
+          # cache-to: type=gha,mode=max
 
 
   # Our custom Dockerfile based on jupyter/r-notebook

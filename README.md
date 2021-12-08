@@ -16,7 +16,7 @@ List of features of the `ghcr.io/maastrichtu-ids/jupyterlab:latest` image for CP
 
 ✨️ [SPARQL kernel](https://github.com/paulovn/sparql-kernel) to query RDF knowledge graphs
 
-📈 R kernel in the `ghcr.io/maastrichtu-ids/jupyterlab:r-notebook` tag
+📈 R kernel in the `ghcr.io/maastrichtu-ids/jupyterlab:r-notebook` image
 
 **Installed programs**
 
@@ -30,7 +30,13 @@ List of features of the `ghcr.io/maastrichtu-ids/jupyterlab:latest` image for CP
 
 🧑‍💻 **ZSH** is used by default for the JupyterLab and VisualStudio Code terminals
 
-☕️ Some `.jar` programs for knowledge graph processing are pre-downloaded in the `/opt` folder, such as RDF4J, Apache Jena, OWLAPI, RML mapper.
+**Additionally installed in `ghcr.io/maastrichtu-ids/jupyterlab:knowledge-graph` **
+
+🦀 [**Oxigraph**](https://github.com/oxigraph/oxigraph) SPARQL database
+
+⚡️ [**Blazegraph**](https://blazegraph.com/) SPARQL database
+
+☕️ Java `.jar` programs for knowledge graph processing are pre-downloaded in the `/opt` folder, such as RDF4J, Apache Jena, OWLAPI, RML mapper.
 
 **Installed JupyterLab extensions**
 
@@ -149,6 +155,16 @@ Push:
 
 ```bash
 docker push ghcr.io/maastrichtu-ids/jupyterlab
+```
+
+#### JupyterLab for Knowledge graph
+
+With Oxigraph and Blazegraph SPARQL database, and additional python/java library for RDF processing:
+
+```bash
+cd knowledge-graph
+docker build -t ghcr.io/maastrichtu-ids/jupyterlab:knowledge-graph .
+docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:knowledge-graph
 ```
 
 #### Python 2.7

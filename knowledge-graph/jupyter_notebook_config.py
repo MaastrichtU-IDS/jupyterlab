@@ -49,10 +49,8 @@ if workspace:
 c.ServerApp.terminado_settings = {'shell_command': ['/bin/zsh']}
 
 # Avoid duplicate conda kernel starters https://github.com/Anaconda-Platform/nb_conda_kernels/issues/141
-# c.NotebookApp.kernel_spec_manager_class = 'nb_conda_kernels.CondaKernelSpecManager'
-# c.CondaKernelSpecManager.env_filter = '/opt/conda/share/jupyter/kernels/*'
-# c.ServerApp.kernel_spec_manager_class = 'nb_conda_kernels.CondaKernelSpecManager'
-# c.CondaKernelSpecManager.env_filter = '/opt/conda/share/jupyter/kernels/*|/usr/local/share/jupyter/kernels/sparql'
+c.NotebookApp.kernel_spec_manager_class = 'nb_conda_kernels.CondaKernelSpecManager'
+c.CondaKernelSpecManager.env_filter = 'root'
 
 c.ServerProxy.servers = {
     "code-server": {
@@ -66,7 +64,7 @@ c.ServerProxy.servers = {
         ],
         "timeout": 20,
         "launcher_entry": {
-            "title": "VS Code",
+            "title": "VisualStudio Code",
             "icon_path": "/etc/jupyter/vscode.svg",
             "enabled" : True
         },

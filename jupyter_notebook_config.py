@@ -49,7 +49,9 @@ if workspace:
 c.ServerApp.terminado_settings = {'shell_command': ['/bin/zsh']}
 
 # Avoid duplicate conda kernel starters https://github.com/Anaconda-Platform/nb_conda_kernels/issues/141
-# c.NotebookApp.kernel_spec_manager_class = 'nb_conda_kernels.CondaKernelSpecManager'
+# https://github.com/jupyterhub/jupyterhub/issues/715#issuecomment-463756411
+c.NotebookApp.kernel_spec_manager_class = 'nb_conda_kernels.CondaKernelSpecManager'
+c.CondaKernelSpecManager.env_filter = 'root'
 # c.CondaKernelSpecManager.env_filter = '/opt/conda/share/jupyter/kernels/*'
 # c.ServerApp.kernel_spec_manager_class = 'nb_conda_kernels.CondaKernelSpecManager'
 # c.CondaKernelSpecManager.env_filter = '/opt/conda/share/jupyter/kernels/*|/usr/local/share/jupyter/kernels/sparql'
@@ -66,39 +68,11 @@ c.ServerProxy.servers = {
         ],
         "timeout": 20,
         "launcher_entry": {
-            "title": "VS Code",
+            "title": "VisualStudio Code",
             "icon_path": "/etc/jupyter/vscode.svg",
             "enabled" : True
         },
     },
-    # "nanobench": {
-    #     "command": [
-    #         "java",
-    #         "-jar", "/opt/nanobench/nanobench.jar",
-    #         "-httpPort", "{port}",
-    #         "-resetExtract"
-    #     ],
-    #     "timeout": 60,
-    #     "launcher_entry": {
-    #         "title": "Nanobench",
-    #         "icon_path": "/etc/jupyter/rdf.svg",
-    #         "enabled" : True
-    #     },
-    # },
-    # "openrefine": {
-    #     "command": [
-    #         "refine",
-    #         # "-i", "0.0.0.0",
-    #         "-m", "2048m"
-    #         "-p", "{port}"
-    #     ],
-    #     "timeout": 40,
-    #     "launcher_entry": {
-    #         "title": "OpenRefine",
-    #         "icon_path": "/etc/jupyter/openrefine.svg",
-    #         "enabled" : True
-    #     },
-    # }
 }
 
 # https://github.com/jupyter/notebook/issues/3130

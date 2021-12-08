@@ -7,7 +7,7 @@ on:
     paths:
     - 'lmod/Dockerfile'
     # - 'lmod/easybuild/*'
-    - '.github/workflows/publish-docker-lmod.yml'
+    - '.github/workflows/docker-lmod.yml'
 env:
   IMAGE_ID: ghcr.io/maastrichtu-ids/jupyterlab:lmod
   EASYBUILD_IMAGE_ID: ghcr.io/maastrichtu-ids/easybuild-data:latest

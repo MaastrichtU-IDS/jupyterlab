@@ -6,7 +6,7 @@ on:
       - main
     paths:
     - 'freesurfer/Dockerfile'
-    - '.github/workflows/publish-docker-freesurfer.yml'
+    - '.github/workflows/docker-freesurfer.yml'
 env:
   IMAGE_ID: ghcr.io/maastrichtu-ids/jupyterlab:freesurfer
 jobs:

@@ -1,4 +1,4 @@
-name: Publish latest JupyterLab image
+name: Publish CPU images
 env:
   LATEST_IMAGE: ghcr.io/maastrichtu-ids/jupyterlab:latest
   GRAPH_IMAGE: ghcr.io/maastrichtu-ids/jupyterlab:knowledge-graph
@@ -21,7 +21,7 @@ on:
     - 'graph/*'
     - 'jupyter_notebook_config.py'
     - 'settings.json'
-    - '.github/workflows/publish-docker.yml'
+    - '.github/workflows/docker.yml'
     # # Publish `v1.2.3` tags as release `1.2.3`.
     # tags:
     #   - v*

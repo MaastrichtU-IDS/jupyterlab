@@ -7,7 +7,7 @@ on:
     paths:
     - 'gpu.dockerfile'
     - 'conda_install.sh'
-    - '.github/workflows/publish-docker-gpu.yml'
+    - '.github/workflows/docker-gpu.yml'
 
 env:
   ## https://catalog.ngc.nvidia.com/orgs/nvidia/containers/tensorflow

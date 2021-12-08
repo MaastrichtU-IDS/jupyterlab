@@ -163,7 +163,7 @@ With Oxigraph and Blazegraph SPARQL database, and additional python/java library
 
 ```bash
 cd knowledge-graph
-docker build -t ghcr.io/maastrichtu-ids/jupyterlab:knowledge-graph .
+docker build -f knowledge-graph/Dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:knowledge-graph .
 docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:knowledge-graph
 ```
 
@@ -172,8 +172,7 @@ docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-i
 With a python2.7 kernel only (python3 not installed). Build and run (workdir is `/root`):
 
 ```bash
-cd python2.7
-docker build -t ghcr.io/maastrichtu-ids/jupyterlab:python2.7 .
+docker build -t ghcr.io/maastrichtu-ids/jupyterlab:python2.7 ./python2.7
 docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:python2.7
 ```
 
@@ -182,8 +181,7 @@ docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-i
 Based on https://github.com/bruggerk/ricopili_docker. Build and run (workdir is `/root`):
 
 ```bash
-cd ricopili
-docker build -t ghcr.io/maastrichtu-ids/jupyterlab:ricopili .
+docker build -t ghcr.io/maastrichtu-ids/jupyterlab:ricopili ./ricopili
 docker run --rm -it -p 8888:8888 -v $(pwd)/data:/root -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:ricopili
 ```
 
@@ -192,8 +190,7 @@ docker run --rm -it -p 8888:8888 -v $(pwd)/data:/root -e JUPYTER_TOKEN=password 
 Built with https://github.com/ReproNim/neurodocker. Build and run (workdir is `/root`):
 
 ```bash
-cd fsl
-docker build -t ghcr.io/maastrichtu-ids/jupyterlab:fsl .
+docker build -t ghcr.io/maastrichtu-ids/jupyterlab:fsl ./fsl
 docker run --rm -it -p 8888:8888 -v $(pwd)/data:/root -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:fsl
 ```
 
@@ -279,8 +276,7 @@ This build use a different image, go to the `fsl-gpu` folder. And check the `REA
 Build:
 
 ```bash
-cd fsl-gpu
-docker build -t ghcr.io/maastrichtu-ids/jupyterlab:fsl-gpu .
+docker build -t ghcr.io/maastrichtu-ids/jupyterlab:fsl-gpu ./fsl-gpu
 ```
 
 Run (workdir is `/workspace`):
@@ -325,4 +321,3 @@ You can check the size of the image built in MB:
 expr $(docker image inspect ghcr.io/maastrichtu-ids/jupyterlab:latest --format='{{.Size}}') / 1000000
 ```
 
-### 

@@ -94,8 +94,9 @@ c.ServerProxy.servers = {
         "command": [
             "java",
             "-server",
-            "-Xmx4g",
-            "-Djetty.host=0.0.0.0",
+            "-Xmx2g",
+            # "-Xmx4g",
+            "-Djetty.host=127.0.0.1",
             "-Djetty.port={port}",
             "-jar",
             "/opt/blazegraph.jar"

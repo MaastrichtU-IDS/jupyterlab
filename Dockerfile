@@ -105,6 +105,22 @@ RUN code-server --install-extension redhat.vscode-yaml \
         --install-extension ms-mssql.mssql \
         --install-extension ms-azuretools.vscode-docker
 
+# Install gitpod VSCode https://github.com/gitpod-io/openvscode-releases/blob/main/Dockerfile
+ENV OPENVSCODE_SERVER_ROOT=/opt/openvscode \
+    RELEASE_TAG=openvscode-server-v1.62.3
+ENV LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8 \
+    HOME=/home/$NB_USER/work \
+    EDITOR=code \
+    VISUAL=code \
+    GIT_EDITOR="code --wait" \
+    OPENVSCODE_SERVER_ROOT=${OPENVSCODE_SERVER_ROOT}
+RUN wget https://github.com/gitpod-io/openvscode-server/releases/download/${RELEASE_TAG}/${RELEASE_TAG}-linux-x64.tar.gz && \
+    tar -xzf ${RELEASE_TAG}-linux-x64.tar.gz && \
+    mv -f ${RELEASE_TAG}-linux-x64 ${OPENVSCODE_SERVER_ROOT} && \
+    rm -f ${RELEASE_TAG}-linux-x64.tar.gz
+
+
 RUN cd /opt && \
     export EXT_VERSION=0.1.2 && \
     wget https://open-vsx.org/api/vemonet/stardog-rdf-grammars/$EXT_VERSION/file/vemonet.stardog-rdf-grammars-$EXT_VERSION.vsix && \

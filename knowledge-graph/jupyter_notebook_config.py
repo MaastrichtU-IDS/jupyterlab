@@ -42,6 +42,9 @@ if os.path.exists('environment.yaml'):
 if workspace:
     os.chdir(workspace)
 
+# Create SQLite database
+os.system('sqlite3 sqlite.db')
+
 # https://github.com/jupyter/docker-stacks/blob/master/base-notebook/jupyter_notebook_config.py
 # c = get_config() 
 
@@ -87,6 +90,22 @@ c.ServerProxy.servers = {
         "launcher_entry": {
             "title": "Oxigraph database",
             "icon_path": "/etc/jupyter/oxigraph.svg",
+            "enabled" : True
+        },
+    },
+    "sqlite": {
+        "command": [
+            "sqlite_web",
+            os.getenv("JUPYTER_SERVER_ROOT", ".") + '/sqlite.db',
+            # "--host",
+            # "0.0.0.0",
+            "--port",
+            "{port}"
+        ],
+        "timeout": 20,
+        "launcher_entry": {
+            "title": "SQLite database",
+            "icon_path": "/etc/jupyter/sqlite.svg",
             "enabled" : True
         },
     },

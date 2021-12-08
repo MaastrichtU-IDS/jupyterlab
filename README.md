@@ -1,6 +1,6 @@
 ## JupyterLab for Data Science and Knowledge Graphs
 
-[![Publish Docker image](https://github.com/MaastrichtU-IDS/jupyterlab/actions/workflows/docker.yml/badge.svg)](https://github.com/MaastrichtU-IDS/jupyterlab/actions/workflows/docker.yml) [![Publish GPU image](https://github.com/MaastrichtU-IDS/jupyterlab/actions/workflows/docker-gpu.yml/badge.svg)](https://github.com/MaastrichtU-IDS/jupyterlab/actions/workflows/docker-gpu.yml)
+[![Publish CPU images](https://github.com/MaastrichtU-IDS/jupyterlab/actions/workflows/docker-cpu.yml/badge.svg)](https://github.com/MaastrichtU-IDS/jupyterlab/actions/workflows/docker-cpu.yml) [![Publish GPU image](https://github.com/MaastrichtU-IDS/jupyterlab/actions/workflows/docker-gpu.yml/badge.svg)](https://github.com/MaastrichtU-IDS/jupyterlab/actions/workflows/docker-gpu.yml)
 
 JupyterLab image with VisualStudio Code server integrated, based on the [jupyter/docker-stacks](https://github.com/jupyter/docker-stacks) scipy image, with additional packages and kernels installed for data science and knowledge graphs.
 
@@ -162,7 +162,6 @@ docker push ghcr.io/maastrichtu-ids/jupyterlab
 With Oxigraph and Blazegraph SPARQL database, and additional python/java library for RDF processing:
 
 ```bash
-cd knowledge-graph
 docker build -f knowledge-graph/Dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:knowledge-graph .
 docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:knowledge-graph
 ```

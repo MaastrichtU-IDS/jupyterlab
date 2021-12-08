@@ -4,6 +4,9 @@ LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyte
 
 USER root
 
+RUN apt-get update && \
+    apt-get install -y sqlite3
+
 # Install Oxigraph SPARQL endpoint
 RUN wget -O /usr/local/bin/oxigraph_server https://github.com/vemonet/oxigraph/releases/download/v0.2.5/oxigraph_server && \
     chmod +x /usr/local/bin/oxigraph_server
@@ -20,6 +23,7 @@ RUN wget -O /opt/blazegraph.jar https://github.com/blazegraph/database/releases/
 COPY ./knowledge-graph/requirements.txt requirements.txt
 RUN pip install -r requirements.txt && \
     rm requirements.txt
+RUN pip install sqlite-web
 
 # Download jar files in /opt, mainly for RDF processing
 RUN npm i -g @rmlio/yarrrml-parser && \

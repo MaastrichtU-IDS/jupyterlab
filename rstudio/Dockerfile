@@ -30,7 +30,7 @@ USER root
 #         libapparmor1 libgc1c2 procps \
 #         libcurl4-openssl-dev libedit2 libobjc4 libssl-dev \
 RUN apt-get update && \
-    apt-get install -y libclang-dev psmisc libpq5 lsb-release
+    apt-get install -y libclang-dev psmisc libpq5 lsb-release libapparmor1
     # apt-get install -y gdebi-core 
 
 ## Get latest version:

@@ -17,8 +17,8 @@ on:
       # - dev
     paths:
     - 'Dockerfile'
-    - 'rstudio/Dockerfile'
-    - 'graph/*'
+    - 'knowledge-graph/*'
+    - 'rstudio/*'
     - 'jupyter_notebook_config.py'
     - 'settings.json'
     - '.github/workflows/docker.yml'
@@ -151,32 +151,6 @@ jobs:
           # cache-from: type=gha
           # cache-to: type=gha,mode=max
 
-  # build-and-publish-rstudio:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-
-  #     - name: Set up Docker Buildx
-  #       id: buildx
-  #       uses: docker/setup-buildx-action@v1 
-
-  #     - name: Login to GitHub Container Registry
-  #       uses: docker/login-action@v1
-  #       with:
-  #         registry: ghcr.io
-  #         username: ${{github.actor}}
-  #         password: ${{secrets.GITHUB_TOKEN}}
-
-  #     - name: Build and publish RStudio Docker image
-  #       uses: docker/build-push-action@v2
-  #       with:
-  #         context: ./
-  #         file: ./rstudio/Dockerfile
-  #         builder: ${{ steps.buildx.outputs.name }}
-  #         push: true
-  #         tags: ${{ env.RSTUDIO_IMAGE }}
-  #         cache-from: type=gha
-  #         cache-to: type=gha,mode=max
 
 
       ## Old way:

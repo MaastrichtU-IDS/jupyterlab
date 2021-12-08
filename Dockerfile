@@ -75,18 +75,17 @@ RUN pip install --upgrade pip && \
 USER root
 
 RUN apt update && \
-    apt install -y curl zsh vim htop gfortran raptor2-utils \
-        ffmpeg libsm6 libxext6
-        # For opencv
+    apt install -y curl wget unzip zsh vim htop gfortran raptor2-utils 
 
 # Install SPARQL kernel
 RUN jupyter sparqlkernel install 
 
 # Install Java kernel
-RUN curl -L https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip > /opt/ijava-kernel.zip && \
+# RUN curl -L https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip > /opt/ijava-kernel.zip && \
+RUN wget -O /opt/ijava-kernel.zip https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip && \
     unzip /opt/ijava-kernel.zip -d /opt/ijava-kernel && \
     cd /opt/ijava-kernel && \
-    python3 install.py --sys-prefix && \
+    python install.py --sys-prefix && \
     rm /opt/ijava-kernel.zip
 
 # Install VS Code server and extensions

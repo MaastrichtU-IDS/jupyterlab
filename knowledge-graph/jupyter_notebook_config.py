@@ -49,8 +49,13 @@ if workspace:
 c.ServerApp.terminado_settings = {'shell_command': ['/bin/zsh']}
 
 # Avoid duplicate conda kernel starters https://github.com/Anaconda-Platform/nb_conda_kernels/issues/141
-c.NotebookApp.kernel_spec_manager_class = 'nb_conda_kernels.CondaKernelSpecManager'
-c.CondaKernelSpecManager.env_filter = 'root'
+# c.NotebookApp.kernel_spec_manager_class = 'nb_conda_kernels.CondaKernelSpecManager'
+# c.ServerApp.kernel_spec_manager_class = 'nb_conda_kernels.CondaKernelSpecManager'
+# c.CondaKernelSpecManager.env_filter = 'root'
+
+# Remove default Java and Python kernel (to use the conda one and avoid duplicate)
+os.system('echo y | jupyter kernelspec remove java')
+os.system('echo y | jupyter kernelspec remove python3')
 
 c.ServerProxy.servers = {
     "code-server": {

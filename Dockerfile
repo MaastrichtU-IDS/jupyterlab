@@ -177,12 +177,12 @@ ENV REFINE_DIR=/home/$NB_USER/openrefine
 ENV PATH=$PATH:/opt/openrefine
 RUN mkdir -p /home/$NB_USER/openrefine
 
-
+USER $NB_USER
 # Install ZSH
 RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 RUN mkdir -p /home/$NB_USER/.oh-my-zsh/custom/themes
 RUN wget -O /home/$NB_USER/.oh-my-zsh/custom/themes/vemonet_bira.zsh-theme https://raw.githubusercontent.com/vemonet/zsh-theme-biradate/master/zsh/vemonet_bira.zsh-theme
-RUN sed -i 's/robbyrussell/vemonet_bira/g' /home/$NB_USER/.zshrc
+# RUN sed -i 's/robbyrussell/vemonet_bira/g' /home/$NB_USER/.zshrc
 ENV SHELL=/bin/zsh
 
 USER root

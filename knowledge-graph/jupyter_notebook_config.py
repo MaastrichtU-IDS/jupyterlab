@@ -77,14 +77,14 @@ c.ServerProxy.servers = {
             "enabled" : True
         },
     },
+    ## Oxigraph version 0.2.5 (latest release)
     "oxigraph": {
         "command": [
             "oxigraph_server",
-            "--location",
-            os.getenv("JUPYTER_SERVER_ROOT", ".") + '/oxigraph_data',
-            "serve",
-            "--bind",
+            "-b",
             "0.0.0.0:{port}",
+            "-f",
+            os.getenv("JUPYTER_SERVER_ROOT", ".") + '/oxigraph_data',
         ],
         "timeout": 20,
         "launcher_entry": {
@@ -93,6 +93,25 @@ c.ServerProxy.servers = {
             "enabled" : True
         },
     },
+
+    ## Oxigraph version 0.3+ (current master branch)
+    # "oxigraph": {
+    #     "command": [
+    #         "oxigraph_server",
+    #         "--location",
+    #         os.getenv("JUPYTER_SERVER_ROOT", ".") + '/oxigraph_data',
+    #         "serve",
+    #         "--bind",
+    #         "0.0.0.0:{port}",
+    #     ],
+    #     "timeout": 20,
+    #     "launcher_entry": {
+    #         "title": "Oxigraph database",
+    #         "icon_path": "/etc/jupyter/oxigraph.svg",
+    #         "enabled" : True
+    #     },
+    # },
+
     # "sqlite": {
     #     "command": [
     #         "sqlite_web",

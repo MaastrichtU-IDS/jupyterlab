@@ -4,12 +4,17 @@ LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyte
 
 USER root
 
-RUN apt-get update && \
-    apt-get install -y sqlite3
+# RUN apt-get update && \
+#     apt-get install -y sqlite3
 
-# Install Oxigraph SPARQL endpoint
+# Install Oxigraph SPARQL endpoint 0.2.5 (latest release)
 RUN wget -O /usr/local/bin/oxigraph_server https://github.com/vemonet/oxigraph/releases/download/v0.2.5/oxigraph_server && \
     chmod +x /usr/local/bin/oxigraph_server
+
+# Install Oxigraph SPARQL endpoint 0.3 (current master)
+# RUN wget -O /usr/local/bin/oxigraph_server https://github.com/vemonet/oxigraph/releases/download/v0.3.0-beta/oxigraph_server && \
+#     chmod +x /usr/local/bin/oxigraph_server
+
 
 COPY ./knowledge-graph/jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
 
@@ -23,7 +28,12 @@ USER ${NB_UID}
 COPY ./knowledge-graph/requirements.txt requirements.txt
 RUN pip install -r requirements.txt && \
     rm requirements.txt
-RUN pip install sqlite-web
+
+## Install pyOxigraph 0.2.5
+RUN pip install pyoxigraph oxrdflib
+## Install pyOxigraph from source for 0.3+
+# pip install "git+https://github.com/oxigraph/oxigraph.git@master#subdirectory=python"
+
 
 # Download jar files in /opt, mainly for RDF processing
 RUN npm i -g @rmlio/yarrrml-parser && \
@@ -37,8 +47,10 @@ RUN npm i -g @rmlio/yarrrml-parser && \
 
 RUN cd /opt && \
     wget https://repo1.maven.org/maven2/commons-io/commons-io/2.11.0/commons-io-2.11.0.jar && \
-    wget https://downloads.apache.org/jena/binaries/apache-jena-4.2.0.tar.gz && \
     wget http://download.eclipse.org/rdf4j/eclipse-rdf4j-3.7.3-onejar.jar 
+    ## Jena download link is disabled when a new version is released
+    ## Cannot be consistently trusted.
+    # wget https://downloads.apache.org/jena/binaries/apache-jena-4.3.1.tar.gz && \
 
 
 # Download latest simpleowlapi jar in /opt/simpleowlapi.jar

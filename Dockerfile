@@ -75,7 +75,8 @@ RUN pip install --upgrade pip && \
 USER root
 
 RUN apt update && \
-    apt install -y curl wget unzip zsh vim htop gfortran raptor2-utils 
+    apt install -y curl wget unzip zsh vim htop gfortran \
+        libclang-dev raptor2-utils 
 
 # Install SPARQL kernel
 RUN jupyter sparqlkernel install 

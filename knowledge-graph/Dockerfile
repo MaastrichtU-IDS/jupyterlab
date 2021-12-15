@@ -48,10 +48,15 @@ RUN npm i -g @rmlio/yarrrml-parser && \
 RUN cd /opt && \
     wget https://repo1.maven.org/maven2/commons-io/commons-io/2.11.0/commons-io-2.11.0.jar && \
     wget http://download.eclipse.org/rdf4j/eclipse-rdf4j-3.7.3-onejar.jar 
-    ## Jena download link is disabled when a new version is released
-    ## Cannot be consistently trusted.
-    # wget https://downloads.apache.org/jena/binaries/apache-jena-4.3.1.tar.gz && \
 
+
+# Download latest Jena
+RUN cd /opt && \
+    export JENA_FILENAME=$(curl -sL https://downloads.apache.org/jena/binaries | grep ".*apache-jena-.*\.tar\.gz<.*" | grep -v ".*fuseki.*" | cut -d '"' -f 6) && \
+    wget https://downloads.apache.org/jena/binaries/$JENA_FILENAME && \
+    tar xvf apache-jena-*.tar.gz && \
+    rm apache-jena-*.tar.gz && \
+    mv apache-jena-* apache-jena
 
 # Download latest simpleowlapi jar in /opt/simpleowlapi.jar
 RUN cd /opt && \

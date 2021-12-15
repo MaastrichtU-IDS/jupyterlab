@@ -74,19 +74,19 @@ c.ServerProxy.servers = {
             "enabled" : True
         },
     },
-    "openvscode": {
-        "command": [
-            os.getenv("OPENVSCODE_SERVER_ROOT", "/opt/openvscode") + "/server.sh ",
-            "--port={port}",
-            # os.getenv("JUPYTER_SERVER_ROOT", ".")
-        ],
-        "timeout": 20,
-        "launcher_entry": {
-            "title": "Open VS Code",
-            "icon_path": "/etc/jupyter/vscode.svg",
-            "enabled" : True
-        },
-    },
+    # "openvscode": {
+    #     "command": [
+    #         os.getenv("OPENVSCODE_SERVER_ROOT", "/opt/openvscode") + "/server.sh ",
+    #         "--port={port}",
+    #         # os.getenv("JUPYTER_SERVER_ROOT", ".")
+    #     ],
+    #     "timeout": 20,
+    #     "launcher_entry": {
+    #         "title": "Open VS Code",
+    #         "icon_path": "/etc/jupyter/vscode.svg",
+    #         "enabled" : True
+    #     },
+    # },
 }
 
 # https://github.com/jupyter/notebook/issues/3130

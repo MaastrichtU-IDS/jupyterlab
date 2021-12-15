@@ -180,14 +180,14 @@ RUN mkdir -p /home/$NB_USER/openrefine
 
 # Install ZSH
 RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-RUN wget -O ~/.oh-my-zsh/custom/themes/vemonet_bira.zsh-theme https://raw.githubusercontent.com/vemonet/zsh-theme-biradate/master/zsh/vemonet_bira.zsh-theme
-RUN sed -i 's/robbyrussell/vemonet_bira/g' ~/.zshrc
+RUN wget -O /home/$NB_USER/.oh-my-zsh/custom/themes/vemonet_bira.zsh-theme https://raw.githubusercontent.com/vemonet/zsh-theme-biradate/master/zsh/vemonet_bira.zsh-theme
+RUN sed -i 's/robbyrussell/vemonet_bira/g' /home/$NB_USER/.zshrc
 ENV SHELL=/bin/zsh
 
 USER root
 RUN chsh -s /bin/zsh 
-
 USER ${NB_UID}
+
 ADD bin /home/$NB_USER/bin
 ENV PATH=$PATH:/home/$NB_USER/bin
 

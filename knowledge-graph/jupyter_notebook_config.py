@@ -42,8 +42,6 @@ if os.path.exists('environment.yaml'):
 if workspace:
     os.chdir(workspace)
 
-# Create SQLite database
-os.system('sqlite3 sqlite.db')
 
 # https://github.com/jupyter/docker-stacks/blob/master/base-notebook/jupyter_notebook_config.py
 # c = get_config() 

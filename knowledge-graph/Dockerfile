@@ -16,7 +16,7 @@ COPY ./knowledge-graph/jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_
 USER ${NB_UID}
 
 # Install Blazegraph SPARQL endpoint
-RUN wget -O /opt/blazegraph.jar https://github.com/blazegraph/database/releases/download/BLAZEGRAPH_2_1_6_RC/blazegraph.jar
+# RUN wget -O /opt/blazegraph.jar https://github.com/blazegraph/database/releases/download/BLAZEGRAPH_2_1_6_RC/blazegraph.jar
 
 
 # Install packages for RDF processing

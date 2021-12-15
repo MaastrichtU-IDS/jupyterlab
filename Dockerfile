@@ -173,6 +173,7 @@ RUN cd /opt && \
     rm openrefine-linux-$OPENREFINE_VERSION.tar.gz
     # ln -s /opt/openrefine-$OPENREFINE_VERSION/refine /opt/refine 
 ENV REFINE_DIR=/home/$NB_USER/openrefine
+ENV PATH=$PATH:/opt/openrefine
 RUN mkdir -p /home/$NB_USER/openrefine
 
 

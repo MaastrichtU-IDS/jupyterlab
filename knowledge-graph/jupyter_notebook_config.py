@@ -93,40 +93,40 @@ c.ServerProxy.servers = {
             "enabled" : True
         },
     },
-    "sqlite": {
-        "command": [
-            "sqlite_web",
-            os.getenv("JUPYTER_SERVER_ROOT", ".") + '/sqlite.db',
-            # "--host",
-            # "0.0.0.0",
-            "--port",
-            "{port}"
-        ],
-        "timeout": 20,
-        "launcher_entry": {
-            "title": "SQLite database",
-            "icon_path": "/etc/jupyter/sqlite.svg",
-            "enabled" : True
-        },
-    },
-    "blazegraph": {
-        "command": [
-            "java",
-            "-server",
-            "-Xmx2g",
-            # "-Xmx4g",
-            "-Djetty.host=127.0.0.1",
-            "-Djetty.port={port}",
-            "-jar",
-            "/opt/blazegraph.jar"
-        ],
-        "timeout": 20,
-        "launcher_entry": {
-            "title": "Blazegraph database",
-            "icon_path": "/etc/jupyter/blazegraph.svg",
-            "enabled" : True
-        },
-    },
+    # "sqlite": {
+    #     "command": [
+    #         "sqlite_web",
+    #         os.getenv("JUPYTER_SERVER_ROOT", ".") + '/sqlite.db',
+    #         # "--host",
+    #         # "0.0.0.0",
+    #         "--port",
+    #         "{port}"
+    #     ],
+    #     "timeout": 20,
+    #     "launcher_entry": {
+    #         "title": "SQLite database",
+    #         "icon_path": "/etc/jupyter/sqlite.svg",
+    #         "enabled" : True
+    #     },
+    # },
+    # "blazegraph": {
+    #     "command": [
+    #         "java",
+    #         "-server",
+    #         "-Xmx2g",
+    #         # "-Xmx4g",
+    #         "-Djetty.host=127.0.0.1",
+    #         "-Djetty.port={port}",
+    #         "-jar",
+    #         "/opt/blazegraph.jar"
+    #     ],
+    #     "timeout": 20,
+    #     "launcher_entry": {
+    #         "title": "Blazegraph database",
+    #         "icon_path": "/etc/jupyter/blazegraph.svg",
+    #         "enabled" : True
+    #     },
+    # },
     # "nanobench": {
     #     "command": [
     #         "java",

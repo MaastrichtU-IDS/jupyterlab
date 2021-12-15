@@ -84,6 +84,7 @@ jobs:
 
   # Our custom Dockerfile based on jupyter/r-notebook
   build-and-publish-graph:
+    needs: build-and-publish-latest
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

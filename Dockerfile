@@ -106,22 +106,6 @@ RUN code-server --install-extension redhat.vscode-yaml \
         --install-extension ms-mssql.mssql \
         --install-extension ms-azuretools.vscode-docker
 
-# Install gitpod VSCode https://github.com/gitpod-io/openvscode-releases/blob/main/Dockerfile
-ENV OPENVSCODE_SERVER_ROOT=/opt/openvscode \
-    RELEASE_TAG=openvscode-server-v1.62.3
-ENV LANG=C.UTF-8 \
-    LC_ALL=C.UTF-8 \
-    HOME=/home/$NB_USER/work \
-    EDITOR=code \
-    VISUAL=code \
-    GIT_EDITOR="code --wait" \
-    OPENVSCODE_SERVER_ROOT=${OPENVSCODE_SERVER_ROOT}
-RUN wget https://github.com/gitpod-io/openvscode-server/releases/download/${RELEASE_TAG}/${RELEASE_TAG}-linux-x64.tar.gz && \
-    tar -xzf ${RELEASE_TAG}-linux-x64.tar.gz && \
-    mv -f ${RELEASE_TAG}-linux-x64 ${OPENVSCODE_SERVER_ROOT} && \
-    rm -f ${RELEASE_TAG}-linux-x64.tar.gz
-
-
 RUN cd /opt && \
     export EXT_VERSION=0.1.2 && \
     wget https://open-vsx.org/api/vemonet/stardog-rdf-grammars/$EXT_VERSION/file/vemonet.stardog-rdf-grammars-$EXT_VERSION.vsix && \
@@ -132,6 +116,22 @@ RUN cd /opt && \
 #     export EXT_VERSION=0.6.4 && \
 #     wget https://github.com/janisdd/vscode-edit-csv/releases/download/v$EXT_VERSION/vscode-edit-csv-$EXT_VERSION.vsix && \
 #     code-server --install-extension vscode-edit-csv-$EXT_VERSION.vsix
+
+
+# Install gitpod VSCode https://github.com/gitpod-io/openvscode-releases/blob/main/Dockerfile
+# ENV OPENVSCODE_SERVER_ROOT=/opt/openvscode \
+#     RELEASE_TAG=openvscode-server-v1.62.3
+# ENV LANG=C.UTF-8 \
+#     LC_ALL=C.UTF-8 \
+#     EDITOR=code \
+#     VISUAL=code \
+#     GIT_EDITOR="code --wait" \
+#     OPENVSCODE_SERVER_ROOT=${OPENVSCODE_SERVER_ROOT}
+# RUN wget https://github.com/gitpod-io/openvscode-server/releases/download/${RELEASE_TAG}/${RELEASE_TAG}-linux-x64.tar.gz && \
+#     tar -xzf ${RELEASE_TAG}-linux-x64.tar.gz && \
+#     mv -f ${RELEASE_TAG}-linux-x64 ${OPENVSCODE_SERVER_ROOT} && \
+#     rm -f ${RELEASE_TAG}-linux-x64.tar.gz
+
 
 COPY --chown=$NB_USER:100 settings.json /home/$NB_USER/.local/share/code-server/User/settings.json
 COPY icons/*.svg /etc/jupyter/
@@ -177,12 +177,10 @@ ENV REFINE_DIR=/home/$NB_USER/openrefine
 ENV PATH=$PATH:/opt/openrefine
 RUN mkdir -p /home/$NB_USER/openrefine
 
-USER $NB_USER
-# Install ZSH
+USER ${NB_UID}
+# Install oh-my-zsh
 # ENV ZSH_THEME vemonet_bira
-# RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
-# RUN mkdir -p /home/$NB_USER/.oh-my-zsh/custom/themes
+RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 RUN wget -O /home/$NB_USER/.oh-my-zsh/custom/themes/vemonet_bira.zsh-theme https://raw.githubusercontent.com/vemonet/zsh-theme-biradate/master/zsh/vemonet_bira.zsh-theme
 RUN sed -i 's/robbyrussell/vemonet_bira/g' /home/$NB_USER/.zshrc
 ENV SHELL=/bin/zsh

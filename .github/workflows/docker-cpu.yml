@@ -72,13 +72,14 @@ jobs:
         with:
           context: ./
           file: ./Dockerfile
-          builder: ${{ steps.buildx.outputs.name }}
+          pull: true
           push: true
           tags: ${{ env.IMAGE_ID }}:${{ env.VERSION }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           # cache-from: type=local,src=/tmp/.buildx-cache
           # cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+          # builder: ${{ steps.buildx.outputs.name }}
 
 
 
@@ -105,11 +106,12 @@ jobs:
         with:
           context: ./
           file: ./knowledge-graph/Dockerfile
-          builder: ${{ steps.buildx.outputs.name }}
+          pull: true
           push: true
           tags: ${{ env.GRAPH_IMAGE }}
           # cache-from: type=gha
           # cache-to: type=gha,mode=max
+          # builder: ${{ steps.buildx.outputs.name }}
 
 
   # Our custom Dockerfile based on jupyter/r-notebook
@@ -151,29 +153,3 @@ jobs:
           tags: ${{ env.RSTUDIO_IMAGE }}
           # cache-from: type=gha
           # cache-to: type=gha,mode=max
-
-
-
-      ## Old way:
-      # - name: Build image
-      #   run: docker build . --file Dockerfile --tag $IMAGE_NAME
-      # - name: Push image to GitHub Container Registry
-      #   run: |
-      #     IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
-
-      #     # Change all uppercase to lowercase
-      #     IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-
-      #     # Strip git ref prefix from version
-      #     VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-
-      #     # Strip "v" prefix from tag name
-      #     [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-
-      #     # Use Docker `latest` tag convention
-      #     [ "$VERSION" == "main" ] && VERSION=latest
-
-      #     echo IMAGE_ID=$IMAGE_ID
-      #     echo VERSION=$VERSION
-      #     docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
-      #     docker push $IMAGE_ID:$VERSION

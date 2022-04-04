@@ -104,7 +104,8 @@ RUN code-server --install-extension redhat.vscode-yaml \
         --install-extension redhat.vscode-xml \
         --install-extension nickdemayo.vscode-json-editor \
         --install-extension ms-mssql.mssql \
-        --install-extension ms-azuretools.vscode-docker
+        --install-extension ms-azuretools.vscode-docker \
+        --install-extension eamodio.gitlens 
 
 RUN cd /opt && \
     export EXT_VERSION=0.1.2 && \

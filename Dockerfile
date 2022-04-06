@@ -104,7 +104,7 @@ RUN code-server --install-extension redhat.vscode-yaml \
         --install-extension redhat.vscode-xml \
         --install-extension nickdemayo.vscode-json-editor \
         --install-extension ms-mssql.mssql \
-        --install-extension ms-azuretools.vscode-docker \
+        # --install-extension ms-azuretools.vscode-docker \
         --install-extension eamodio.gitlens 
 
 RUN cd /opt && \
@@ -184,6 +184,7 @@ USER ${NB_UID}
 RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 RUN wget -O /home/$NB_USER/.oh-my-zsh/custom/themes/vemonet_bira.zsh-theme https://raw.githubusercontent.com/vemonet/zsh-theme-biradate/master/zsh/vemonet_bira.zsh-theme
 RUN sed -i 's/robbyrussell/vemonet_bira/g' /home/$NB_USER/.zshrc
+RUN echo 'setopt NO_HUP' >> /home/$NB_USER/.zshrc
 ENV SHELL=/bin/zsh
 
 USER root

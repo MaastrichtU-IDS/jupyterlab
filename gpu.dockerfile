@@ -105,8 +105,9 @@ COPY icons/*.svg /etc/jupyter/
 RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 RUN wget -O ~/.oh-my-zsh/custom/themes/vemonet_bira.zsh-theme https://raw.githubusercontent.com/vemonet/zsh-theme-biradate/master/zsh/vemonet_bira.zsh-theme
 RUN sed -i 's/robbyrussell/vemonet_bira/g' ~/.zshrc
+RUN echo 'setopt NO_HUP' >> ~/.zshrc
 ENV SHELL=/bin/zsh
-RUN chsh -s /bin/zsh 
+RUN chsh -s /bin/zsh
 
 # Add jupyter config script run at the start of the container
 COPY jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py

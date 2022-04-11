@@ -31,13 +31,14 @@ if os.path.exists('requirements.txt'):
 if os.path.exists('extensions.txt'):
     os.system('cat extensions.txt | xargs -I {} jupyter {} install --user')
 
-if os.path.exists('environment.yml'):
-    os.system('conda env create -f environment.yml')
-    # os.system('mamba env create -f environment.yml')
+## Conda install getting stuck sometimes
+# if os.path.exists('environment.yml'):
+#     os.system('conda env create -f environment.yml')
+#     # os.system('mamba env create -f environment.yml')
 
-if os.path.exists('environment.yaml'):
-    os.system('conda env create -f environment.yaml')
-    # os.system('mamba env create -f environment.yaml')
+# if os.path.exists('environment.yaml'):
+#     os.system('conda env create -f environment.yaml')
+#     # os.system('mamba env create -f environment.yaml')
 
 if workspace:
     os.chdir(workspace)

@@ -76,7 +76,7 @@ USER root
 
 RUN apt update && \
     apt install -y curl wget unzip zsh vim htop gfortran \
-        libclang-dev raptor2-utils 
+        python3-dev libpq-dev libclang-dev raptor2-utils
 
 # Install SPARQL kernel
 RUN jupyter sparqlkernel install 
@@ -176,22 +176,20 @@ RUN cd /opt && \
     # ln -s /opt/openrefine-$OPENREFINE_VERSION/refine /opt/refine 
 ENV REFINE_DIR=/home/$NB_USER/openrefine
 ENV PATH=$PATH:/opt/openrefine
-RUN mkdir -p /home/$NB_USER/openrefine
+RUN mkdir -p ~/openrefine
 
-USER ${NB_UID}
-# Install oh-my-zsh
-# ENV ZSH_THEME vemonet_bira
-RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-RUN wget -O /home/$NB_USER/.oh-my-zsh/custom/themes/vemonet_bira.zsh-theme https://raw.githubusercontent.com/vemonet/zsh-theme-biradate/master/zsh/vemonet_bira.zsh-theme
-RUN sed -i 's/robbyrussell/vemonet_bira/g' /home/$NB_USER/.zshrc
-RUN echo 'setopt NO_HUP' >> /home/$NB_USER/.zshrc
+
+# Install Oh My ZSH! and custom theme
+RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+RUN wget -O /home/$NB_USER/.oh-my-zsh/custom/themes/biratime.zsh-theme https://raw.github.com/vemonet/biratime/main/biratime.zsh-theme
+RUN sed -i 's/^ZSH_THEME=".*"$/ZSH_THEME="biratime"/g' ~/.zshrc
+RUN echo 'setopt NO_HUP' >> ~/.zshrc
 ENV SHELL=/bin/zsh
 
 USER root
 RUN chsh -s /bin/zsh 
-USER ${NB_UID}
 
-ADD bin /home/$NB_USER/bin
+ADD bin ~/bin
 ENV PATH=$PATH:/home/$NB_USER/bin
 
 WORKDIR /home/$NB_USER/work

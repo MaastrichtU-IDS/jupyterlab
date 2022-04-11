@@ -16,7 +16,8 @@ RUN mkdir -p /workspace/scratch
 WORKDIR /workspace
 
 RUN apt-get update && \
-    apt-get install -y curl wget git vim zsh python3-pip gnupg htop
+    apt-get install -y curl wget git vim zsh gnupg htop \
+      python3-pip python3-dev libpq-dev 
       # ffmpeg libsm6 libxext6
       # For opencv, but causes pytorch and cuda build to crash
 
@@ -101,10 +102,10 @@ COPY settings.json /root/.local/share/code-server/User/settings.json
 COPY icons/*.svg /etc/jupyter/
 
 
-# Install ZSH
+# Install Oh My ZSH! and custom theme
 RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-RUN wget -O ~/.oh-my-zsh/custom/themes/vemonet_bira.zsh-theme https://raw.githubusercontent.com/vemonet/zsh-theme-biradate/master/zsh/vemonet_bira.zsh-theme
-RUN sed -i 's/robbyrussell/vemonet_bira/g' ~/.zshrc
+RUN wget -O ~/.oh-my-zsh/custom/themes/biratime.zsh-theme https://raw.github.com/vemonet/biratime/main/biratime.zsh-theme
+RUN sed -i 's/^ZSH_THEME=".*"$/ZSH_THEME="biratime"/g' ~/.zshrc
 RUN echo 'setopt NO_HUP' >> ~/.zshrc
 ENV SHELL=/bin/zsh
 RUN chsh -s /bin/zsh
@@ -112,7 +113,7 @@ RUN chsh -s /bin/zsh
 # Add jupyter config script run at the start of the container
 COPY jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
 
-ENV PERSISTENT_DIR="/workspace/persistent"
+ENV PERSISTENT_WORKSPACE="/workspace/persistent"
 ENV WORKSPACE="/workspace"
 WORKDIR /workspace
 VOLUME [ "/workspace/persistent", "/workspace/scratch" ]

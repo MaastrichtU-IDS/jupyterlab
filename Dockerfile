@@ -29,7 +29,6 @@ RUN mamba install --quiet -y \
       openjdk=11 \
       maven \
       ipywidgets \
-      nb_conda_kernels \
       ipython-sql \
       jupyterlab \
       jupyterlab-git \
@@ -39,6 +38,7 @@ RUN mamba install --quiet -y \
       jupyterlab-drawio \
       rise \
       pyspark=$APACHE_SPARK_VERSION \
+    #   nb_conda_kernels \
       'jupyter-server-proxy>=3.1.0' && \
     mamba install -y -c plotly 'plotly>=4.8.2'
 
@@ -58,10 +58,10 @@ RUN pip install --upgrade pip && \
       mitosheet3 \
       jupyterlab-spreadsheet-editor \
       jupyterlab_latex \
+      jupyterlab_theme_solarized_dark \
     #   pyspark==$APACHE_SPARK_VERSION \
     #   nb-serverproxy-openrefine \ 
       git+https://github.com/innovationOUtside/nb_serverproxy_openrefine.git@main \
-    #   git+https://github.com/vemonet/nb_serverproxy_openrefine.git@main \
       jupyterlab-system-monitor 
 
     ## Could also be interesting to install:
@@ -119,7 +119,7 @@ RUN cd /opt && \
 #     code-server --install-extension vscode-edit-csv-$EXT_VERSION.vsix
 
 
-# Install gitpod VSCode https://github.com/gitpod-io/openvscode-releases/blob/main/Dockerfile
+# Install open source gitpod VSCode? https://github.com/gitpod-io/openvscode-releases/blob/main/Dockerfile
 # ENV OPENVSCODE_SERVER_ROOT=/opt/openvscode \
 #     RELEASE_TAG=openvscode-server-v1.62.3
 # ENV LANG=C.UTF-8 \
@@ -133,14 +133,9 @@ RUN cd /opt && \
 #     mv -f ${RELEASE_TAG}-linux-x64 ${OPENVSCODE_SERVER_ROOT} && \
 #     rm -f ${RELEASE_TAG}-linux-x64.tar.gz
 
-
-COPY --chown=$NB_USER:100 settings.json /home/$NB_USER/.local/share/code-server/User/settings.json
+# Add JupyterLab and VSCode settings
 COPY icons/*.svg /etc/jupyter/
-
-
 COPY jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
-RUN mkdir -p /home/$NB_USER/work
-
 
 RUN fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER && \
@@ -151,6 +146,13 @@ RUN fix-permissions $CONDA_DIR && \
 
 # Switch back to the notebook user to finish installation
 USER ${NB_UID}
+
+RUN mkdir -p ~/.jupyter/lab/user-settings/@jupyterlab/terminal-extension
+# COPY --chown=$NB_USER:100 plugin.jupyterlab-settings /home/$NB_USER/.jupyter/lab/user-settings/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
+COPY themes.jupyterlab-settings /home/$NB_USER/.jupyter/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings
+COPY settings.json /home/$NB_USER/.local/share/code-server/User/settings.json
+
+RUN mkdir -p /home/$NB_USER/work
 
 # Update and compile JupyterLab extensions
 # RUN jupyter labextension update --all && \
@@ -191,6 +193,9 @@ RUN chsh -s /bin/zsh
 
 ADD bin ~/bin
 ENV PATH=$PATH:/home/$NB_USER/bin
+
+# Git token will be stored in the persistent volume
+RUN git config --global credential.helper 'store --file ~/work/.git-credentials'
 
 WORKDIR /home/$NB_USER/work
 

@@ -23,13 +23,12 @@ services:
       # - ${HOME}/.nanopub:/home/jovyan/.nanopub
     
     ## Without password:
-    # command: "--NotebookApp.token=''"
-    command: "--ServerApp.token=''"
+    # command: "--ServerApp.token=''"
     environment:
       - GRANT_SUDO=yes
       ## With password:
-      # - JUPYTER_TOKEN=password
+      - JUPYTER_TOKEN=password
       ## Download repo:
-      - GIT_URL=https://github.com/MaastrichtU-IDS/dsri-demo
+      # - GIT_URL=https://github.com/MaastrichtU-IDS/dsri-demo
     
     # entrypoint: jupyter lab --allow-root --ip=0.0.0.0 --port=8888 --no-browser --config=/etc/jupyter/jupyter_notebook_config.py

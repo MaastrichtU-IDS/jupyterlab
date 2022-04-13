@@ -11,15 +11,33 @@ ARG NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:21.11-tf2-py3
 FROM ${NVIDIA_IMAGE}
 
 USER root
-RUN mkdir -p /workspace/persistent
-RUN mkdir -p /workspace/scratch
-WORKDIR /workspace
+# RUN mkdir -p /workspace/persistent
+# RUN mkdir -p /workspace/scratch
+# WORKDIR /workspace
 
 RUN apt-get update && \
     apt-get install -y curl wget git vim zsh gnupg htop \
       python3-pip python3-dev libpq-dev 
       # ffmpeg libsm6 libxext6
       # For opencv, but causes pytorch and cuda build to crash
+
+# # Create user
+# ARG NB_USER="jovyan" \
+#     NB_UID="1000" \
+#     NB_GID="100"
+# ENV NB_USER="${NB_USER}" \
+#     NB_UID=${NB_UID} \
+#     NB_GID=${NB_GID}
+# ENV HOME="/home/${NB_USER}"
+# # Create NB_USER with name jovyan user with UID=1000 and in the 'users' group
+# RUN useradd -l -m -s /bin/zsh -N -u "${NB_UID}" "${NB_USER}" && \
+#     mkdir -p /opt && \
+#     mkdir -p /home/$NB_USER/work && \
+#     mkdir -p /home/$NB_USER/persistent && \
+#     chown -R $NB_USER:$NB_GID /opt
+
+# USER ${NB_USER}
+
 
 ## Install Conda if not already installed
 ENV CONDA_DIR=${CONDA_DIR:-/opt/conda} \
@@ -35,7 +53,7 @@ RUN conda install --quiet -y \
     #   openjdk maven \
       nodejs \
       ipywidgets \
-      nb_conda_kernels \
+      # nb_conda_kernels \
       jupyterlab \
       jupyterlab-git \
       jupyterlab-lsp \
@@ -99,8 +117,13 @@ RUN cd /opt && \
 #     code-server --install-extension vscode-edit-csv-$EXT_VERSION.vsix
 
 COPY settings.json /root/.local/share/code-server/User/settings.json
-COPY icons/*.svg /etc/jupyter/
+COPY settings.json /home/$NB_USER/.local/share/code-server/User/settings.json
 
+# Add jupyter config script run at the start of the container
+USER root
+COPY icons/*.svg /etc/jupyter/
+COPY jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
+USER ${NB_USER}}
 
 # Install Oh My ZSH! and custom theme
 RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
@@ -108,14 +131,17 @@ RUN wget -O ~/.oh-my-zsh/custom/themes/biratime.zsh-theme https://raw.github.com
 RUN sed -i 's/^ZSH_THEME=".*"$/ZSH_THEME="biratime"/g' ~/.zshrc
 RUN echo 'setopt NO_HUP' >> ~/.zshrc
 ENV SHELL=/bin/zsh
-RUN chsh -s /bin/zsh
+# RUN chsh -s /bin/zsh
 
-# Add jupyter config script run at the start of the container
-COPY jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
+# Git token will be stored in the persistent volume
+RUN git config --global credential.helper 'store --file /workspace/persistent/.git-credentials'
 
 ENV PERSISTENT_WORKSPACE="/workspace/persistent"
 ENV WORKSPACE="/workspace"
-WORKDIR /workspace
-VOLUME [ "/workspace/persistent", "/workspace/scratch" ]
+# ENV PERSISTENT_WORKSPACE="/home/${NB_USER}/persistent"
+# ENV WORKSPACE="/home/${NB_USER}"
+# WORKDIR /home/${NB_USER}
+WORKDIR ${WORKSPACE}
+VOLUME [ "${WORKSPACE}/persistent", "${WORKSPACE}/scratch" ]
 EXPOSE 8888
 ENTRYPOINT ["jupyter", "lab", "--allow-root", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--config=/etc/jupyter/jupyter_notebook_config.py"]

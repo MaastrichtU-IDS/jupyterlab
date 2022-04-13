@@ -83,7 +83,7 @@ jobs:
 
 
 
-  # Our custom Dockerfile based on jupyter/r-notebook
+  # Our custom Dockerfile for knowledge graphs
   build-and-publish-graph:
     needs: build-and-publish-latest
     runs-on: ubuntu-latest

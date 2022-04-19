@@ -10,8 +10,6 @@ workspace = os.getenv('WORKSPACE', None)
 os.system('git config --global user.name "' + git_name + '"')
 os.system('git config --global user.email "' + git_email + '"')
 
-# os.chdir('/home/jovyan/work')
-
 if persistent_workspace:
     os.chdir(persistent_workspace)
 
@@ -32,13 +30,13 @@ if os.path.exists('extensions.txt'):
     os.system('cat extensions.txt | xargs -I {} jupyter {} install --user')
 
 ## Conda install getting stuck sometimes
-# if os.path.exists('environment.yml'):
-#     os.system('conda env create -f environment.yml')
-#     # os.system('mamba env create -f environment.yml')
+if os.path.exists('environment.yml'):
+    os.system('mamba env create -f environment.yml')
+    # os.system('conda env create -f environment.yml')
 
-# if os.path.exists('environment.yaml'):
-#     os.system('conda env create -f environment.yaml')
-#     # os.system('mamba env create -f environment.yaml')
+if os.path.exists('environment.yaml'):
+    os.system('mamba env create -f environment.yaml')
+    # os.system('conda env create -f environment.yaml')
 
 if workspace:
     os.chdir(workspace)

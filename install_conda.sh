@@ -20,5 +20,9 @@ if [[ ! -z "${CONDA_DIR}" && ! -d "${CONDA_DIR}" ]] ; then
 
 else
     echo "Conda already installed."
+    if ! command -v mamba &> /dev/null
+    then
+        echo "Mamba not installed. Installing it."
+        conda install -y -c conda-forge mamba
+    fi
 fi
-

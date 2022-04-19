@@ -62,7 +62,7 @@ RUN pip install --upgrade pip && \
     #   pyspark==$APACHE_SPARK_VERSION \
     #   nb-serverproxy-openrefine \ 
       git+https://github.com/innovationOUtside/nb_serverproxy_openrefine.git@main \
-      jupyterlab-system-monitor 
+      jupyterlab-system-monitor
 
     ## Could also be interesting to install:
     #   jupyter-rsession-proxy \
@@ -196,8 +196,13 @@ ENV PATH=$PATH:/home/$NB_USER/bin
 
 # Git token will be stored in the persistent volume
 RUN git config --global credential.helper 'store --file ~/work/.git-credentials'
+RUN git config pull.rebase true
 
-WORKDIR /home/$NB_USER/work
+ENV WORKSPACE="/home/${NB_USER}"
+ENV PERSISTENT_WORKSPACE="/${WORKSPACE}/persistent"
+RUN mkdir -p $PERSISTENT_WORKSPACE
+WORKDIR ${WORKSPACE}
+VOLUME [ "${WORKSPACE}/persistent" ]
 
 CMD [ "start-notebook.sh", "--no-browser", "--ip=0.0.0.0", "--config=/etc/jupyter/jupyter_notebook_config.py" ]
 

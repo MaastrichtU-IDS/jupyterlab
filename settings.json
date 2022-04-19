@@ -2,6 +2,7 @@
     "workbench.colorTheme": "Better Solarized Dark",
     "python.dataScience.alwaysTrustNotebooks": true,
     "terminal.integrated.inheritEnv": true,
+    "python.defaultInterpreterPath": "/opt/conda/bin/python",
     "git.autofetch": false,
     "yaml.schemas": {
         "https://raw.githubusercontent.com/bio2kg/bio2kg-etl/main/resources/yarrrml.schema.json": ["*.yarrr.yml"],

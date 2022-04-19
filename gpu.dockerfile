@@ -136,12 +136,10 @@ ENV SHELL=/bin/zsh
 # Git token will be stored in the persistent volume
 RUN git config --global credential.helper 'store --file /workspace/persistent/.git-credentials'
 
-ENV PERSISTENT_WORKSPACE="/workspace/persistent"
 ENV WORKSPACE="/workspace"
-# ENV PERSISTENT_WORKSPACE="/home/${NB_USER}/persistent"
 # ENV WORKSPACE="/home/${NB_USER}"
-# WORKDIR /home/${NB_USER}
+ENV PERSISTENT_WORKSPACE="/${WORKSPACE}/persistent"
 WORKDIR ${WORKSPACE}
-VOLUME [ "${WORKSPACE}/persistent", "${WORKSPACE}/scratch" ]
+VOLUME [ "${PERSISTENT_WORKSPACE}", "${WORKSPACE}/scratch" ]
 EXPOSE 8888
 ENTRYPOINT ["jupyter", "lab", "--allow-root", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--config=/etc/jupyter/jupyter_notebook_config.py"]

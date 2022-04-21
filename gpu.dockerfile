@@ -123,7 +123,8 @@ COPY settings.json /home/$NB_USER/.local/share/code-server/User/settings.json
 USER root
 COPY icons/*.svg /etc/jupyter/
 COPY jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
-USER ${NB_USER}}
+
+USER ${NB_USER}
 
 # Install Oh My ZSH! and custom theme
 RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"

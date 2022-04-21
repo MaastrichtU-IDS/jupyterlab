@@ -196,8 +196,10 @@ ADD bin ~/bin
 ENV PATH=$PATH:/home/$NB_USER/bin
 
 # Git token will be stored in the persistent volume
-RUN git config --global credential.helper 'store --file ~/work/.git-credentials'
-RUN git config pull.rebase true
+RUN git config --global credential.helper 'store --file ~/work/.git-credentials' && \
+    git config --global diff.colorMoved zebra && \
+    git config --global fetch.prune true && \
+    git config --global pull.rebase true
 
 ENV WORKSPACE="/home/${NB_USER}"
 ENV PERSISTENT_WORKSPACE="/${WORKSPACE}/persistent"

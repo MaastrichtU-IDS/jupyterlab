@@ -196,16 +196,16 @@ ADD bin ~/bin
 ENV PATH=$PATH:/home/$NB_USER/bin
 
 # Git token will be stored in the persistent volume
-RUN git config --global credential.helper 'store --file ~/work/.git-credentials' && \
+RUN git config --global credential.helper 'store --file ~/.git-credentials' && \
     git config --global diff.colorMoved zebra && \
     git config --global fetch.prune true && \
     git config --global pull.rebase true
 
-ENV WORKSPACE="/home/${NB_USER}"
-ENV PERSISTENT_WORKSPACE="/${WORKSPACE}/persistent"
+ENV WORKSPACE="/home/${NB_USER}/work"
+ENV PERSISTENT_WORKSPACE="${WORKSPACE}/persistent"
 RUN mkdir -p $PERSISTENT_WORKSPACE
 WORKDIR ${WORKSPACE}
-VOLUME [ "${WORKSPACE}/persistent" ]
+VOLUME [ "${PERSISTENT_WORKSPACE}" ]
 
 CMD [ "start-notebook.sh", "--no-browser", "--ip=0.0.0.0", "--config=/etc/jupyter/jupyter_notebook_config.py" ]
 

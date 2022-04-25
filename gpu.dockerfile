@@ -49,20 +49,19 @@ COPY install_conda.sh /tmp/
 RUN /tmp/install_conda.sh
 
 ## Install packages with Conda
-RUN conda install --quiet -y \
-    #   openjdk maven \
+RUN mamba install --quiet -y \
       nodejs \
       ipywidgets \
-      # nb_conda_kernels \
       jupyterlab \
       jupyterlab-git \
       jupyterlab-lsp \
       jupyter-lsp-python \
+      'jupyter-server-proxy>=3.1.0'
       # jupyter_bokeh \
       # jupyterlab-drawio \
       # rise \
+      # openjdk maven \
     #   tensorflow tensorboard jupyter_tensorboard \
-      'jupyter-server-proxy>=3.1.0'
     # conda install -y -c plotly 'plotly>=4.8.2'
 
 
@@ -136,11 +135,11 @@ ENV SHELL=/bin/zsh
 # RUN chsh -s /bin/zsh
 
 # Git token will be stored in the persistent volume
-RUN git config --global credential.helper 'store --file /workspace/persistent/.git-credentials'
+RUN git config --global credential.helper 'store --file ~/.git-credentials'
 
 ENV WORKSPACE="/workspace"
 # ENV WORKSPACE="/home/${NB_USER}"
-ENV PERSISTENT_WORKSPACE="/${WORKSPACE}/persistent"
+ENV PERSISTENT_WORKSPACE="${WORKSPACE}/persistent"
 WORKDIR ${WORKSPACE}
 VOLUME [ "${PERSISTENT_WORKSPACE}", "${WORKSPACE}/scratch" ]
 EXPOSE 8888

@@ -192,8 +192,8 @@ ENV SHELL=/bin/zsh
 USER root
 RUN chsh -s /bin/zsh 
 
-ADD bin ~/bin
-ENV PATH=$PATH:/home/$NB_USER/bin
+ADD bin/* ~/.local/bin/
+# ENV PATH=$PATH:/home/$NB_USER/.local/bin
 
 # Git token will be stored in the persistent volume
 RUN git config --global credential.helper 'store --file ~/.git-credentials' && \
@@ -202,10 +202,10 @@ RUN git config --global credential.helper 'store --file ~/.git-credentials' && \
     git config --global pull.rebase true
 
 ENV WORKSPACE="/home/${NB_USER}/work"
-ENV PERSISTENT_WORKSPACE="${WORKSPACE}/persistent"
-RUN mkdir -p $PERSISTENT_WORKSPACE
+ENV PERSISTENT_FOLDER="${WORKSPACE}/persistent"
+RUN mkdir -p $PERSISTENT_FOLDER
 WORKDIR ${WORKSPACE}
-VOLUME [ "${PERSISTENT_WORKSPACE}" ]
+VOLUME [ "${PERSISTENT_FOLDER}" ]
 
 CMD [ "start-notebook.sh", "--no-browser", "--ip=0.0.0.0", "--config=/etc/jupyter/jupyter_notebook_config.py" ]
 

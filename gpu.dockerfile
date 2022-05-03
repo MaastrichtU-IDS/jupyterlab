@@ -139,8 +139,8 @@ RUN git config --global credential.helper 'store --file ~/.git-credentials'
 
 ENV WORKSPACE="/workspace"
 # ENV WORKSPACE="/home/${NB_USER}"
-ENV PERSISTENT_WORKSPACE="${WORKSPACE}/persistent"
+ENV PERSISTENT_FOLDER="${WORKSPACE}/persistent"
 WORKDIR ${WORKSPACE}
-VOLUME [ "${PERSISTENT_WORKSPACE}", "${WORKSPACE}/scratch" ]
+VOLUME [ "${PERSISTENT_FOLDER}", "${WORKSPACE}/scratch" ]
 EXPOSE 8888
 ENTRYPOINT ["jupyter", "lab", "--allow-root", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--config=/etc/jupyter/jupyter_notebook_config.py"]

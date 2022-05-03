@@ -3,7 +3,7 @@ import os
 git_url = os.getenv('GIT_URL', None)
 git_name = os.getenv('GIT_NAME', 'Default user')
 git_email = os.getenv('GIT_EMAIL', 'default@maastrichtuniversity.nl')
-persistent_workspace = os.getenv('PERSISTENT_WORKSPACE', None)
+persistent_folder = os.getenv('PERSISTENT_FOLDER', None)
 workspace = os.getenv('WORKSPACE', None)
 
 # Preconfigure git to avoid to do it manually
@@ -12,8 +12,8 @@ os.system('git config --global user.email "' + git_email + '"')
 
 # os.chdir('/home/jovyan/work')
 
-if persistent_workspace:
-    os.chdir(persistent_workspace)
+if persistent_folder:
+    os.chdir(persistent_folder)
 
 if git_url:
     os.system('git clone --quiet --recursive ' + git_url + ' .')

@@ -55,6 +55,7 @@ RUN mamba install --quiet -y \
       jupyterlab \
       jupyterlab-git \
       jupyterlab-lsp \
+      nb_conda_kernels \
       jupyter-lsp-python \
       'jupyter-server-proxy>=3.1.0'
       # jupyter_bokeh \

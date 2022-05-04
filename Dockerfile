@@ -38,7 +38,7 @@ RUN mamba install --quiet -y \
       jupyterlab-drawio \
       rise \
       pyspark=$APACHE_SPARK_VERSION \
-    #   nb_conda_kernels \
+      nb_conda_kernels \
       'jupyter-server-proxy>=3.1.0' && \
     mamba install -y -c plotly 'plotly>=4.8.2'
 

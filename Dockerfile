@@ -4,13 +4,9 @@ FROM $BASE_IMAGE:$PYTHON_VERSION
 
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
 
-# Check latest Spark image version: https://quay.io/repository/radanalyticsio/openshift-spark?tag=latest&tab=tags
 # APACHE_SPARK_VERSION=3.0.1 and HADOOP_VERSION=3.2
-# Image tag: 3.0.1-2
-
-# Using 2.4.5 is the default version of the Spark cluster automatically created
 # APACHE_SPARK_VERSION=2.4.5 and HADOOP_VERSION=2.7 -> Requires python 3.7 and java 8
-ARG APACHE_SPARK_VERSION=3.0.1
+ARG APACHE_SPARK_VERSION=3.2.1
 ARG HADOOP_VERSION=3.2
 ENV APACHE_SPARK_VERSION=$APACHE_SPARK_VERSION \
     HADOOP_VERSION=$HADOOP_VERSION \
@@ -58,6 +54,7 @@ RUN pip install --upgrade pip && \
       mitosheet3 \
       jupyterlab-spreadsheet-editor \
       jupyterlab_latex \
+      jupyterlab-github \
       jupyterlab_theme_solarized_dark \
     #   pyspark==$APACHE_SPARK_VERSION \
     #   nb-serverproxy-openrefine \ 
@@ -201,11 +198,14 @@ RUN git config --global credential.helper 'store --file ~/.git-credentials' && \
     git config --global fetch.prune true && \
     git config --global pull.rebase true
 
+
 ENV WORKSPACE="/home/${NB_USER}/work"
 ENV PERSISTENT_FOLDER="${WORKSPACE}/persistent"
 RUN mkdir -p $PERSISTENT_FOLDER
 WORKDIR ${WORKSPACE}
 VOLUME [ "${PERSISTENT_FOLDER}" ]
+
+ADD README.ipynb $WORKSPACE
 
 CMD [ "start-notebook.sh", "--no-browser", "--ip=0.0.0.0", "--config=/etc/jupyter/jupyter_notebook_config.py" ]
 

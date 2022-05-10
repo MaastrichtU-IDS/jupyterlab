@@ -71,6 +71,7 @@ RUN mamba install --quiet -y \
 RUN pip install --upgrade pip && \
     pip install --upgrade \
       jupyterlab-nvdashboard \
+      jupyterlab-github \
       jupyterlab-spreadsheet-editor
       # mitosheet3
       # jupyterlab-git jupyterlab-lsp 'python-lsp-server[all]' \

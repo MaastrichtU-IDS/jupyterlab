@@ -55,7 +55,7 @@ RUN pip install --upgrade pip && \
       jupyterlab-spreadsheet-editor \
       jupyterlab_latex \
       jupyterlab-github \
-      jupyterlab_theme_solarized_dark \
+    #   jupyterlab_theme_solarized_dark \
     #   pyspark==$APACHE_SPARK_VERSION \
     #   nb-serverproxy-openrefine \ 
       git+https://github.com/innovationOUtside/nb_serverproxy_openrefine.git@main \

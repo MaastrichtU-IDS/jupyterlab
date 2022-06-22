@@ -185,8 +185,6 @@ Day 2: reconnecting to the same JupyterLab, trying to import tensorflow, not wor
 
 To solve this error: delete the jupyterlab and redeploy, oh cool now just opening a notebook fails to load the kernel.
 
-The principle behind Lmod seems to be cool, but it don't seems to be actually implemented for stability
+Other packages requires ad hoc fixes for the different packages installed, e.g. I even faced an issue where RStudio was complaining about permissions
 
-The major advantage of using Docker container to handle dependencies has always been: it's stable, there are usually no surprise. Because developers don't want to spend days debugging everytime they need to install 1 small library. You pull, you run, it works. No surprise, no additional work
-
-But Lmod does not seems to provide this stability. It seems to require ad hoc fixes for the different packages installed (I even faced an issue where RStudio was complaining about permissions) 
+Checkout here to see how they build their client pilot https://github.com/EESSI/filesystem-layer/blob/main/containers/Dockerfile.EESSI-client-pilot-centos7

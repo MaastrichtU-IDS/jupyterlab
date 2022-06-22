@@ -3,7 +3,6 @@
 .jupyter/
 .local/
 .npm/
-*.ipynb
 data/
 
 easybuild-data/

@@ -1,4 +1,7 @@
-FROM quay.io/odh-jupyterhub/jupyterhub-img:v0.3.6
+ARG VERSION=v0.3.6
+FROM quay.io/odh-jupyterhub/jupyterhub-img:$VERSION
+
+LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
 
 USER root
 

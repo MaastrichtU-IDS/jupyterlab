@@ -7,6 +7,19 @@ USER root
 # RUN apt-get update && \
 #     apt-get install -y sqlite3
 
+
+# Install SPARQL kernel
+RUN jupyter sparqlkernel install 
+
+# Install Java kernel
+# RUN curl -L https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip > /opt/ijava-kernel.zip && \
+RUN wget -O /opt/ijava-kernel.zip https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip && \
+    unzip /opt/ijava-kernel.zip -d /opt/ijava-kernel && \
+    cd /opt/ijava-kernel && \
+    python install.py --sys-prefix && \
+    rm /opt/ijava-kernel.zip
+
+
 # Install Oxigraph SPARQL endpoint 0.2.5 (latest release)
 RUN wget -O /usr/local/bin/oxigraph_server https://github.com/vemonet/oxigraph/releases/download/v0.2.5/oxigraph_server && \
     chmod +x /usr/local/bin/oxigraph_server
@@ -16,13 +29,36 @@ RUN wget -O /usr/local/bin/oxigraph_server https://github.com/vemonet/oxigraph/r
 #     chmod +x /usr/local/bin/oxigraph_server
 
 
+
 COPY ./knowledge-graph/jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
 
+
 USER ${NB_UID}
+
+
+# Install OpenRefine
+ENV OPENREFINE_VERSION=3.4.1
+RUN cd /opt && \
+    wget https://github.com/OpenRefine/OpenRefine/releases/download/$OPENREFINE_VERSION/openrefine-linux-$OPENREFINE_VERSION.tar.gz && \
+    tar xzf openrefine-linux-$OPENREFINE_VERSION.tar.gz && \
+    mv /opt/openrefine-$OPENREFINE_VERSION /opt/openrefine && \
+    rm openrefine-linux-$OPENREFINE_VERSION.tar.gz
+    # ln -s /opt/openrefine-$OPENREFINE_VERSION/refine /opt/refine 
+ENV REFINE_DIR=/home/$NB_USER/openrefine
+ENV PATH=$PATH:/opt/openrefine
+RUN mkdir -p ~/openrefine
+
+
+
 
 # Install Blazegraph SPARQL endpoint
 # RUN wget -O /opt/blazegraph.jar https://github.com/blazegraph/database/releases/download/BLAZEGRAPH_2_1_6_RC/blazegraph.jar
 
+RUN pip install --upgrade pip && \
+    pip install --upgrade \
+      sparqlkernel \
+      #   nb-serverproxy-openrefine \ 
+      git+https://github.com/innovationOUtside/nb_serverproxy_openrefine.git@main
 
 # Install packages for RDF processing
 COPY ./knowledge-graph/requirements.txt requirements.txt

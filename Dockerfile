@@ -50,15 +50,12 @@ RUN mamba install --quiet -y \
 
 RUN pip install --upgrade pip && \
     pip install --upgrade \
-      sparqlkernel \
       mitosheet3 \
       jupyterlab-spreadsheet-editor \
       jupyterlab_latex \
       jupyterlab-github \
     #   jupyterlab_theme_solarized_dark \
     #   pyspark==$APACHE_SPARK_VERSION \
-    #   nb-serverproxy-openrefine \ 
-      git+https://github.com/innovationOUtside/nb_serverproxy_openrefine.git@main \
       jupyterlab-system-monitor
 
     ## Could also be interesting to install:
@@ -74,17 +71,6 @@ USER root
 RUN apt update && \
     apt install -y curl wget unzip zsh vim htop gfortran \
         python3-dev libpq-dev libclang-dev raptor2-utils
-
-# Install SPARQL kernel
-RUN jupyter sparqlkernel install 
-
-# Install Java kernel
-# RUN curl -L https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip > /opt/ijava-kernel.zip && \
-RUN wget -O /opt/ijava-kernel.zip https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip && \
-    unzip /opt/ijava-kernel.zip -d /opt/ijava-kernel && \
-    cd /opt/ijava-kernel && \
-    python install.py --sys-prefix && \
-    rm /opt/ijava-kernel.zip
 
 # Install VS Code server and extensions
 RUN curl -fsSL https://code-server.dev/install.sh | sh
@@ -163,19 +149,6 @@ RUN wget -q -O spark.tgz https://archive.apache.org/dist/spark/spark-${APACHE_SP
     tar xzf spark.tgz -C /opt && \
     rm "spark.tgz" && \
     ln -s "/opt/spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}" $SPARK_HOME
-
-
-# Install OpenRefine
-ENV OPENREFINE_VERSION=3.4.1
-RUN cd /opt && \
-    wget https://github.com/OpenRefine/OpenRefine/releases/download/$OPENREFINE_VERSION/openrefine-linux-$OPENREFINE_VERSION.tar.gz && \
-    tar xzf openrefine-linux-$OPENREFINE_VERSION.tar.gz && \
-    mv /opt/openrefine-$OPENREFINE_VERSION /opt/openrefine && \
-    rm openrefine-linux-$OPENREFINE_VERSION.tar.gz
-    # ln -s /opt/openrefine-$OPENREFINE_VERSION/refine /opt/refine 
-ENV REFINE_DIR=/home/$NB_USER/openrefine
-ENV PATH=$PATH:/opt/openrefine
-RUN mkdir -p ~/openrefine
 
 
 # Install Oh My ZSH! and custom theme

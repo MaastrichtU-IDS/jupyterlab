@@ -7,10 +7,6 @@ USER root
 # RUN apt-get update && \
 #     apt-get install -y sqlite3
 
-
-# Install SPARQL kernel
-RUN jupyter sparqlkernel install 
-
 # Install Java kernel
 # RUN curl -L https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip > /opt/ijava-kernel.zip && \
 RUN wget -O /opt/ijava-kernel.zip https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip && \
@@ -59,6 +55,13 @@ RUN pip install --upgrade pip && \
       sparqlkernel \
       #   nb-serverproxy-openrefine \ 
       git+https://github.com/innovationOUtside/nb_serverproxy_openrefine.git@main
+
+
+# Install SPARQL kernel
+USER root
+RUN jupyter sparqlkernel install 
+USER ${NB_UID}
+
 
 # Install packages for RDF processing
 COPY ./knowledge-graph/requirements.txt requirements.txt

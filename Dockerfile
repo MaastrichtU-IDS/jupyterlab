@@ -161,6 +161,7 @@ ENV SHELL=/bin/zsh
 
 USER root
 RUN chsh -s /bin/zsh 
+USER ${NB_UID}
 
 ADD bin/* ~/.local/bin/
 # ENV PATH=$PATH:/home/$NB_USER/.local/bin

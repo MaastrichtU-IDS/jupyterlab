@@ -51,8 +51,8 @@ c.ServerApp.terminado_settings = {'shell_command': ['/bin/zsh']}
 
 # Avoid duplicate conda kernel starters https://github.com/Anaconda-Platform/nb_conda_kernels/issues/141
 # c.NotebookApp.kernel_spec_manager_class = 'nb_conda_kernels.CondaKernelSpecManager'
-c.ServerApp.kernel_spec_manager_class = 'nb_conda_kernels.CondaKernelSpecManager'
-c.CondaKernelSpecManager.env_filter = 'root'
+# c.ServerApp.kernel_spec_manager_class = 'nb_conda_kernels.CondaKernelSpecManager'
+# c.CondaKernelSpecManager.env_filter = 'root'
 
 # Remove default Java and Python kernel (to use the conda one and avoid duplicate)
 # os.system('echo y | jupyter kernelspec remove java')
@@ -76,21 +76,21 @@ c.ServerProxy.servers = {
         },
     },
     ## Oxigraph version 0.2.5 (latest release)
-    "oxigraph": {
-        "command": [
-            "oxigraph_server",
-            "-b",
-            "0.0.0.0:{port}",
-            "-f",
-            os.getenv("JUPYTER_SERVER_ROOT", ".") + '/oxigraph_data',
-        ],
-        "timeout": 20,
-        "launcher_entry": {
-            "title": "Oxigraph database",
-            "icon_path": "/etc/jupyter/oxigraph.svg",
-            "enabled" : True
-        },
-    },
+    # "oxigraph": {
+    #     "command": [
+    #         "oxigraph_server",
+    #         "-b",
+    #         "0.0.0.0:{port}",
+    #         "-f",
+    #         os.getenv("JUPYTER_SERVER_ROOT", ".") + '/oxigraph_data',
+    #     ],
+    #     "timeout": 20,
+    #     "launcher_entry": {
+    #         "title": "Oxigraph database",
+    #         "icon_path": "/etc/jupyter/oxigraph.svg",
+    #         "enabled" : True
+    #     },
+    # },
 
     ## Oxigraph version 0.3+ (current master branch)
     # "oxigraph": {

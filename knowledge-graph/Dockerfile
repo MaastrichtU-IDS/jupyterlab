@@ -7,23 +7,11 @@ USER root
 # RUN apt-get update && \
 #     apt-get install -y sqlite3
 
-# Install Java kernel
-# RUN curl -L https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip > /opt/ijava-kernel.zip && \
-RUN wget -O /opt/ijava-kernel.zip https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip && \
-    unzip /opt/ijava-kernel.zip -d /opt/ijava-kernel && \
-    cd /opt/ijava-kernel && \
-    python install.py --sys-prefix && \
-    rm /opt/ijava-kernel.zip
 
 
-# Install Oxigraph SPARQL endpoint 0.2.5 (latest release)
-RUN wget -O /usr/local/bin/oxigraph_server https://github.com/vemonet/oxigraph/releases/download/v0.2.5/oxigraph_server && \
+# Install Oxigraph SPARQL endpoint
+RUN wget -O /usr/local/bin/oxigraph_server https://github.com/oxigraph/oxigraph/releases/download/v0.3.3/oxigraph_server_v0.3.3_x86_64_linux_gnu && \
     chmod +x /usr/local/bin/oxigraph_server
-
-# Install Oxigraph SPARQL endpoint 0.3 (current master)
-# RUN wget -O /usr/local/bin/oxigraph_server https://github.com/vemonet/oxigraph/releases/download/v0.3.0-beta/oxigraph_server && \
-#     chmod +x /usr/local/bin/oxigraph_server
-
 
 
 COPY ./knowledge-graph/jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
@@ -43,8 +31,6 @@ RUN cd /opt && \
 ENV REFINE_DIR=/home/$NB_USER/openrefine
 ENV PATH=$PATH:/opt/openrefine
 RUN mkdir -p ~/openrefine
-
-
 
 
 # Install Blazegraph SPARQL endpoint
@@ -69,7 +55,7 @@ RUN pip install -r requirements.txt && \
     rm requirements.txt
 
 ## Install pyOxigraph 0.2.5
-RUN pip install pyoxigraph oxrdflib
+# RUN pip install pyoxigraph oxrdflib
 ## Install pyOxigraph from source for 0.3+
 # pip install "git+https://github.com/oxigraph/oxigraph.git@master#subdirectory=python"
 

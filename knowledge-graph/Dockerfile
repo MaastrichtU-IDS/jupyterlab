@@ -14,7 +14,9 @@ RUN wget -O /usr/local/bin/oxigraph_server https://github.com/oxigraph/oxigraph/
 
 COPY ./knowledge-graph/jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
 
-RUN fix-permissions /etc/jupyter
+RUN fix-permissions /home/$NB_USER && \
+    fix-permissions /home/$NB_USER/.local && \
+    fix-permissions /etc/jupyter
 
 USER ${NB_UID}
 

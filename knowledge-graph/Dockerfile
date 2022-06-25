@@ -8,14 +8,13 @@ USER root
 #     apt-get install -y sqlite3
 
 
-
 # Install Oxigraph SPARQL endpoint
 RUN wget -O /usr/local/bin/oxigraph_server https://github.com/oxigraph/oxigraph/releases/download/v0.3.3/oxigraph_server_v0.3.3_x86_64_linux_gnu && \
     chmod +x /usr/local/bin/oxigraph_server
 
-
 COPY ./knowledge-graph/jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
 
+RUN fix-permissions /etc/jupyter
 
 USER ${NB_UID}
 

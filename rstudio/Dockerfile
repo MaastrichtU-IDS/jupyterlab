@@ -37,8 +37,8 @@ RUN if [ -f install.R ]; then R --quiet -f install.R; fi
 # RUN mamba install -y -c r rstudio
 # RUN mamba install -y -c conda-forge jupyter-rsession-proxy
 
-
-
+# mamba install -c defaults rstudio
+# mamba install -y -c defaults rstudio r-shiny
 
 
 # USER root

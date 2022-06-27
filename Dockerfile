@@ -15,11 +15,13 @@ ENV APACHE_SPARK_VERSION=$APACHE_SPARK_VERSION \
     # CHOWN_HOME=yes \
     # CHOWN_HOME_OPTS='-R'
 
+
+# Install yarn for handling npm packages
 RUN npm install --global yarn
 # Enable yarn global add:
 ENV PATH="$PATH:$HOME/.yarn/bin"
 
-# Install jupyterlab extensions with conda and pip
+# Install extensions for JupyterLab with conda and pip
 # Multi conda kernels: #   https://stackoverflow.com/questions/53004311/how-to-add-conda-environment-to-jupyter-lab
 RUN mamba install --quiet -y \
       openjdk=11 \
@@ -43,10 +45,6 @@ RUN mamba install --quiet -y \
     #   beakerx_kernel_java \
     #   beakerx_kernel_scala
 
-    ## Install RStudio:
-    # mamba install -c defaults rstudio
-    # mamba install -y -c defaults rstudio r-shiny
-    #   rise && \ # Issue when building with GitHub Actions related to jedi package
 
 RUN pip install --upgrade pip && \
     pip install --upgrade \
@@ -54,14 +52,11 @@ RUN pip install --upgrade pip && \
       jupyterlab-spreadsheet-editor \
       jupyterlab_latex \
       jupyterlab-github \
-    #   jupyterlab_theme_solarized_dark \
     #   pyspark==$APACHE_SPARK_VERSION \
       jupyterlab-system-monitor
 
     ## Could also be interesting to install:
-    #   jupyter-rsession-proxy \
-    #   jupyter-shiny-proxy \
-    #   @jupyterlab/server-proxy \
+    #   jupyterlab_theme_solarized_dark \
     #   elyra (pipeline builder for Kubeflow and Airflow)
 
 
@@ -107,7 +102,6 @@ RUN cd /opt && \
 #     export EXT_VERSION=0.6.4 && \
 #     wget https://github.com/janisdd/vscode-edit-csv/releases/download/v$EXT_VERSION/vscode-edit-csv-$EXT_VERSION.vsix && \
 #     code-server --install-extension vscode-edit-csv-$EXT_VERSION.vsix
-
 
 # Install open source gitpod VSCode? https://github.com/gitpod-io/openvscode-releases/blob/main/Dockerfile
 # ENV OPENVSCODE_SERVER_ROOT=/opt/openvscode \
@@ -173,7 +167,7 @@ USER ${NB_UID}
 ADD bin/* ~/.local/bin/
 # ENV PATH=$PATH:/home/$NB_USER/.local/bin
 
-# Git token will be stored in the persistent volume
+# Presets for git
 RUN git config --global credential.helper 'store --file ~/.git-credentials' && \
     git config --global diff.colorMoved zebra && \
     git config --global fetch.prune true && \
@@ -190,5 +184,4 @@ ADD README.ipynb $WORKSPACE
 
 CMD [ "start-notebook.sh", "--no-browser", "--ip=0.0.0.0", "--config=/etc/jupyter/jupyter_notebook_config.py" ]
 
-# ENTRYPOINT [ "start-notebook.sh", "--no-browser", "--ip=0.0.0.0", "--config=/etc/jupyter/jupyter_notebook_config.py" ]
 # ENTRYPOINT ["jupyter", "lab", "--allow-root", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--config=/etc/jupyter/jupyter_notebook_config.py"]

@@ -14,10 +14,7 @@ if persistent_folder:
     os.chdir(persistent_folder)
 
 if git_url:
-    os.system('git clone --quiet --recursive ' + git_url + ' .')
-    # repo_id = git_url.rsplit('/', 1)[-1].replace('.git', '')
-    # os.system('git clone --quiet --recursive ' + git_url)
-    # os.chdir(repo_id)
+    os.system('git clone --quiet --recursive ' + git_url)
 
 if os.path.exists('packages.txt'):
     os.system('sudo apt-get update')

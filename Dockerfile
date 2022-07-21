@@ -109,6 +109,19 @@ RUN cd /opt && \
 #     mv -f ${RELEASE_TAG}-linux-x64 ${OPENVSCODE_SERVER_ROOT} && \
 #     rm -f ${RELEASE_TAG}-linux-x64.tar.gz
 
+# Install oc, kubectl and Helm
+RUN cd /tmp && \
+    wget https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/oc.tar.gz && \
+    tar xvf oc.tar.gz && \
+    mv oc kubectl /usr/local/bin/ && \
+    wget https://github.com/kubeflow/kfctl/releases/download/v1.2.0/kfctl_v1.2.0-0-gbc038f9_linux.tar.gz && \
+    tar -xzf kfctl_v1.2.0-0-gbc038f9_linux.tar.gz  && \
+    mv kfctl /usr/local/bin/ && \
+    wget https://get.helm.sh/helm-v3.8.2-linux-386.tar.gz && \
+    tar -xzf helm-*-linux-386.tar.gz && \
+    mv linux-386/helm /usr/local/bin/
+
+
 # Add JupyterLab and VSCode settings
 COPY icons/*.svg /etc/jupyter/
 COPY jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py

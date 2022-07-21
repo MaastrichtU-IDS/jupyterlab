@@ -6,31 +6,35 @@ JupyterLab image with VisualStudio Code server integrated, based on the [jupyter
 
 ![Screenshot](/icons/screenshot.png)
 
-List of features of the `ghcr.io/maastrichtu-ids/jupyterlab:latest` image for CPU:
+## 🔋 Features
 
-**Installed notebook kernels**
+List of features for the images available running on CPU
 
-🐍 Python 3.8 kernel with autocomplete and suggestions ([jupyterlab-lsp 💬](https://github.com/krassowski/jupyterlab-lsp))
+### `ghcr.io/maastrichtu-ids/jupyterlab:latest`
 
-☕️ [IJava](https://github.com/SpencerPark/IJava) kernel with OpenJDK 11
-
-✨️ [SPARQL kernel](https://github.com/paulovn/sparql-kernel) to query RDF knowledge graphs
-
-📈 R kernel in the `ghcr.io/maastrichtu-ids/jupyterlab:r-notebook` image
-
-**Installed programs**
-
-🐍 **Conda** and mamba are installed, each conda environment created will add a new option to create a notebook using this environment in the JupyterLab Launcher (with `nb_conda_kernels`). You can create environments using different version of Python if necessary.
+This is the base image with useful interfaces and libraries for data science preinstalled:
 
 📋️ **VisualStudio Code** server is installed, and accessible from the JupyterLab Launcher
 
-💎 **OpenRefine** is installed, and accessible from the JupyterLab Launcher
+🐍 **Python 3.8** with notebook kernel supporting autocomplete and suggestions ([jupyterlab-lsp](https://github.com/krassowski/jupyterlab-lsp))
 
-✨️ **Apache Spark** and PySpark are installed for distributed data processing
+☕️ **Java OpenJDK 11** with [IJava](https://github.com/SpencerPark/IJava) notebook kernel 
+
+🐍 **Conda** and mamba are installed, each conda environment created will add a new option to create a notebook using this environment in the JupyterLab Launcher (with `nb_conda_kernels`). You can create environments using different version of Python if necessary.
 
 🧑‍💻 **ZSH** is used by default for the JupyterLab and VisualStudio Code terminals
 
-**Additionally installed in `ghcr.io/maastrichtu-ids/jupyterlab:knowledge-graph`**
+The following JupyterLab extensions are also installed: [jupyterlab-git](https://github.com/jupyterlab/jupyterlab-git), [jupyterlab-system-monitor](https://github.com/jtpio/jupyterlab-system-monitor), [jupyter_bokeh](https://github.com/bokeh/jupyter_bokeh), [plotly](https://github.com/plotly/plotly.py), [jupyterlab-spreadsheet](https://github.com/quigleyj97/jupyterlab-spreadsheet), [jupyterlab-drawio](https://github.com/QuantStack/jupyterlab-drawio).
+
+### `ghcr.io/maastrichtu-ids/jupyterlab:knowledge-graph`
+
+Extended from `ghcr.io/maastrichtu-ids/jupyterlab:latest`, it contains 
+
+✨️ [**SPARQL kernel**](https://github.com/paulovn/sparql-kernel) to query RDF knowledge graphs
+
+✨️ **Apache Spark** and PySpark are installed for distributed data processing
+
+💎 **OpenRefine** is installed, and accessible from the JupyterLab Launcher
 
 🦀 [**Oxigraph**](https://github.com/oxigraph/oxigraph) SPARQL database
 
@@ -38,18 +42,13 @@ List of features of the `ghcr.io/maastrichtu-ids/jupyterlab:latest` image for CP
 
 ☕️ Java `.jar` programs for knowledge graph processing are pre-downloaded in the `/opt` folder, such as RDF4J, Apache Jena, OWLAPI, RML mapper.
 
-**Installed JupyterLab extensions**
+### `ghcr.io/maastrichtu-ids/jupyterlab:r-notebook`
 
-* [jupyterlab-git](https://github.com/jupyterlab/jupyterlab-git)
-* [jupyterlab-system-monitor](https://github.com/jtpio/jupyterlab-system-monitor) to monitor the resources used
-* [jupyter_bokeh](https://github.com/bokeh/jupyter_bokeh)
-* [plotly](https://github.com/plotly/plotly.py)
-* [jupyterlab-spreadsheet](https://github.com/quigleyj97/jupyterlab-spreadsheet)
-* [jupyterlab-drawio](https://github.com/QuantStack/jupyterlab-drawio)
+📈 **R kernel**
 
-**Automatically install your code and dependencies**
+#### Automatically install your code and dependencies
 
-You can provide the URL to a git repository to be automatically cloned in the workspace at the start of the container using the environment variable `GIT_URL`
+With those docker images, you can optionally provide the URL to a git repository to be automatically cloned in the workspace at the start of the container using the environment variable `GIT_URL`
 
 The following files will be automatically installed if they are present at the root of the provided Git repository:
 

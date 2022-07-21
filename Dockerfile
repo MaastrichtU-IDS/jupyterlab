@@ -4,13 +4,8 @@ FROM $BASE_IMAGE:$PYTHON_VERSION
 
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
 
-# APACHE_SPARK_VERSION=3.0.1 and HADOOP_VERSION=3.2
-# APACHE_SPARK_VERSION=2.4.5 and HADOOP_VERSION=2.7 -> Requires python 3.7 and java 8
-ARG APACHE_SPARK_VERSION=3.2.1
-ARG HADOOP_VERSION=3.2
-ENV APACHE_SPARK_VERSION=$APACHE_SPARK_VERSION \
-    HADOOP_VERSION=$HADOOP_VERSION \
-    JUPYTER_ENABLE_LAB=yes
+
+ENV JUPYTER_ENABLE_LAB=yes
     # GRANT_SUDO=yes
     # CHOWN_HOME=yes \
     # CHOWN_HOME_OPTS='-R'
@@ -35,25 +30,21 @@ RUN mamba install --quiet -y \
       jupyter_bokeh \
       jupyterlab-drawio \
       rise \
-      pyspark=$APACHE_SPARK_VERSION \
       nb_conda_kernels \
       'jupyter-server-proxy>=3.1.0' && \
     mamba install -y -c plotly 'plotly>=4.8.2'
 
-    ## Install BeakerX kernels (requires python 3.7):
-    # mamba install -y -c beakerx \
-    #   beakerx_kernel_java \
-    #   beakerx_kernel_scala
+    ## Install BeakerX kernels? Requires python 3.7
+    # mamba install -y -c beakerx beakerx_kernel_java beakerx_kernel_scala
 
 
 RUN pip install --upgrade pip && \
     pip install --upgrade \
-      mitosheet3 \
       jupyterlab-spreadsheet-editor \
       jupyterlab_latex \
       jupyterlab-github \
-    #   pyspark==$APACHE_SPARK_VERSION \
-      jupyterlab-system-monitor
+      jupyterlab-system-monitor \
+      mitosheet3
 
     ## Could also be interesting to install:
     #   jupyterlab_theme_solarized_dark \
@@ -65,7 +56,7 @@ USER root
 
 RUN apt update && \
     apt install -y curl wget unzip zsh vim htop gfortran \
-        python3-dev libpq-dev libclang-dev raptor2-utils
+        python3-dev libpq-dev libclang-dev
 
 # Install Java kernel
 RUN wget -O /opt/ijava-kernel.zip https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip && \
@@ -73,6 +64,7 @@ RUN wget -O /opt/ijava-kernel.zip https://github.com/SpencerPark/IJava/releases/
     cd /opt/ijava-kernel && \
     python install.py --sys-prefix && \
     rm /opt/ijava-kernel.zip
+
 
 # Install VS Code server and extensions
 RUN curl -fsSL https://code-server.dev/install.sh | sh
@@ -139,18 +131,9 @@ COPY settings.json /home/$NB_USER/.local/share/code-server/User/settings.json
 
 RUN mkdir -p /home/$NB_USER/work
 
-# Update and compile JupyterLab extensions
+# Update and compile JupyterLab extensions?
 # RUN jupyter labextension update --all && \
 #     jupyter lab build 
-
-## Install Spark for standalone context in /opt
-ENV SPARK_HOME=/opt/spark \
-    SPARK_OPTS="--driver-java-options=-Xms1024M --driver-java-options=-Xmx2048M --driver-java-options=-Dlog4j.logLevel=info"
-ENV PATH=$PATH:$SPARK_HOME/bin
-RUN wget -q -O spark.tgz https://archive.apache.org/dist/spark/spark-${APACHE_SPARK_VERSION}/spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
-    tar xzf spark.tgz -C /opt && \
-    rm "spark.tgz" && \
-    ln -s "/opt/spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}" $SPARK_HOME
 
 
 # Install Oh My ZSH! and custom theme
@@ -165,8 +148,8 @@ USER root
 RUN chsh -s /bin/zsh 
 USER ${NB_UID}
 
+# Add some local scripts/shortcuts
 ADD bin/* ~/.local/bin/
-# ENV PATH=$PATH:/home/$NB_USER/.local/bin
 
 # Presets for git
 RUN git config --global credential.helper 'store --file ~/.git-credentials' && \

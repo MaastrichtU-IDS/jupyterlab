@@ -2,10 +2,17 @@ FROM ghcr.io/maastrichtu-ids/jupyterlab:latest
 
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
 
+# APACHE_SPARK_VERSION=3.0.1 and HADOOP_VERSION=3.2
+# APACHE_SPARK_VERSION=2.4.5 and HADOOP_VERSION=2.7 -> Requires python 3.7 and java 8
+ARG APACHE_SPARK_VERSION=3.2.1
+ARG HADOOP_VERSION=3.2
+ENV APACHE_SPARK_VERSION=$APACHE_SPARK_VERSION \
+    HADOOP_VERSION=$HADOOP_VERSION 
+
 USER root
 
-# RUN apt-get update && \
-#     apt-get install -y sqlite3
+RUN apt-get update && \
+    apt-get install -y raptor2-utils
 
 # Install Oxigraph SPARQL endpoint
 RUN wget -O /usr/local/bin/oxigraph_server https://github.com/oxigraph/oxigraph/releases/download/v0.3.3/oxigraph_server_v0.3.3_x86_64_linux_gnu && \
@@ -15,6 +22,25 @@ COPY ./knowledge-graph/jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_
 
 
 USER ${NB_UID}
+
+## Install Spark for standalone context in /opt
+# APACHE_SPARK_VERSION=3.0.1 and HADOOP_VERSION=3.2
+# APACHE_SPARK_VERSION=2.4.5 and HADOOP_VERSION=2.7 -> Requires python 3.7 and java 8
+ARG APACHE_SPARK_VERSION=3.2.1
+ARG HADOOP_VERSION=3.2
+ENV APACHE_SPARK_VERSION=$APACHE_SPARK_VERSION \
+    HADOOP_VERSION=$HADOOP_VERSION 
+ENV SPARK_HOME=/opt/spark \
+    SPARK_OPTS="--driver-java-options=-Xms1024M --driver-java-options=-Xmx2048M --driver-java-options=-Dlog4j.logLevel=info"
+ENV PATH=$PATH:$SPARK_HOME/bin
+RUN wget -q -O spark.tgz https://archive.apache.org/dist/spark/spark-${APACHE_SPARK_VERSION}/spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
+    tar xzf spark.tgz -C /opt && \
+    rm "spark.tgz" && \
+    ln -s "/opt/spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}" $SPARK_HOME
+
+RUN mamba install --quiet -y \
+      pyspark=$APACHE_SPARK_VERSION
+
 
 # Install OpenRefine
 ENV OPENREFINE_VERSION=3.4.1

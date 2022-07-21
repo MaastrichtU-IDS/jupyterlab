@@ -70,7 +70,9 @@ You'll need to wait a minute before the new conda environment becomes available 
 
 The easiest way to build a custom image is to extend the [existing images](https://github.com/MaastrichtU-IDS/jupyterlab).
 
-Here is an example `Dockerfile` to extend [`ghcr.io/maastrichtu-ids/jupyterlab:latest`](https://github.com/MaastrichtU-IDS/jupyterlab/blob/main/Dockerfile) based on the jupyter/docker-stacks:
+For notebooks running on CPU, we use images from the official [jupyter/docker-stacks](jupyter/docker-stacks), which run as non root user. So you will need to make sure the folders permissions are properly set for the notebook user.
+
+Here is an example `Dockerfile` to extend [`ghcr.io/maastrichtu-ids/jupyterlab:latest`](https://github.com/MaastrichtU-IDS/jupyterlab/blob/main/Dockerfile):
 
 ```dockerfile
 FROM ghcr.io/maastrichtu-ids/jupyterlab:latest
@@ -78,22 +80,14 @@ FROM ghcr.io/maastrichtu-ids/jupyterlab:latest
 USER root
 RUN apt-get update && \
     apt-get install -y vim
+RUN fix-permissions /home/$NB_USER
 # Switch back to the notebook user for other packages:
 USER ${NB_UID}
 RUN mamba install -c defaults -y rstudio
 RUN pip install jupyter-rsession-proxy
 ```
 
-For docker image that are not based on the jupyter/docker-stack, such as the GPU images defined by the [`gpu.dockerfile`](https://github.com/MaastrichtU-IDS/jupyterlab/blob/main/gpu.dockerfile), you will need to use the root user by default. For example:
-
-```dockerfile
-FROM ghcr.io/maastrichtu-ids/jupyterlab:tensorflow
-RUN apt-get update && \
-    apt-get install -y vim
-RUN pip install jupyter-tensorboard
-```
-
-> See at the bottom of this README for more information on how to contribute.
+> For docker image that are not based on the jupyter/docker-stack, such as the GPU images, you the root user is used by default. See at the further in this README for more information on how to extend GPU images.
 
 ### 🐳 Run a CPU image with Docker
 

@@ -136,7 +136,6 @@ RUN echo 'setopt NO_HUP' >> ~/.zshrc
 ENV SHELL=/bin/zsh
 # RUN chsh -s /bin/zsh
 
-# Git token will be stored in the persistent volume
 RUN git config --global credential.helper 'store --file ~/.git-credentials'
 
 ENV WORKSPACE="/workspace"

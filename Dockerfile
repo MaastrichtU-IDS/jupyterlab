@@ -131,6 +131,7 @@ RUN fix-permissions $CONDA_DIR && \
 # Switch back to the notebook user to finish installation
 USER ${NB_UID}
 
+# Add config files for JupyterLab and VSCode
 RUN mkdir -p ~/.jupyter/lab/user-settings/@jupyterlab/terminal-extension
 # COPY --chown=$NB_USER:100 plugin.jupyterlab-settings /home/$NB_USER/.jupyter/lab/user-settings/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
 COPY themes.jupyterlab-settings /home/$NB_USER/.jupyter/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings

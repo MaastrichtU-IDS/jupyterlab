@@ -5,7 +5,8 @@ FROM $BASE_IMAGE:$PYTHON_VERSION
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
 
 
-ENV JUPYTER_ENABLE_LAB=yes
+ENV TZ=Europe/Amsterdam \
+    JUPYTER_ENABLE_LAB=yes
     # GRANT_SUDO=yes
     # CHOWN_HOME=yes \
     # CHOWN_HOME_OPTS='-R'
@@ -54,8 +55,8 @@ RUN pip install --upgrade pip && \
 # Change to root user to install things
 USER root
 
-RUN apt update && \
-    apt install -y curl wget unzip zsh vim htop gfortran \
+RUN apt-get update && \
+    apt-get install -y tzdata curl wget unzip zsh vim htop gfortran \
         python3-dev libpq-dev libclang-dev
 
 # Install Java kernel

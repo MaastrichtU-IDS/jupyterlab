@@ -5,6 +5,9 @@ LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyte
 
 USER root
 
+# ADD um_jupyterhub_logo.png /opt/app-root/src/.jupyter/
+
+# Required to solve issues of UM certificates not being considered as valid
 RUN echo $'-----BEGIN CERTIFICATE-----\n\
 MIIG5TCCBM2gAwIBAgIRANpDvROb0li7TdYcrMTz2+AwDQYJKoZIhvcNAQEMBQAwgYgxCzAJBgNV\n\
 BAYTAlVTMRMwEQYDVQQIEwpOZXcgSmVyc2V5MRQwEgYDVQQHEwtKZXJzZXkgQ2l0eTEeMBwGA1UE\n\

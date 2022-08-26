@@ -3,7 +3,8 @@ pandas
 networkx
 rdflib>=6.0.0
 SPARQLWrapper
-ontospy[FULL]
+ontospy
+# ontospy[FULL]
 Owlready2
 pyshacl
 PyShEx

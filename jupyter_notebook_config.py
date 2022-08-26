@@ -37,6 +37,7 @@ if persistent_folder:
 if git_url:
     os.system('git clone --quiet --recursive ' + git_url)
     repo_id = git_url.rsplit('/', 1)[-1].rsplit('.git', 1)[0]
+    print(f'📥️ Cloning {repo_id}')
     os.chdir(repo_id)
 
 

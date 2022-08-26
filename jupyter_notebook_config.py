@@ -10,6 +10,27 @@ workspace = os.getenv('WORKSPACE', None)
 os.system('git config --global user.name "' + git_name + '"')
 os.system('git config --global user.email "' + git_email + '"')
 
+c.ServerApp.terminado_settings = {'shell_command': ['/bin/zsh']}
+
+c.ServerProxy.servers = {
+    "code-server": {
+        "command": [
+            "code-server",
+            "--auth=none",
+            "--disable-telemetry",
+            "--host=127.0.0.1",
+            "--port={port}",
+            os.getenv("JUPYTER_SERVER_ROOT", ".")
+        ],
+        "timeout": 20,
+        "launcher_entry": {
+            "title": "VisualStudio Code",
+            "icon_path": "/etc/jupyter/vscode.svg",
+            "enabled" : True
+        },
+    },
+}
+
 if persistent_folder:
     os.chdir(persistent_folder)
 
@@ -43,8 +64,6 @@ if workspace:
 
 # https://github.com/jupyter/docker-stacks/blob/master/base-notebook/jupyter_notebook_config.py
 
-c.ServerApp.terminado_settings = {'shell_command': ['/bin/zsh']}
-
 # Avoid duplicate conda kernel starters https://github.com/Anaconda-Platform/nb_conda_kernels/issues/141
 # https://github.com/jupyterhub/jupyterhub/issues/715#issuecomment-463756411
 # c.ServerApp.kernel_spec_manager_class = 'nb_conda_kernels.CondaKernelSpecManager'
@@ -53,23 +72,9 @@ c.ServerApp.terminado_settings = {'shell_command': ['/bin/zsh']}
 # os.system('echo y | jupyter kernelspec remove java')
 # os.system('echo y | jupyter kernelspec remove python3')
 
-c.ServerProxy.servers = {
-    "code-server": {
-        "command": [
-            "code-server",
-            "--auth=none",
-            "--disable-telemetry",
-            "--host=127.0.0.1",
-            "--port={port}",
-            os.getenv("JUPYTER_SERVER_ROOT", ".")
-        ],
-        "timeout": 20,
-        "launcher_entry": {
-            "title": "VisualStudio Code",
-            "icon_path": "/etc/jupyter/vscode.svg",
-            "enabled" : True
-        },
-    },
+# https://github.com/jupyter/notebook/issues/3130
+# c.FileContentsManager.delete_to_trash = False
+
     # "openvscode": {
     #     "command": [
     #         os.getenv("OPENVSCODE_SERVER_ROOT", "/opt/openvscode") + "/server.sh ",
@@ -83,7 +88,3 @@ c.ServerProxy.servers = {
     #         "enabled" : True
     #     },
     # },
-}
-
-# https://github.com/jupyter/notebook/issues/3130
-# c.FileContentsManager.delete_to_trash = False

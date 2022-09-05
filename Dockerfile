@@ -169,7 +169,7 @@ ADD bin/* ~/.local/bin/
 RUN git config --global credential.helper 'store --file ~/.git-credentials' && \
     git config --global diff.colorMoved zebra && \
     git config --global fetch.prune true && \
-    git config --global pull.rebase true
+    git config --global pull.rebase false
 
 
 ENV WORKSPACE="/home/${NB_USER}/work"

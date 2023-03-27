@@ -83,7 +83,7 @@ RUN code-server --install-extension redhat.vscode-yaml \
         --install-extension nickdemayo.vscode-json-editor \
         --install-extension ms-mssql.mssql \
         # --install-extension ms-azuretools.vscode-docker \
-        --install-extension eamodio.gitlens 
+        --install-extension eamodio.gitlens
 
 RUN cd /opt && \
     export EXT_VERSION=0.1.2 && \
@@ -147,7 +147,7 @@ RUN mkdir -p /home/$NB_USER/work
 
 # Update and compile JupyterLab extensions?
 # RUN jupyter labextension update --all && \
-#     jupyter lab build 
+#     jupyter lab build
 
 
 # Install Oh My ZSH! and custom theme
@@ -159,7 +159,7 @@ RUN echo 'setopt NO_HUP' >> ~/.zshrc
 ENV SHELL=/bin/zsh
 
 USER root
-RUN chsh -s /bin/zsh 
+RUN chsh -s /bin/zsh
 USER ${NB_UID}
 
 # Add some local scripts/shortcuts

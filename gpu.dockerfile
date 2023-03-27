@@ -15,9 +15,12 @@ USER root
 # RUN mkdir -p /workspace/scratch
 # WORKDIR /workspace
 
+# Unminimize Ubuntu image to enable to push with git
+RUN yes | unminimize
+
 RUN apt-get update && \
     apt-get install -y curl wget git vim zsh gnupg htop \
-      python3-pip python3-dev libpq-dev 
+      python3-pip python3-dev libpq-dev
       # ffmpeg libsm6 libxext6
       # For opencv, but causes pytorch and cuda build to crash
 
@@ -83,12 +86,12 @@ RUN pip install --upgrade pip && \
       # 'tensorboard==2.2.1' \
       # 'jupyter-tensorboard==0.2.0' \
     #   'jupyter-server-proxy>=3.1.0'
-    
+
 ## Conflicting with jupyterlab 3 apparently:
 # RUN jupyter labextension install jupyterlab_tensorboard
 
 # RUN jupyter labextension update --all && \
-#     jupyter lab build 
+#     jupyter lab build
 
 
 # Install VS Code server

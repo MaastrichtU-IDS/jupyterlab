@@ -16,7 +16,7 @@ USER root
 # WORKDIR /workspace
 
 # Unminimize Ubuntu image to enable to push with git
-# RUN yes | unminimize
+RUN yes | unminimize
 
 RUN apt-get update && \
     apt-get install -y curl wget git vim zsh gnupg htop \

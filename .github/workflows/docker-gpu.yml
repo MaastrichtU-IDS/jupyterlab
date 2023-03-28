@@ -98,36 +98,38 @@ jobs:
       #   run: |
       #     docker push $PUBLISH_CUDA
 
-  publish-pytorch:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+  # NOTE: building pytorch fails on GitHub actions because too big, the storage gets full
+  # So we need to manually build and publish it
+  # publish-pytorch:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
 
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v1
+  #     - name: Set up Docker Buildx
+  #       id: buildx
+  #       uses: docker/setup-buildx-action@v1
 
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{github.actor}}
-          password: ${{secrets.GITHUB_TOKEN}}
+  #     - name: Login to GitHub Container Registry
+  #       uses: docker/login-action@v1
+  #       with:
+  #         registry: ghcr.io
+  #         username: ${{github.actor}}
+  #         password: ${{secrets.GITHUB_TOKEN}}
 
-      - name: Build and publish ${{ env.PUBLISH_PYTORCH }} Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: ./
-          file: ./gpu.dockerfile
-          builder: ${{ steps.buildx.outputs.name }}
-          push: true
-          tags: ${{ env.PUBLISH_PYTORCH }}
-          build-args: NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:${{ env.PYTORCH_TAG }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+  #     - name: Build and publish ${{ env.PUBLISH_PYTORCH }} Docker image
+  #       uses: docker/build-push-action@v2
+  #       with:
+  #         context: ./
+  #         file: ./gpu.dockerfile
+  #         builder: ${{ steps.buildx.outputs.name }}
+  #         push: true
+  #         tags: ${{ env.PUBLISH_PYTORCH }}
+  #         build-args: NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:${{ env.PYTORCH_TAG }}
+  #         cache-from: type=gha
+  #         cache-to: type=gha,mode=max
 
-      # - name: Build image
-      #   run: docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:$PYTORCH_TAG -f gpu.dockerfile -t $PUBLISH_PYTORCH .
-      # - name: Push image to GitHub Container Registry
-      #   run: |
-      #     docker push $PUBLISH_PYTORCH
+  #     # - name: Build image
+  #     #   run: docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:$PYTORCH_TAG -f gpu.dockerfile -t $PUBLISH_PYTORCH .
+  #     # - name: Push image to GitHub Container Registry
+  #     #   run: |
+  #     #     docker push $PUBLISH_PYTORCH

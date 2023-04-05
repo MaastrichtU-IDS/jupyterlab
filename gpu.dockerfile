@@ -21,7 +21,7 @@ RUN yes | unminimize
 RUN apt-get update && \
     apt-get install -y curl wget git vim zsh gnupg htop \
       python3-pip python3-dev libpq-dev
-      # ffmpeg libsm6 libxext6
+      # ssh ffmpeg libsm6 libxext6
       # For opencv, but causes pytorch and cuda build to crash
 
 # # Create user

@@ -3,6 +3,8 @@
 if [[ ! -z "${CONDA_DIR}" && ! -d "${CONDA_DIR}" ]] ; then
     echo "Conda not installed, installing it."
 
+    echo "export CONDA_DIR=$CONDA_DIR" >> ~/.zshrc
+    echo "export CONDA_DIR=$CONDA_DIR" >> ~/.bashrc
     # export CONDA_DIR=${CONDA_DIR:-/opt/conda}
     # SHELL=/bin/bash \
     # LANG=${LANG:-en_US.UTF-8} \

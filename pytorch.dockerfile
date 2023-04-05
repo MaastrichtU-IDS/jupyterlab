@@ -10,13 +10,16 @@ USER root
 # WORKDIR /workspace
 
 # Unminimize Ubuntu image to enable to push with git
-RUN yes | unminimize
+# RUN yes | unminimize
 
 RUN apt-get update && \
     apt-get install -y curl wget git vim zsh gnupg htop \
       python3-pip python3-dev libpq-dev
       # ssh ffmpeg libsm6 libxext6
       # For opencv, but causes pytorch and cuda build to crash
+
+# Install NodeJS
+RUN curl -fsSL https://rpm.nodesource.com/setup_18.x | bash -
 
 # # Create user
 # ARG NB_USER="jovyan" \

@@ -18,7 +18,7 @@ This is the base image with useful interfaces and libraries for data science pre
 
 🐍 **Python 3.8** with notebook kernel supporting autocomplete and suggestions ([jupyterlab-lsp](https://github.com/krassowski/jupyterlab-lsp))
 
-☕️ **Java OpenJDK 11** with [IJava](https://github.com/SpencerPark/IJava) notebook kernel 
+☕️ **Java OpenJDK 11** with [IJava](https://github.com/SpencerPark/IJava) notebook kernel
 
 🐍 **Conda** and mamba are installed, each conda environment created will add a new option to create a notebook using this environment in the JupyterLab Launcher (with `nb_conda_kernels`). You can create environments using different version of Python if necessary.
 
@@ -28,7 +28,7 @@ The following JupyterLab extensions are also installed: [jupyterlab-git](https:/
 
 ### `ghcr.io/maastrichtu-ids/jupyterlab:knowledge-graph`
 
-Extended from `ghcr.io/maastrichtu-ids/jupyterlab:latest`, it contains 
+Extended from `ghcr.io/maastrichtu-ids/jupyterlab:latest`, it contains
 
 ✨️ [**SPARQL kernel**](https://github.com/paulovn/sparql-kernel) to query RDF knowledge graphs
 
@@ -120,7 +120,7 @@ docker run --rm -it --user $(id -u) -p 8888:8888 -e CHOWN_HOME=yes -e CHOWN_HOME
 >mkdir -p data/
 > sudo chown -R 1000:100 data/
 > ```
-> 
+>
 
 ### 📦 Build CPU images
 
@@ -191,10 +191,10 @@ docker run --rm -it -p 8888:8888 -v $(pwd)/data:/root -e JUPYTER_TOKEN=password 
 To deploy JupyterLab on GPU we use the [official Nvidia images](https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow), we defined the same [`gpu.dockerfile`](https://github.com/MaastrichtU-IDS/jupyterlab/blob/main/gpu.dockerfile) to install additional dependencies, such as JupyterLab and VisualStudio Code, with different images from Nvidia:
 
 🗜️ TensorFlow with [`nvcr.io/nvidia/tensorflow`](https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow):
-* `ghcr.io/maastrichtu-ids/jupyterlab:tensorflow` 
+* `ghcr.io/maastrichtu-ids/jupyterlab:tensorflow`
 
 🔥 PyTorch with [`nvcr.io/nvidia/pytorch`](https://ngc.nvidia.com/catalog/containers/pytorch):
-* `ghcr.io/maastrichtu-ids/jupyterlab:pytorch` 
+* `ghcr.io/maastrichtu-ids/jupyterlab:pytorch`
 
 👁️ CUDA with [`nvcr.io/nvidia/cuda`](https://ngc.nvidia.com/catalog/containers/cuda):
 * `ghcr.io/maastrichtu-ids/jupyterlab:cuda`
@@ -252,7 +252,7 @@ docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/works
 Change the `build-arg` and run from the root folder of this repository:
 
 ```bash
-docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:21.11-py3 -f gpu.dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:pytorch .
+docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:23.03-py3 -f pytorch.dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:pytorch .
 ```
 
 Run an image on http://localhost:8888
@@ -290,7 +290,7 @@ If you are working or studying at Maastricht University, you can easily deploy t
 Choose which image fits your need: latest, tensorflow, cuda, pytorch, freesurfer, python2.7...
 
 1. Fork this repository.
-2. Clone the forked repository 
+2. Clone the forked repository
 3. Edit the `Dockerfile` for the image you want to improve. Preferably use `mamba` or `conda` to install new packages, you can also install with `apt-get` (need to run as root or with `sudo`) and `pip`
 
 4. Go to the folder and rebuild the `Dockerfile`:

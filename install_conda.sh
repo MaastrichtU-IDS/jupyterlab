@@ -3,6 +3,12 @@
 if [[ ! -z "${CONDA_DIR}" && ! -d "${CONDA_DIR}" ]] ; then
     echo "Conda not installed, installing it."
 
+    # export CONDA_DIR=${CONDA_DIR:-/opt/conda}
+    # SHELL=/bin/bash \
+    # LANG=${LANG:-en_US.UTF-8} \
+    # LANGUAGE=${LANGUAGE:-en_US.UTF-8}
+    # ENV PATH="${CONDA_DIR}/bin:${PATH}"
+
     # Automatically download the latest release of mambaforge for conda/mamba
     wget -O Mambaforge-Linux-x86_64.sh https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh
     chmod +x Mambaforge-Linux-x86_64.sh

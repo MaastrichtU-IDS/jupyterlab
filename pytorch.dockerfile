@@ -1,11 +1,5 @@
 
-ARG NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:21.11-tf2-py3
-# ARG NVIDIA_IMAGE=nvcr.io/nvidia/cuda:11.4.2-devel-ubuntu20.04
-# ARG NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:21.11-py3
-
-## Example Nvidia images available:
-# Tensorflow: https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow
-# CUDA: pip and git not installed by default https://ngc.nvidia.com/catalog/containers/nvidia:cuda
+ARG NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:23.03-py3
 # PyTorch: https://ngc.nvidia.com/catalog/containers/nvidia:pytorch
 
 FROM ${NVIDIA_IMAGE}
@@ -54,30 +48,37 @@ RUN apt-get update && \
 # RUN /tmp/install_conda.sh
 
 ## Install packages with Conda
-RUN mamba install --quiet -y \
-      nodejs \
-      ipywidgets \
-      jupyterlab \
-      jupyterlab-git \
-      jupyterlab-lsp \
-      nb_conda_kernels \
-      jupyter-lsp-python \
-      'jupyter-server-proxy>=3.1.0'
-      # jupyter_bokeh \
-      # jupyterlab-drawio \
-      # rise \
-      # openjdk maven \
-    #   tensorflow tensorboard jupyter_tensorboard \
-    # conda install -y -c plotly 'plotly>=4.8.2'
+# RUN mamba install --quiet -y \
+#       # nodejs \
+#       ipywidgets \
+#       jupyterlab \
+#       jupyterlab-git \
+#       jupyterlab-lsp \
+#       # nb_conda_kernels \
+#       jupyter-lsp-python \
+#       'jupyter-server-proxy>=3.1.0'
+#       # jupyter_bokeh \
+#       # jupyterlab-drawio \
+#       # rise \
+#       # openjdk maven \
+#     #   tensorflow tensorboard jupyter_tensorboard \
+#     # conda install -y -c plotly 'plotly>=4.8.2'
 
 
 ## Install packages with pip
 # GPU dashboard: https://developer.nvidia.com/blog/gpu-dashboards-in-jupyter-lab/
 RUN pip install --upgrade pip && \
     pip install --upgrade \
+      ipywidgets \
+      jupyterlab \
+      jupyterlab-git \
+      jupyterlab-lsp \
+      # jupyter-lsp-python \
+      python-lsp-server \
       jupyterlab-nvdashboard \
       jupyterlab-github \
-      jupyterlab-spreadsheet-editor
+      jupyterlab-spreadsheet-editor \
+      'jupyter-server-proxy>=3.1.0'
       # mitosheet3
       # jupyterlab-git jupyterlab-lsp 'python-lsp-server[all]' \
 

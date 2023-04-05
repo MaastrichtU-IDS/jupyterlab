@@ -42,16 +42,16 @@ RUN apt-get update && \
 # USER ${NB_USER}
 
 ## Install Conda if not already installed for Pytorch
-## Disabled because it overrides all packages already installed
-# ARG INSTALL_CONDA=true
-# ENV INSTALL_CONDA=${INSTALL_CONDA}
-# ENV CONDA_DIR=${CONDA_DIR:-/opt/conda} \
-#     SHELL=/bin/bash \
-#     LANG=${LANG:-en_US.UTF-8} \
-#     LANGUAGE=${LANGUAGE:-en_US.UTF-8}
-# ENV PATH="${CONDA_DIR}/bin:${PATH}"
-# COPY install_conda.sh /tmp/
-# RUN /tmp/install_conda.sh
+## Currently not used because it overrides all packages already installed
+ARG INSTALL_CONDA=true
+ENV INSTALL_CONDA=${INSTALL_CONDA}
+ENV CONDA_DIR=${CONDA_DIR:-/opt/conda} \
+    SHELL=/bin/bash \
+    LANG=${LANG:-en_US.UTF-8} \
+    LANGUAGE=${LANGUAGE:-en_US.UTF-8}
+ENV PATH="${CONDA_DIR}/bin:${PATH}"
+COPY install_conda.sh /tmp/
+RUN /tmp/install_conda.sh
 
 ## Install packages with Conda
 RUN mamba install --quiet -y \

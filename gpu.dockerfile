@@ -70,8 +70,8 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 
 ## Install packages with pip
 # GPU dashboard: https://developer.nvidia.com/blog/gpu-dashboards-in-jupyter-lab/
-RUN pip install --upgrade pip && \
-    pip install --upgrade \
+RUN pip3 install --upgrade pip && \
+    pip3 install --upgrade \
       ipywidgets \
       jupyterlab \
       jupyterlab-git \
@@ -145,6 +145,9 @@ RUN echo "\`conda config --set changeps1 false\`" >> ~/.oh-my-zsh/plugins/virtua
 RUN echo 'setopt NO_HUP' >> ~/.zshrc
 ENV SHELL=/bin/zsh
 # RUN chsh -s /bin/zsh
+
+# RUN echo 'alias pip="pip3"' >> ~/.bashrc
+# RUN echo 'alias pip="pip3"' >> ~/.zshrc
 
 RUN git config --global credential.helper 'store --file ~/.git-credentials'
 

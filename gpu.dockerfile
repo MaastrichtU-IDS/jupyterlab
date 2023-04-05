@@ -19,7 +19,7 @@ RUN apt-get update && \
       # For opencv, but causes pytorch and cuda build to crash
 
 # Install NodeJS
-RUN curl -fsSL https://rpm.nodesource.com/setup_18.x | bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 
 # # Create user
 # ARG NB_USER="jovyan" \

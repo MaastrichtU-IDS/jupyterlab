@@ -252,7 +252,7 @@ docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/works
 Change the `build-arg` and run from the root folder of this repository:
 
 ```bash
-docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:23.03-py3 -f pytorch.dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:pytorch .
+docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:23.03-py3 -f gpu.dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:pytorch .
 ```
 
 Run an image on http://localhost:8888

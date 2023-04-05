@@ -15,7 +15,7 @@ jobs:
   jupyterlab:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Build image
         run: docker build . --file lmod/Dockerfile --tag $IMAGE_ID

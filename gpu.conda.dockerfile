@@ -1,5 +1,11 @@
 
-ARG NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:23.03-py3
+ARG NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:21.11-tf2-py3
+# ARG NVIDIA_IMAGE=nvcr.io/nvidia/cuda:11.4.2-devel-ubuntu20.04
+# ARG NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:21.11-py3
+
+## Example Nvidia images available:
+# Tensorflow: https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow
+# CUDA: pip and git not installed by default https://ngc.nvidia.com/catalog/containers/nvidia:cuda
 # PyTorch: https://ngc.nvidia.com/catalog/containers/nvidia:pytorch
 
 FROM ${NVIDIA_IMAGE}
@@ -10,16 +16,13 @@ USER root
 # WORKDIR /workspace
 
 # Unminimize Ubuntu image to enable to push with git
-# RUN yes | unminimize
+RUN yes | unminimize
 
 RUN apt-get update && \
     apt-get install -y curl wget git vim zsh gnupg htop \
       python3-pip python3-dev libpq-dev
       # ssh ffmpeg libsm6 libxext6
       # For opencv, but causes pytorch and cuda build to crash
-
-# Install NodeJS
-RUN curl -fsSL https://rpm.nodesource.com/setup_18.x | bash -
 
 # # Create user
 # ARG NB_USER="jovyan" \
@@ -51,37 +54,30 @@ RUN curl -fsSL https://rpm.nodesource.com/setup_18.x | bash -
 # RUN /tmp/install_conda.sh
 
 ## Install packages with Conda
-# RUN mamba install --quiet -y \
-#       # nodejs \
-#       ipywidgets \
-#       jupyterlab \
-#       jupyterlab-git \
-#       jupyterlab-lsp \
-#       # nb_conda_kernels \
-#       jupyter-lsp-python \
-#       'jupyter-server-proxy>=3.1.0'
-#       # jupyter_bokeh \
-#       # jupyterlab-drawio \
-#       # rise \
-#       # openjdk maven \
-#     #   tensorflow tensorboard jupyter_tensorboard \
-#     # conda install -y -c plotly 'plotly>=4.8.2'
+RUN mamba install --quiet -y \
+      nodejs \
+      ipywidgets \
+      jupyterlab \
+      jupyterlab-git \
+      jupyterlab-lsp \
+      nb_conda_kernels \
+      jupyter-lsp-python \
+      'jupyter-server-proxy>=3.1.0'
+      # jupyter_bokeh \
+      # jupyterlab-drawio \
+      # rise \
+      # openjdk maven \
+    #   tensorflow tensorboard jupyter_tensorboard \
+    # conda install -y -c plotly 'plotly>=4.8.2'
 
 
 ## Install packages with pip
 # GPU dashboard: https://developer.nvidia.com/blog/gpu-dashboards-in-jupyter-lab/
 RUN pip install --upgrade pip && \
     pip install --upgrade \
-      ipywidgets \
-      jupyterlab \
-      jupyterlab-git \
-      jupyterlab-lsp \
-      # jupyter-lsp-python \
-      python-lsp-server \
       jupyterlab-nvdashboard \
       jupyterlab-github \
-      jupyterlab-spreadsheet-editor \
-      'jupyter-server-proxy>=3.1.0'
+      jupyterlab-spreadsheet-editor
       # mitosheet3
       # jupyterlab-git jupyterlab-lsp 'python-lsp-server[all]' \
 

@@ -140,7 +140,7 @@ USER ${NB_UID}
 # Add config files for JupyterLab and VSCode
 RUN mkdir -p ~/.jupyter/lab/user-settings/@jupyterlab/terminal-extension
 # COPY --chown=$NB_USER:100 plugin.jupyterlab-settings /home/$NB_USER/.jupyter/lab/user-settings/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
-COPY themes.jupyterlab-settings /home/$NB_USER/.jupyter/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings
+# COPY themes.jupyterlab-settings /home/$NB_USER/.jupyter/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings
 COPY settings.json /home/$NB_USER/.local/share/code-server/User/settings.json
 
 RUN mkdir -p /home/$NB_USER/work

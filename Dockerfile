@@ -24,7 +24,7 @@ RUN mamba install --quiet -y \
       maven \
       ipywidgets \
       ipython-sql \
-      jupyterlab \
+    #   jupyterlab \
       jupyterlab-git \
       jupyterlab-lsp \
       jupyter-lsp-python \

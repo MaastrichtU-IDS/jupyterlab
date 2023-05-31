@@ -1,4 +1,4 @@
-ARG PYTHON_VERSION=python-3.8.8
+ARG PYTHON_VERSION=python-3.8
 ARG BASE_IMAGE=jupyter/scipy-notebook
 FROM $BASE_IMAGE:$PYTHON_VERSION
 
@@ -28,12 +28,12 @@ RUN mamba install --quiet -y \
       jupyterlab-git \
       jupyterlab-lsp \
       jupyter-lsp-python \
-      jupyter_bokeh \
-      jupyterlab-drawio \
+    #   jupyter_bokeh \
+    #   jupyterlab-drawio \
       rise \
       nb_conda_kernels \
-      'jupyter-server-proxy>=3.1.0' && \
-    mamba install -y -c plotly 'plotly>=4.8.2'
+      'jupyter-server-proxy>=3.1.0'
+    # mamba install -y -c plotly 'plotly>=4.8.2'
 
     ## Install BeakerX kernels? Requires python 3.7
     # mamba install -y -c beakerx beakerx_kernel_java beakerx_kernel_scala
@@ -42,10 +42,10 @@ RUN mamba install --quiet -y \
 RUN pip install --upgrade pip && \
     pip install --upgrade \
       jupyterlab-spreadsheet-editor \
-      jupyterlab_latex \
+    #   jupyterlab_latex \
       jupyterlab-github \
-      jupyterlab-system-monitor \
-      mitosheet3
+      jupyterlab-system-monitor
+    #   mitosheet3
 
     ## Could also be interesting to install:
     #   jupyterlab_theme_solarized_dark \
@@ -138,10 +138,10 @@ RUN fix-permissions $CONDA_DIR && \
 USER ${NB_UID}
 
 # Add config files for JupyterLab and VSCode
-RUN mkdir -p ~/.jupyter/lab/user-settings/@jupyterlab/terminal-extension
+COPY settings.json /home/$NB_USER/.local/share/code-server/User/settings.json
+# RUN mkdir -p ~/.jupyter/lab/user-settings/@jupyterlab/terminal-extension
 # COPY --chown=$NB_USER:100 plugin.jupyterlab-settings /home/$NB_USER/.jupyter/lab/user-settings/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
 # COPY themes.jupyterlab-settings /home/$NB_USER/.jupyter/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings
-COPY settings.json /home/$NB_USER/.local/share/code-server/User/settings.json
 
 RUN mkdir -p /home/$NB_USER/work
 

@@ -22,12 +22,12 @@ ENV PATH="$PATH:$HOME/.yarn/bin"
 RUN mamba install --quiet -y \
       openjdk=11 \
       maven \
-      ipywidgets \
       ipython-sql \
-    #   jupyterlab \
       jupyterlab-git \
       jupyterlab-lsp \
       jupyter-lsp-python \
+    #   jupyterlab \
+    #   ipywidgets \
     #   jupyter_bokeh \
     #   jupyterlab-drawio \
       rise \

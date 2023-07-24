@@ -165,18 +165,18 @@ USER ${NB_UID}
 # Add some local scripts/shortcuts
 ADD bin/* ~/.local/bin/
 
-# Presets for git
-RUN git config --global credential.helper 'store --file ~/.git-credentials' && \
-    git config --global diff.colorMoved zebra && \
-    git config --global fetch.prune true && \
-    git config --global pull.rebase false
-
-
 ENV WORKSPACE="/home/${NB_USER}/work"
 ENV PERSISTENT_FOLDER="${WORKSPACE}/persistent"
 RUN mkdir -p $PERSISTENT_FOLDER
 WORKDIR ${WORKSPACE}
 VOLUME [ "${PERSISTENT_FOLDER}" ]
+
+# Presets for git
+RUN git config --global credential.helper "store --file $PERSISTENT_FOLDER/.git-credentials" && \
+    git config --global diff.colorMoved zebra && \
+    git config --global fetch.prune true && \
+    git config --global pull.rebase false
+
 
 ADD README.ipynb $WORKSPACE
 

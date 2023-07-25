@@ -43,6 +43,7 @@ RUN pip3 install --upgrade pip && \
 RUN curl -fsSL https://code-server.dev/install.sh | sh
 RUN code-server --install-extension redhat.vscode-yaml \
         --install-extension ms-python.python \
+        --install-extension bungcip.better-toml \
         --install-extension ginfuru.ginfuru-better-solarized-dark-theme \
         --install-extension oderwat.indent-rainbow \
         --install-extension mechatroner.rainbow-csv \

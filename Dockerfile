@@ -72,6 +72,7 @@ RUN wget -O /opt/ijava-kernel.zip https://github.com/SpencerPark/IJava/releases/
 RUN curl -fsSL https://code-server.dev/install.sh | sh
 RUN code-server --install-extension redhat.vscode-yaml \
         --install-extension ms-python.python \
+        --install-extension bungcip.better-toml \
         --install-extension vscjava.vscode-java-pack \
         --install-extension ginfuru.ginfuru-better-solarized-dark-theme \
         --install-extension oderwat.indent-rainbow \

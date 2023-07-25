@@ -76,10 +76,11 @@ ENV SHELL=/bin/zsh
 RUN echo 'alias pip="pip3"' >> ~/.bashrc
 RUN echo 'alias pip="pip3"' >> ~/.zshrc
 
-RUN git config --global credential.helper 'store --file ~/.git-credentials'
-
 ENV WORKSPACE="/workspace"
 ENV PERSISTENT_FOLDER="${WORKSPACE}/persistent"
+
+RUN git config --global credential.helper "store --file $PERSISTENT_FOLDER/.git-credentials"
+
 WORKDIR ${WORKSPACE}
 VOLUME [ "${PERSISTENT_FOLDER}", "${WORKSPACE}/scratch" ]
 EXPOSE 8888

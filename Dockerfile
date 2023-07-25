@@ -6,7 +6,8 @@ LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyte
 
 
 ENV TZ=Europe/Amsterdam \
-    JUPYTER_ENABLE_LAB=yes
+    JUPYTER_ENABLE_LAB=yes \
+    PYTHONUNBUFFERED=1
     # GRANT_SUDO=yes
     # CHOWN_HOME=yes \
     # CHOWN_HOME_OPTS='-R'

@@ -4,6 +4,9 @@ ARG NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:23.03-py3
 
 FROM ${NVIDIA_IMAGE}
 
+ENV TZ=Europe/Amsterdam \
+    PYTHONUNBUFFERED=1
+
 USER root
 
 # Unminimize Ubuntu image to enable to push with git

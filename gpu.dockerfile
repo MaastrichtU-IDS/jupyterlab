@@ -1,5 +1,5 @@
 
-ARG NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:23.03-py3
+ARG NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:23.09-py3
 # PyTorch: https://ngc.nvidia.com/catalog/containers/nvidia:pytorch
 
 FROM ${NVIDIA_IMAGE}
@@ -25,6 +25,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 RUN pip3 install --upgrade pip && \
     pip3 install --upgrade \
       ipywidgets \
+      hatch \
       jupyterlab \
       jupyterlab-git \
       jupyterlab-lsp \

@@ -43,9 +43,10 @@ RUN mamba install --quiet -y \
 RUN pip install --upgrade pip && \
     pip install --upgrade \
       jupyterlab-spreadsheet-editor \
-    #   jupyterlab_latex \
+      hatch \
       jupyterlab-github \
       jupyterlab-system-monitor
+    #   jupyterlab_latex \
     #   mitosheet3
 
     ## Could also be interesting to install:

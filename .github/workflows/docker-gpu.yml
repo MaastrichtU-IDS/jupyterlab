@@ -18,51 +18,21 @@ env:
   PYTORCH_TAG: 23.03-py3
 
   ## https://catalog.ngc.nvidia.com/orgs/nvidia/containers/cuda
-  CUDA_TAG: 12.1.0-devel-ubuntu18.04
+  CUDA_TAG: 12.1.0-runtime-ubuntu22.04
 
   PUBLISH_TENSORFLOW: ghcr.io/maastrichtu-ids/jupyterlab:tensorflow
   PUBLISH_PYTORCH: ghcr.io/maastrichtu-ids/jupyterlab:pytorch
   PUBLISH_CUDA: ghcr.io/maastrichtu-ids/jupyterlab:cuda
 
 jobs:
-  publish-tensorflow:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{github.actor}}
-          password: ${{secrets.GITHUB_TOKEN}}
-
-      # - name: Log into GitHub Container Registry
-      #   run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
-      ## Cache: https://github.com/docker/build-push-action/blob/master/docs/advanced/cache.md#github-cache
-      # - name: Build and publish ${{ env.PUBLISH_TENSORFLOW }} Docker image
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     context: ./
-      #     file: ./gpu.dockerfile
-      #     builder: ${{ steps.buildx.outputs.name }}
-      #     push: true
-      #     tags: ${{ env.PUBLISH_TENSORFLOW }}
-      #     build-args: NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:${{ env.TENSORFLOW_TAG }}
-      #     cache-from: type=gha
-      #     cache-to: type=gha,mode=max
-
-      - name: Build image
-        run: docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:$TENSORFLOW_TAG -f gpu.dockerfile -t $PUBLISH_TENSORFLOW .
-      - name: Push image to GitHub Container Registry
-        run: |
-          docker push $PUBLISH_TENSORFLOW
-
 
   publish-cuda:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      - name: Free space
+        run: sudo rm -rf "$AGENT_TOOLSDIRECTORY"
 
       - name: Set up Docker Buildx
         id: buildx
@@ -93,38 +63,72 @@ jobs:
       #   run: |
       #     docker push $PUBLISH_CUDA
 
-  # NOTE: building pytorch fails on GitHub actions because too big, the storage gets full
-  # So we need to manually build and publish it
-  publish-pytorch:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+  # # NOTE: building pytorch fails on GitHub actions because too big, the storage gets full
+  # # So we need to manually build and publish it
+  # publish-pytorch:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      # - name: Set up Docker Buildx
-      #   id: buildx
-      #   uses: docker/setup-buildx-action@v2
+  #     # - name: Set up Docker Buildx
+  #     #   id: buildx
+  #     #   uses: docker/setup-buildx-action@v2
 
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{github.actor}}
-          password: ${{secrets.GITHUB_TOKEN}}
+  #     - name: Login to GitHub Container Registry
+  #       uses: docker/login-action@v2
+  #       with:
+  #         registry: ghcr.io
+  #         username: ${{github.actor}}
+  #         password: ${{secrets.GITHUB_TOKEN}}
 
-      # - name: Build and publish ${{ env.PUBLISH_PYTORCH }} Docker image
-      #   uses: docker/build-push-action@v4
-      #   with:
-      #     context: ./
-      #     file: ./gpu.dockerfile
-      #     builder: ${{ steps.buildx.outputs.name }}
-      #     push: true
-      #     tags: ${{ env.PUBLISH_PYTORCH }}
-      #     build-args: NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:${{ env.PYTORCH_TAG }}
-      #     cache-from: type=gha
-      #     cache-to: type=gha,mode=max
+  #     # - name: Build and publish ${{ env.PUBLISH_PYTORCH }} Docker image
+  #     #   uses: docker/build-push-action@v4
+  #     #   with:
+  #     #     context: ./
+  #     #     file: ./gpu.dockerfile
+  #     #     builder: ${{ steps.buildx.outputs.name }}
+  #     #     push: true
+  #     #     tags: ${{ env.PUBLISH_PYTORCH }}
+  #     #     build-args: NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:${{ env.PYTORCH_TAG }}
+  #     #     cache-from: type=gha
+  #     #     cache-to: type=gha,mode=max
 
-      - name: Build image
-        run: docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:$PYTORCH_TAG -f gpu.dockerfile -t $PUBLISH_PYTORCH .
-      - name: Push image to GitHub Container Registry
-        run: |
-          docker push $PUBLISH_PYTORCH
+  #     - name: Build image
+  #       run: docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:$PYTORCH_TAG -f gpu.dockerfile -t $PUBLISH_PYTORCH .
+  #     - name: Push image to GitHub Container Registry
+  #       run: |
+  #         docker push $PUBLISH_PYTORCH
+
+
+  # publish-tensorflow:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+
+  #     - name: Login to GitHub Container Registry
+  #       uses: docker/login-action@v2
+  #       with:
+  #         registry: ghcr.io
+  #         username: ${{github.actor}}
+  #         password: ${{secrets.GITHUB_TOKEN}}
+
+  #     # - name: Log into GitHub Container Registry
+  #     #   run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
+  #     ## Cache: https://github.com/docker/build-push-action/blob/master/docs/advanced/cache.md#github-cache
+  #     # - name: Build and publish ${{ env.PUBLISH_TENSORFLOW }} Docker image
+  #     #   uses: docker/build-push-action@v2
+  #     #   with:
+  #     #     context: ./
+  #     #     file: ./gpu.dockerfile
+  #     #     builder: ${{ steps.buildx.outputs.name }}
+  #     #     push: true
+  #     #     tags: ${{ env.PUBLISH_TENSORFLOW }}
+  #     #     build-args: NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:${{ env.TENSORFLOW_TAG }}
+  #     #     cache-from: type=gha
+  #     #     cache-to: type=gha,mode=max
+
+  #     - name: Build image
+  #       run: docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:$TENSORFLOW_TAG -f gpu.dockerfile -t $PUBLISH_TENSORFLOW .
+  #     - name: Push image to GitHub Container Registry
+  #       run: |
+  #         docker push $PUBLISH_TENSORFLOW

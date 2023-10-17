@@ -1,9 +1,10 @@
 
-ARG NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:23.09-py3
+ARG NVIDIA_IMAGE=nvcr.io/nvidia/cuda:12.1.0-runtime-ubuntu22.04
 # PyTorch: https://ngc.nvidia.com/catalog/containers/nvidia:pytorch
 
 FROM ${NVIDIA_IMAGE}
 
+ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Amsterdam \
     PYTHONUNBUFFERED=1
 
@@ -14,7 +15,7 @@ USER root
 
 RUN apt-get update && \
     apt-get install -y curl wget git vim zsh gnupg htop \
-      python3-pip python3-dev libpq-dev
+      python3-pip python3-dev python3-venv libpq-dev
 # For opencv, but causes pytorch and cuda build to crash: ffmpeg libsm6 libxext6
 
 # Install NodeJS
@@ -87,6 +88,6 @@ ENV PERSISTENT_FOLDER="${WORKSPACE}/persistent"
 RUN git config --global credential.helper "store --file $PERSISTENT_FOLDER/.git-credentials"
 
 WORKDIR ${WORKSPACE}
-VOLUME [ "${PERSISTENT_FOLDER}", "${WORKSPACE}/scratch" ]
+VOLUME [ "${PERSISTENT_FOLDER}" ]
 EXPOSE 8888
 ENTRYPOINT ["jupyter", "lab", "--allow-root", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--config=/etc/jupyter/jupyter_notebook_config.py"]

@@ -34,8 +34,8 @@ RUN pip3 install --upgrade pip && \
       jupyterlab-nvdashboard \
       jupyterlab-github \
       jupyterlab-spreadsheet-editor \
-      jupyter_tensorboard \
       'jupyter-server-proxy>=3.1.0'
+      #   jupyter_tensorboard \
       # mitosheet3
       ## Issue tensorboard with Jupyterlab3: https://github.com/chaoleili/jupyterlab_tensorboard/issues/28
       ## https://github.com/lspvic/jupyter_tensorboard

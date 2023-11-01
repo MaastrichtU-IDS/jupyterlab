@@ -40,7 +40,7 @@ RUN mamba install --quiet -y \
 
 
 # Install OpenRefine
-ENV OPENREFINE_VERSION=3.4.1
+ENV OPENREFINE_VERSION=3.7.6
 RUN cd /opt && \
     wget https://github.com/OpenRefine/OpenRefine/releases/download/$OPENREFINE_VERSION/openrefine-linux-$OPENREFINE_VERSION.tar.gz && \
     tar xzf openrefine-linux-$OPENREFINE_VERSION.tar.gz && \

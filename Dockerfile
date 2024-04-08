@@ -169,13 +169,10 @@ USER ${NB_UID}
 ADD bin/* ~/.local/bin/
 
 ENV WORKSPACE="/home/${NB_USER}/work"
-ENV PERSISTENT_FOLDER="${WORKSPACE}/persistent"
-RUN mkdir -p $PERSISTENT_FOLDER
 WORKDIR ${WORKSPACE}
-VOLUME [ "${PERSISTENT_FOLDER}" ]
 
 # Presets for git
-RUN git config --global credential.helper "store --file $PERSISTENT_FOLDER/.git-credentials" && \
+RUN git config --global credential.helper "store --file $HOME/.git-credentials" && \
     git config --global diff.colorMoved zebra && \
     git config --global fetch.prune true && \
     git config --global pull.rebase false

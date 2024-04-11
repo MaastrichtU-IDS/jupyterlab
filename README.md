@@ -219,26 +219,12 @@ RUN pip install jupyter-tensorboard
 
 You will find here the commands to use to build our different GPU docker images, most of them are using the [`gpu.dockerfile`](https://github.com/MaastrichtU-IDS/jupyterlab/blob/main/gpu.dockerfile)
 
-#### Tensorflow on GPU
-
-Change the `build-arg` and run from the root folder of this repository:
-
-```bash
-docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:21.11-tf2-py3 -f gpu.dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:tensorflow .
-```
-
-Run an image on http://localhost:8888
-
-```bash
-docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/workspace/persistent ghcr.io/maastrichtu-ids/jupyterlab:tensorflow
-```
-
 #### CUDA on GPU
 
 Change the `build-arg` and run from the root folder of this repository:
 
 ```bash
-docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/cuda:11.4.2-devel-ubuntu20.04 -f gpu.dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:tensorflow .
+docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/cuda:11.4.2-devel-ubuntu20.04 -f gpu.dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:cuda .
 ```
 
 Run an image on http://localhost:8888
@@ -259,6 +245,20 @@ Run an image on http://localhost:8888
 
 ```bash
 docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/workspace/persistent ghcr.io/maastrichtu-ids/jupyterlab:pytorch
+```
+
+#### Tensorflow on GPU
+
+Change the `build-arg` and run from the root folder of this repository:
+
+```bash
+docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:21.11-tf2-py3 -f gpu.dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:tensorflow .
+```
+
+Run an image on http://localhost:8888
+
+```bash
+docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/workspace/persistent ghcr.io/maastrichtu-ids/jupyterlab:tensorflow
 ```
 
 #### FSL on GPU

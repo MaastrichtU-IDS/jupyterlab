@@ -89,11 +89,11 @@ RUN cd /opt && \
     export EXT_VERSION=0.1.2 && \
     wget https://open-vsx.org/api/vemonet/stardog-rdf-grammars/$EXT_VERSION/file/vemonet.stardog-rdf-grammars-$EXT_VERSION.vsix && \
     code-server --install-extension vemonet.stardog-rdf-grammars-$EXT_VERSION.vsix && \
-    wget https://marketplace.visualstudio.com/_apis/public/gallery/publishers/mutantdino/vsextensions/resourcemonitor/1.0.7/vspackage && \
+    wget -O mutantdino.resourcemonitor-1.0.7.vsix https://marketplace.visualstudio.com/_apis/public/gallery/publishers/mutantdino/vsextensions/resourcemonitor/1.0.7/vspackage && \
     code-server --install-extension mutantdino.resourcemonitor-1.0.7.vsix && \
-    wget https://marketplace.visualstudio.com/_apis/public/gallery/publishers/nickdemayo/vsextensions/vscode-json-editor/0.3.0/vspackage && \
+    wget -O nickdemayo.vscode-json-editor-0.3.0.vsix https://marketplace.visualstudio.com/_apis/public/gallery/publishers/nickdemayo/vsextensions/vscode-json-editor/0.3.0/vspackage && \
     code-server --install-extension nickdemayo.vscode-json-editor-0.3.0.vsix && \
-    wget https://marketplace.visualstudio.com/_apis/public/gallery/publishers/george-alisson/vsextensions/html-preview-vscode/0.2.5/vspackage && \
+    wget -O george-alisson.html-preview-vscode-0.2.5.vsix https://marketplace.visualstudio.com/_apis/public/gallery/publishers/george-alisson/vsextensions/html-preview-vscode/0.2.5/vspackage && \
     code-server --install-extension george-alisson.html-preview-vscode-0.2.5.vsix
 
 ## Not compatible with web yet: https://github.com/janisdd/vscode-edit-csv/issues/67

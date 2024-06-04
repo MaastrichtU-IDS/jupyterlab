@@ -79,7 +79,6 @@ RUN code-server --install-extension redhat.vscode-yaml \
         --install-extension oderwat.indent-rainbow \
         --install-extension mechatroner.rainbow-csv \
         --install-extension GrapeCity.gc-excelviewer \
-        --install-extension george-alisson.html-preview-vscode \
         --install-extension yzhang.markdown-all-in-one \
         --install-extension redhat.vscode-xml \
         --install-extension ms-mssql.mssql \

@@ -71,19 +71,21 @@ RUN wget -O /opt/ijava-kernel.zip https://github.com/SpencerPark/IJava/releases/
 
 # Install VS Code server and extensions
 RUN curl -fsSL https://code-server.dev/install.sh | sh
+RUN wget https://marketplace.visualstudio.com/_apis/public/gallery/publishers/mutantdino/vsextensions/resourcemonitor/1.0.7/vspackage
+RUN wget https://marketplace.visualstudio.com/_apis/public/gallery/publishers/nickdemayo/vsextensions/vscode-json-editor/0.3.0/vspackage
 RUN code-server --install-extension redhat.vscode-yaml \
         --install-extension ms-python.python \
         --install-extension bungcip.better-toml \
         --install-extension vscjava.vscode-java-pack \
         --install-extension ginfuru.ginfuru-better-solarized-dark-theme \
         --install-extension oderwat.indent-rainbow \
-        --install-extension mutantdino.resourcemonitor \
+        --install-extension mutantdino.resourcemonitor-1.0.7.vsix \
         --install-extension mechatroner.rainbow-csv \
         --install-extension GrapeCity.gc-excelviewer \
-        --install-extension tht13.html-preview-vscode \
-        --install-extension mdickin.markdown-shortcuts \
+        --install-extension george-alisson.html-preview-vscode \
+        --install-extension yzhang.markdown-all-in-one \
         --install-extension redhat.vscode-xml \
-        --install-extension nickdemayo.vscode-json-editor \
+        --install-extension nickdemayo.vscode-json-editor-0.3.0.vsix \
         --install-extension ms-mssql.mssql \
         # --install-extension ms-azuretools.vscode-docker \
         --install-extension eamodio.gitlens

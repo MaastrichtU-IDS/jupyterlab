@@ -79,7 +79,7 @@ jobs:
 
   # Our custom Dockerfile for knowledge graphs
   build-and-publish-graph:
-    needs: build-and-publish-latest
+    needs: build-and-publish-jupyterlab
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -172,7 +172,7 @@ jobs:
 
   # Our custom Dockerfile based on jupyter/r-notebook
   build-and-publish-r-notebook:
-    needs: build-and-publish-latest
+    needs: build-and-publish-jupyterlab
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

@@ -1,4 +1,4 @@
-ARG VERSION=v0.3.6
+ARG VERSION=v0.3.8
 FROM quay.io/odh-jupyterhub/jupyterhub-img:$VERSION
 
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"

@@ -41,8 +41,8 @@ RUN export ND_ENTRYPOINT="/neurodocker/startup.sh" \
 
 # ENTRYPOINT ["/neurodocker/startup.sh"]
 
-ENV FREESURFER_HOME="/opt/freesurfer-6.0.1" \
-    PATH="/opt/freesurfer-6.0.1/bin:$PATH"
+ENV FREESURFER_HOME="/opt/freesurfer-7.4.1" \
+    PATH="/opt/freesurfer-7.4.1/bin:$PATH"
 RUN apt-get update -qq \
     && apt-get install -y -q --no-install-recommends \
            bc \
@@ -54,9 +54,9 @@ RUN apt-get update -qq \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && echo "Downloading FreeSurfer ..." \
-    && mkdir -p /opt/freesurfer-6.0.1 \
-    && curl -fsSL --retry 5 ftp://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/6.0.1/freesurfer-Linux-centos6_x86_64-stable-pub-v6.0.1.tar.gz \
-    | tar -xz -C /opt/freesurfer-6.0.1 --strip-components 1 \
+    && mkdir -p /opt/freesurfer-7.4.1 \
+    && curl -fsSL --retry 5 ftp://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/7.4.1/freesurfer-Linux-centos6_x86_64-stable-pub-v7.4.1.tar.gz \
+    | tar -xz -C /opt/freesurfer-7.4.1 --strip-components 1 \
          --exclude='freesurfer/average/mult-comp-cor' \
          --exclude='freesurfer/lib/cuda' \
          --exclude='freesurfer/lib/qt' \
@@ -70,7 +70,7 @@ RUN apt-get update -qq \
          --exclude='freesurfer/subjects/fsaverage6' \
          --exclude='freesurfer/subjects/fsaverage_sym' \
          --exclude='freesurfer/trctrain' \
-    && sed -i '$isource "/opt/freesurfer-6.0.1/SetUpFreeSurfer.sh"' "$ND_ENTRYPOINT"
+    && sed -i '$isource "/opt/freesurfer-7.4.1/SetUpFreeSurfer.sh"' "$ND_ENTRYPOINT"
 
 RUN echo '{ \
     \n  "pkg_manager": "apt", \
@@ -82,14 +82,14 @@ RUN echo '{ \
     \n    [ \
     \n      "freesurfer", \
     \n      { \
-    \n        "version": "6.0.1" \
+    \n        "version": "7.4.1" \
     \n      } \
     \n    ] \
     \n  ] \
     \n}' > /neurodocker/neurodocker_specs.json
 
 # Add conda to path
-# ENV PATH="/opt/fsl-6.0.3/fslpython/condabin:/opt/fsl-6.0.3/fslpython/bin:${PATH}" 
+# ENV PATH="/opt/fsl-6.0.4/fslpython/condabin:/opt/fsl-6.0.4/fslpython/bin:${PATH}" 
 
 RUN conda install --quiet -y \
         notebook \

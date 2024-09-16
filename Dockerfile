@@ -27,13 +27,11 @@ RUN mamba install --quiet -y \
       jupyterlab-git \
       jupyterlab-lsp \
       jupyter-lsp-python \
-      webcolors \ 
-      jsonschema-with-format-nongpl \
     #   jupyterlab \
     #   ipywidgets \
     #   jupyter_bokeh \
     #   jupyterlab-drawio \
-      rise \
+      jupyterlab_rise \
       nb_conda_kernels \
       'jupyter-server-proxy>=3.1.0'
     # mamba install -y -c plotly 'plotly>=4.8.2'

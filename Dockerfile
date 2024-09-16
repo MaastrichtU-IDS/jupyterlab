@@ -27,7 +27,8 @@ RUN mamba install --quiet -y \
       jupyterlab-git \
       jupyterlab-lsp \
       jupyter-lsp-python \
-      webcolors \    
+      webcolors \ 
+      jsonschema-with-format-nongpl \
     #   jupyterlab \
     #   ipywidgets \
     #   jupyter_bokeh \

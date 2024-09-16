@@ -65,7 +65,7 @@ RUN pip install --upgrade pip && \
 # Install SPARQL kernel
 USER root
 
-RUN jupyter sparqlkernel install 
+RUN jupyter sparqlkernel install --user $NB_USER
 
 RUN fix-permissions /home/$NB_USER && \
     fix-permissions /home/$NB_USER/.local && \

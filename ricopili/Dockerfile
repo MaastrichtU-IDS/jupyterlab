@@ -1,4 +1,4 @@
-FROM bruggerk/ricopili:latest
+FROM ghcr.io/maastrichtu-library/ricopili:2025_jan_30.003
 
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
 

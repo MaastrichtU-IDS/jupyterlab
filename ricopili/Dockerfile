@@ -5,8 +5,11 @@ LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyte
 WORKDIR /root
 
 RUN apt-get update && \
-    apt-get install -y python3-pip python3-dev && \
-    pip3 install notebook jupyterlab
+    apt-get install -y python3-pip python3-dev python3-venv && \
+    python3 -m venv /opt/venv && \
+    /opt/venv/bin/pip install --upgrade pip && \
+    /opt/venv/bin/pip install notebook jupyterlab
 
 EXPOSE 8888
+
 ENTRYPOINT ["jupyter", "lab", "--allow-root", "--ip=0.0.0.0", "--port=8888", "--no-browser"]

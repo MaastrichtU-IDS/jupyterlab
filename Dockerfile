@@ -4,14 +4,12 @@ FROM $BASE_IMAGE:$PYTHON_VERSION
 
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
 
-
 ENV TZ=Europe/Amsterdam \
     JUPYTER_ENABLE_LAB=yes \
     PYTHONUNBUFFERED=1
     # GRANT_SUDO=yes
     # CHOWN_HOME=yes \
     # CHOWN_HOME_OPTS='-R'
-
 
 # Install yarn for handling npm packages
 RUN npm install --global yarn
@@ -39,7 +37,6 @@ RUN mamba install --quiet -y \
 
     ## Install BeakerX kernels? Requires python 3.7
     # mamba install -y -c beakerx beakerx_kernel_java beakerx_kernel_scala
-
 
 RUN pip install --upgrade pip && \
     pip install --upgrade \
@@ -138,9 +135,8 @@ RUN fix-permissions $CONDA_DIR && \
     fix-permissions /opt && \
     fix-permissions /etc/jupyter
 
-
 # Switch back to the notebook user to finish installation
-USER ${NB_UID}
+USER ${NB_USER}
 
 # Add config files for JupyterLab and VSCode
 COPY settings.json /home/$NB_USER/.local/share/code-server/User/settings.json
@@ -148,12 +144,12 @@ COPY settings.json /home/$NB_USER/.local/share/code-server/User/settings.json
 # COPY --chown=$NB_USER:100 plugin.jupyterlab-settings /home/$NB_USER/.jupyter/lab/user-settings/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
 # COPY themes.jupyterlab-settings /home/$NB_USER/.jupyter/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings
 
-RUN mkdir -p /home/$NB_USER/work
+RUN mkdir -p /home/$NB_USER/work/persistent && \
+    chown ${NB_USER}:users /home/$NB_USER/work/persistent
 
 # Update and compile JupyterLab extensions?
 # RUN jupyter labextension update --all && \
 #     jupyter lab build
-
 
 # Install Oh My ZSH! and custom theme
 RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -165,7 +161,8 @@ ENV SHELL=/bin/zsh
 
 USER root
 RUN chsh -s /bin/zsh
-USER ${NB_UID}
+
+USER ${NB_USER}
 
 # Add some local scripts/shortcuts
 ADD bin/* ~/.local/bin/
@@ -182,6 +179,6 @@ RUN git config --global credential.helper "store --file $HOME/.git-credentials" 
 
 ADD README.ipynb $WORKSPACE
 
-CMD [ "start-notebook.sh", "--no-browser", "--ip=0.0.0.0", "--config=/etc/jupyter/jupyter_notebook_config.py" ]
+CMD ["sh", "-c", "chown -R ${NB_USER}:users /home/${NB_USER}/work/persistent && start-notebook.sh --no-browser --ip=0.0.0.0 --config=/etc/jupyter/jupyter_notebook_config.py"]
 
 # ENTRYPOINT ["jupyter", "lab", "--allow-root", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--config=/etc/jupyter/jupyter_notebook_config.py"]

@@ -1,20 +1,19 @@
-
 # Built with https://github.com/ReproNim/neurodocker
 FROM condaforge/mambaforge
-# FROM debian:stretch
-# FROM jupyter/scipy-notebook
 
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
 
 USER root
-# WORKDIR /root
-
 
 ARG DEBIAN_FRONTEND="noninteractive"
 
 ENV LANG="en_US.UTF-8" \
     LC_ALL="en_US.UTF-8" \
     ND_ENTRYPOINT="/neurodocker/startup.sh"
+
+# Copy the local FreeSurfer .deb file
+COPY freesurfer_ubuntu20-8.1.0_amd64.deb /tmp/freesurfer.deb
+
 RUN export ND_ENTRYPOINT="/neurodocker/startup.sh" \
     && apt-get update -qq \
     && apt-get install -y -q --no-install-recommends \
@@ -39,10 +38,7 @@ RUN export ND_ENTRYPOINT="/neurodocker/startup.sh" \
     fi \
     && chmod -R 777 /neurodocker && chmod a+s /neurodocker
 
-# ENTRYPOINT ["/neurodocker/startup.sh"]
-
-ENV FREESURFER_HOME="/opt/freesurfer-7.4.1" \
-    PATH="/opt/freesurfer-7.4.1/bin:$PATH"
+# Install FreeSurfer 8.1.0 from .deb package
 RUN apt-get update -qq \
     && apt-get install -y -q --no-install-recommends \
            bc \
@@ -51,51 +47,42 @@ RUN apt-get update -qq \
            libxt6 \
            perl \
            tcsh \
+    && echo "Installing FreeSurfer 8.1.0 for Ubuntu 20.04..." \
+    && apt-get install -y /tmp/freesurfer.deb \
+    && rm /tmp/freesurfer.deb \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && echo "Downloading FreeSurfer ..." \
-    && mkdir -p /opt/freesurfer-7.4.1 \
-    && curl -fsSL --retry 5 ftp://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/7.4.1/freesurfer-linux-centos8_x86_64-7.4.1.tar.gz \
-    | tar -xz -C /opt/freesurfer-7.4.1 --strip-components 2 \
-         --exclude='freesurfer/average/mult-comp-cor' \
-         --exclude='freesurfer/lib/cuda' \
-         --exclude='freesurfer/lib/qt' \
-         --exclude='freesurfer/subjects/V1_average' \
-         --exclude='freesurfer/subjects/bert' \
-         --exclude='freesurfer/subjects/cvs_avg35' \
-         --exclude='freesurfer/subjects/cvs_avg35_inMNI152' \
-         --exclude='freesurfer/subjects/fsaverage3' \
-         --exclude='freesurfer/subjects/fsaverage4' \
-         --exclude='freesurfer/subjects/fsaverage5' \
-         --exclude='freesurfer/subjects/fsaverage6' \
-         --exclude='freesurfer/subjects/fsaverage_sym' \
-         --exclude='freesurfer/trctrain' \
-    && sed -i '$isource "/opt/freesurfer-7.4.1/SetUpFreeSurfer.sh"' "$ND_ENTRYPOINT"
+    && rm -rf /var/lib/apt/lists/*
+
+# Update environment variables for FreeSurfer 8.1.0 (installed at /usr/local/freesurfer/8.1.0)
+ENV FREESURFER_HOME="/usr/local/freesurfer/8.1.0" \
+    PATH="/usr/local/freesurfer/8.1.0/bin:$PATH"
+
+# Source FreeSurfer setup in entrypoint and bashrc
+RUN sed -i '$isource "$FREESURFER_HOME/SetUpFreeSurfer.sh"' "$ND_ENTRYPOINT" \
+    && echo "source ${FREESURFER_HOME}/SetUpFreeSurfer.sh" >> /root/.bashrc
 
 RUN echo '{ \
     \n  "pkg_manager": "apt", \
     \n  "instructions": [ \
     \n    [ \
     \n      "base", \
-    \n      "debian:stretch" \
+    \n      "condaforge/mambaforge" \
     \n    ], \
     \n    [ \
     \n      "freesurfer", \
     \n      { \
-    \n        "version": "7.4.1" \
+    \n        "version": "8.1.0" \
     \n      } \
     \n    ] \
     \n  ] \
     \n}' > /neurodocker/neurodocker_specs.json
 
-# Add conda to path
-# ENV PATH="/opt/fsl-6.0.4/fslpython/condabin:/opt/fsl-6.0.4/fslpython/bin:${PATH}" 
-
+# Install JupyterLab
 RUN conda install --quiet -y \
         notebook \
         jupyterlab \
-        jupyterlab-lsp jupyter-lsp-python
+        jupyterlab-lsp jupyter-lsp-python \
+    && conda clean -afy
 
-# ENTRYPOINT ["/neurodocker/startup.sh"]
 EXPOSE 8888
 ENTRYPOINT ["jupyter", "lab", "--allow-root", "--ip=0.0.0.0", "--port=8888", "--no-browser"]

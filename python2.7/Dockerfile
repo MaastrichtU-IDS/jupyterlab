@@ -25,5 +25,7 @@ RUN python2.7 -m ipykernel install --name python2 --display-name "Python 2.7"
 SHELL ["/bin/bash", "-c"]
 ENV SHELL=/bin/bash
 
+ADD README.ipynb /root
+
 EXPOSE 8888
 ENTRYPOINT ["jupyter", "lab", "--allow-root", "--ip=0.0.0.0", "--port=8888", "--no-browser"]

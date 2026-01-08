@@ -1,0 +1,18 @@
+services:
+  jupyterlab:
+    ## image: ghcr.io/maastrichtu-ids/jupyterlab:python2.7
+    build: 
+      context: .
+      dockerfile: Dockerfile
+
+    user: root
+    # user: "1000"
+    # user: ${UID}
+    ports:
+      - 8888:8888
+    # volumes:
+      ## Share volumes for jupyterlab:
+      # - ./data/work:/home/jovyan/work
+    environment:
+      - GRANT_SUDO=yes
+      - JUPYTER_TOKEN=password

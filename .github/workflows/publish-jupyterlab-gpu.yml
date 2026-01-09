@@ -5,7 +5,7 @@ on:
   push:
     branches: [ main ]
     paths:
-    - 'gpu.dockerfile'
+    - './gpu/Dockerfile'
     - '.github/workflows/publish-jupyterlab-gpu.yml'
   # schedule:
   # Monday at 05:00 AM UTC
@@ -45,8 +45,8 @@ jobs:
       - name: Build and publish JupyterLab GPU Docker image
         uses: docker/build-push-action@v4
         with:
-          context: ./
-          file: ./gpu.dockerfile
+          context: ./gpu
+          file: Dockerfile
           pull: true
           push: true
           tags: ${{ env.IMAGE_ID }}:${{ env.VERSION }}

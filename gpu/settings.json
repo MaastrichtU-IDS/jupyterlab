@@ -1,0 +1,35 @@
+{
+    "workbench.colorTheme": "Better Solarized Dark",
+    "python.dataScience.alwaysTrustNotebooks": true,
+    "terminal.integrated.inheritEnv": true,
+    "python.defaultInterpreterPath": "/opt/conda/bin/python",
+    "git.autofetch": false,
+    "yaml.schemas": {
+        "https://raw.githubusercontent.com/bio2kg/bio2kg-etl/main/resources/yarrrml.schema.json": ["*.yarrr.yml"],
+        "https://raw.githubusercontent.com/MaastrichtU-IDS/d2s-cli/master/resources/d2s-config.schema.json": ["d2s.yml"]
+    },
+    "[yaml]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+        "editor.quickSuggestions": {
+            "other": true,
+            "comments": false,
+            "strings": true
+        },
+        "editor.autoIndent": "keep"
+    },
+    "[dockerfile]": {
+        "editor.quickSuggestions": {
+            "strings": true
+        }
+    },
+    "redhat.telemetry.enabled": false,
+    "telemetry.enableTelemetry": false,
+    "vscode-json-editor.theme": "dark",
+    "resmon.updatefrequencyms": 3000,
+    "resmon.color": "#b0bec5",
+    "gitlens.advanced.telemetry.enabled": false,
+    "gitlens.codeLens.enabled": false,
+    "gitlens.showWhatsNewAfterUpgrades": false,
+    "gitlens.showWelcomeOnInstall": false
+}

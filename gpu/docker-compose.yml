@@ -1,0 +1,28 @@
+services:
+  jupyterlab-gpu:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: jupyterlab-gpu
+    user: root
+    # Nvidia GPU Configuration for local development - only uncomment when you have a Nvidia GPU!
+#    deploy:
+#      resources:
+#        reservations:
+#          devices:
+#            - driver: nvidia
+#              count: all
+#              capabilities: [gpu]
+    ports:
+      - 8888:8888
+    # volumes:
+      # - ./data/workspace:/workspace  
+    environment:
+      - GRANT_SUDO=yes
+      - JUPYTER_TOKEN=password
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+      ## Download repo:
+      # - GIT_URL=https://github.com/MaastrichtU-IDS/dsri-demo
+    shm_size: '8gb'
+    restart: unless-stopped

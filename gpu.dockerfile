@@ -64,7 +64,7 @@ RUN cd /opt && \
     code-server --install-extension vemonet.stardog-rdf-grammars-$EXT_VERSION.vsix
 
 COPY settings.json /root/.local/share/code-server/User/settings.json
-COPY settings.json /home/$NB_USER/.local/share/code-server/User/settings.json
+#COPY settings.json /home/$NB_USER/.local/share/code-server/User/settings.json
 
 # Add jupyter config script run at the start of the container
 USER root

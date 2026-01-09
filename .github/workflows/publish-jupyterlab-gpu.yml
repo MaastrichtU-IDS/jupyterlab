@@ -5,7 +5,7 @@ on:
   push:
     branches: [ main ]
     paths:
-    - './gpu/Dockerfile'
+    - 'gpu/Dockerfile'
     - '.github/workflows/publish-jupyterlab-gpu.yml'
   # schedule:
   # Monday at 05:00 AM UTC
@@ -16,10 +16,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/share/boost
+          sudo rm -rf /usr/lib/jvm
+          sudo apt-get clean
+          df -h
+
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v2
-
+      
       - name: Login to the GitHub Container Registry
         uses: docker/login-action@v2
         with:
@@ -45,8 +55,8 @@ jobs:
       - name: Build and publish JupyterLab GPU Docker image
         uses: docker/build-push-action@v4
         with:
-          context: ./gpu
-          file: ./gpu/Dockerfile
+          context: .
+          file: gpu/Dockerfile
           pull: true
           push: true
           tags: ${{ env.IMAGE_ID }}:${{ env.VERSION }}

@@ -72,7 +72,7 @@ jobs:
       - name: Build and publish JupyterLab GPU Docker image
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./gpu
           file: gpu/tensorflow.Dockerfile
           pull: true
           push: true

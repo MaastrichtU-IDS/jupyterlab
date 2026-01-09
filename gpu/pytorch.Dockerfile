@@ -8,7 +8,8 @@ USER root
 
 RUN apt-get update && \
     apt-get install -y curl wget git vim htop \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* && \
+    apt-get clean
 
 ## Install packages with pip
 # GPU dashboard: https://developer.nvidia.com/blog/gpu-dashboards-in-jupyter-lab/
@@ -17,7 +18,9 @@ RUN pip install --no-cache-dir --root-user-action=ignore --break-system-packages
       jupyterlab-lsp \
       python-lsp-server \
       jupyterlab-spreadsheet-editor \
-      jupyterlab-nvdashboard
+      jupyterlab-nvdashboard && \
+      # Clean pip cache 
+      pip cache purge
 
 # Configure Jupyter - Add JupyterLab config script 
 COPY jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py

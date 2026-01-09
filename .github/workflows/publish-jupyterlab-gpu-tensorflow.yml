@@ -1,4 +1,4 @@
-name: Publish JupyterLab GPU image
+name: Publish JupyterLab GPU TensorFlow image
 
 on:
   workflow_dispatch:
@@ -19,11 +19,28 @@ jobs:
 
       - name: Free disk space
         run: |
+          echo "Before cleanup:"
+          df -h
+    
+          # Remove unnecessary packages
+          sudo apt-get remove -y '^dotnet-.*' '^llvm-.*' 'php.*' '^mongodb-.*' '^mysql-.*' azure-cli google-chrome-stable firefox powershell mono-devel libgl1-mesa-dri
+          sudo apt-get autoremove -y
+          sudo apt-get clean
+    
+          # Remove large directories
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf /opt/ghc
           sudo rm -rf /usr/local/share/boost
           sudo rm -rf /usr/lib/jvm
-          sudo apt-get clean
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /usr/share/swift
+          sudo rm -rf /opt/az
+    
+          # Clean up Docker
+          docker system prune -af --volumes
+    
+          echo "After cleanup:"
           df -h
 
       - name: Set up Docker Buildx
@@ -60,3 +77,6 @@ jobs:
           pull: true
           push: true
           tags: ${{ env.IMAGE_ID }}:${{ env.VERSION }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          no-cache: false

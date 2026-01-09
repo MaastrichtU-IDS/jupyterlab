@@ -6,8 +6,8 @@ on:
     branches: [ main ]
     paths:
     - 'base/Dockerfile'
-    - 'jupyter_notebook_config.py'
-    - 'settings.json'
+    - 'base/jupyter_notebook_config.py'
+    - 'base/settings.json'
     - '.github/workflows/publish-jupyterlab-base.yml'
   # schedule:
   # Monday at 04:00 AM UTC

@@ -5,7 +5,7 @@ on:
   push:
     branches: [ main ]
     paths:
-    - 'gpu/Dockerfile'
+    - 'gpu/tensorflow.Dockerfile'
     - '.github/workflows/publish-jupyterlab-gpu.yml'
   # schedule:
   # Monday at 05:00 AM UTC
@@ -47,7 +47,7 @@ jobs:
           # Strip "v" prefix from tag name
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
           # 
-          [ "$VERSION" == "main" ] && VERSION=gpu-dev
+          [ "$VERSION" == "main" ] && VERSION=gpu-tensorflow-dev
           echo "IMAGE_ID=$IMAGE_ID" >> $GITHUB_ENV
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
@@ -56,7 +56,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: gpu/Dockerfile
+          file: gpu/tensorflow.Dockerfile
           pull: true
           push: true
           tags: ${{ env.IMAGE_ID }}:${{ env.VERSION }}

@@ -12,27 +12,13 @@ os.system('git config --global user.email "' + git_email + '"')
 
 c.ServerApp.terminado_settings = {'shell_command': ['/bin/bash']}
 
-c.ServerProxy.servers = {
-    "code-server": {
-        "command": [
-            "code-server",
-            "--auth=none",
-            "--disable-telemetry",
-            "--host=127.0.0.1",
-            "--port={port}",
-            os.getenv("JUPYTER_SERVER_ROOT", ".")
-        ],
-        "timeout": 20,
-        "launcher_entry": {
-            "title": "VisualStudio Code",
-            "icon_path": "/etc/jupyter/vscode.svg",
-            "enabled" : True
-        },
-    },
-}
-
+# If there is only a persistent folder given, then change dir to that folder
+# If workspace is given, change dir to overall workspace, where persistent folder resides in
 if persistent_folder:
     os.chdir(persistent_folder)
+
+if workspace:
+    os.chdir(workspace)
 
 if git_url:
     os.system('git clone --quiet --recursive ' + git_url)
@@ -49,12 +35,3 @@ if os.path.exists('requirements.txt'):
 
 if os.path.exists('extensions.txt'):
     os.system('cat extensions.txt | xargs -I {} jupyter {} install --user')
-
-if os.path.exists('environment.yml'):
-    os.system('mamba env create -f environment.yml')
-
-if os.path.exists('environment.yaml'):
-    os.system('mamba env create -f environment.yaml')
-
-if workspace:
-    os.chdir(workspace)

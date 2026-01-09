@@ -1,9 +1,9 @@
 services:
-  jupyterlab-gpu:
+  jupyterlab-gpu-pytorch:
     build: 
       context: .
-      dockerfile: Dockerfile
-    container_name: jupyterlab-gpu
+      dockerfile: pytorch.Dockerfile
+    container_name: jupyterlab-gpu-pytorch
     user: root
     # Nvidia GPU Configuration for local development - only uncomment when you have a Nvidia GPU!
 #    deploy:

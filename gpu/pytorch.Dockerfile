@@ -18,9 +18,7 @@ RUN pip install --no-cache-dir --root-user-action=ignore --break-system-packages
       jupyterlab-lsp \
       python-lsp-server \
       jupyterlab-spreadsheet-editor \
-      jupyterlab-nvdashboard && \
-      # Clean pip cache 
-      pip cache purge
+      jupyterlab-nvdashboard 
 
 # Configure Jupyter - Add JupyterLab config script 
 COPY jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py

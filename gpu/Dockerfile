@@ -1,5 +1,4 @@
-ARG NVIDIA_IMAGE=nvcr.io/nvidia/cuda:12.8.0-devel-ubuntu24.04
-FROM ${NVIDIA_IMAGE}
+FROM pytorch/pytorch:2.7.1-cuda12.8-cudnn9-devel
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Amsterdam \
@@ -12,13 +11,16 @@ RUN apt-get update && \
     python3-pip python3-dev python3-venv libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Install PyTorch with CUDA 12.8 support
+# Install TensorFlow
 RUN pip install --no-cache-dir --root-user-action=ignore --break-system-packages \
-    torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+    tensorflow
 
-# Install TensorFlow with GPU support
-RUN pip install --no-cache-dir --root-user-action=ignore --break-system-packages \
-    tensorflow[and-cuda]
+# Free up disk space during build 
+RUN rm -rf /usr/share/dotnet \
+           /opt/ghc \
+           /usr/local/share/boost \
+           /usr/lib/jvm && \
+           apt-get clean
 
 ## Install packages with pip
 # GPU dashboard: https://developer.nvidia.com/blog/gpu-dashboards-in-jupyter-lab/

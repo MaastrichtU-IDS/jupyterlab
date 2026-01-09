@@ -1,5 +1,5 @@
 
-ARG NVIDIA_IMAGE=nvcr.io/nvidia/cuda:12.1.0-runtime-ubuntu22.04
+ARG NVIDIA_IMAGE=nvcr.io/nvidia/cuda:12.8.0-runtime-ubuntu24.04
 # PyTorch: https://ngc.nvidia.com/catalog/containers/nvidia:pytorch
 
 FROM ${NVIDIA_IMAGE}

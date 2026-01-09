@@ -23,8 +23,8 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 
 ## Install packages with pip
 # GPU dashboard: https://developer.nvidia.com/blog/gpu-dashboards-in-jupyter-lab/
-RUN pip3 install --upgrade pip && \
-    pip3 install --upgrade \
+RUN pip3 install --upgrade --break-system-packages pip && \
+    pip3 install --break-system-packages --upgrade \
       ipywidgets \
       hatch \
       jupyterlab \

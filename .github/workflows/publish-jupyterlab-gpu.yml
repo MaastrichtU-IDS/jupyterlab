@@ -1,4 +1,4 @@
-name: Publish CPU images
+name: Publish JupyterLab GPU image
 
 on:
   workflow_dispatch:

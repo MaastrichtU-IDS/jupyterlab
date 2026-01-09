@@ -50,5 +50,3 @@ jobs:
           pull: true
           push: true
           tags: ${{ env.IMAGE_ID }}:${{ env.VERSION }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max

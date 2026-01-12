@@ -64,7 +64,7 @@ jobs:
           # Strip "v" prefix from tag name
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
           # 
-          [ "$VERSION" == "main" ] && VERSION=gpu-pytorch-dev
+          [ "$VERSION" == "main" ] && VERSION=gpu-pytorch
           echo "IMAGE_ID=$IMAGE_ID" >> $GITHUB_ENV
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 

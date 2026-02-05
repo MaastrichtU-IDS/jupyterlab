@@ -1,0 +1,24 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  labels:
+    opendatahub.io/notebook-image: "true"
+  annotations:
+    opendatahub.io/notebook-image-url: "https://github.com/MaastrichtU-IDS/jupyterlab"
+    opendatahub.io/notebook-image-name: "JupyterLab for Data Science and Knowledge Graph"
+    opendatahub.io/notebook-image-desc: "Jupyter notebooks, Java and SPARQL notebooks, VisualStudio Code, OpenRefine."
+  name: jupyterlab
+spec:
+  lookupPolicy:
+    local: true
+  tags:
+  - annotations:
+      openshift.io/imported-from: ghcr.io/maastrichtu-ids/jupyterlab
+    from:
+      kind: DockerImage
+      name: ghcr.io/maastrichtu-ids/jupyterlab:latest
+    importPolicy:
+        scheduled: false
+    name: "latest"
+    referencePolicy:
+      type: Source

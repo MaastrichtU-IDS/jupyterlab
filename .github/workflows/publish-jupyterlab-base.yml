@@ -47,8 +47,8 @@ jobs:
       - name: Build and publish main latest Docker image
         uses: docker/build-push-action@v4
         with:
-          context: ./
-          file: ./Dockerfile
+          context: ./base
+          file: base/Dockerfile
           pull: true
           push: true
           tags: ${{ env.IMAGE_ID }}:${{ env.VERSION }}

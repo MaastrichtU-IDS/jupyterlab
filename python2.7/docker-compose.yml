@@ -1,9 +1,9 @@
 services:
   jupyterlab:
-    ## image: ghcr.io/maastrichtu-ids/jupyterlab:latest
+    ## image: ghcr.io/maastrichtu-ids/jupyterlab:python2.7
     build: 
       context: .
-      dockerfile: base/Dockerfile
+      dockerfile: Dockerfile
 
     user: root
     # user: "1000"
@@ -16,5 +16,3 @@ services:
     environment:
       - GRANT_SUDO=yes
       - JUPYTER_TOKEN=password
-      ## Download repo:
-      # - GIT_URL=https://github.com/MaastrichtU-IDS/dsri-demo

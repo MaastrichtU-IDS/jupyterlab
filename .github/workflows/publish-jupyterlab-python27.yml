@@ -1,0 +1,51 @@
+name: Publish JupyterLab base image
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+    - 'python2.7/Dockerfile'
+    - '.github/workflows/publish-jupyterlab-python27.yml'
+  # schedule:
+  # Monday at 04:00 AM UTC
+  #   - cron: '0 4 * * 1'
+
+jobs:
+  build-and-publish-latest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to the GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Generate image ID and version
+        run: |
+          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/jupyterlab
+          # Change all uppercase to lowercase
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+          #
+          [ "$VERSION" == "main" ] && VERSION=python2.7
+          echo "IMAGE_ID=$IMAGE_ID" >> $GITHUB_ENV
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Build and publish main latest Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./
+          file: ./Dockerfile
+          pull: true
+          push: true
+          tags: ${{ env.IMAGE_ID }}:${{ env.VERSION }}

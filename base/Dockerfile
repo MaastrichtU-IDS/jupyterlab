@@ -101,6 +101,6 @@ RUN git config --global credential.helper "store --file $HOME/.git-credentials" 
     git config --global fetch.prune true && \
     git config --global pull.rebase false
 
-ADD base/README.ipynb $WORKSPACE
+ADD README.ipynb $WORKSPACE
 
 CMD [ "start-notebook.sh", "--no-browser", "--ip=0.0.0.0", "--config=/etc/jupyter/jupyter_notebook_config.py" ]

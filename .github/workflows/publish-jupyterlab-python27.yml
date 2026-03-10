@@ -1,4 +1,4 @@
-name: Publish JupyterLab base image
+name: Publish JupyterLab Python image
 
 on:
   workflow_dispatch:
@@ -44,8 +44,8 @@ jobs:
       - name: Build and publish main latest Docker image
         uses: docker/build-push-action@v4
         with:
-          context: ./
-          file: ./Dockerfile
+          context: ./python2.7
+          file: python2.7/Dockerfile
           pull: true
           push: true
           tags: ${{ env.IMAGE_ID }}:${{ env.VERSION }}

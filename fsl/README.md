@@ -9,7 +9,7 @@ This is a **standalone JupyterLab image** intended for Command Line (CLI) proces
 
 ## Usage
 ```bash
-docker run -p 8888:8888 ghcr.io/maastrichtu-library/fsl:dev
+docker run -p 8888:8888 ghcr.io/maastrichtu-library/fsl:6.0.7
 ```
 
 Access JupyterLab at http://localhost:8888

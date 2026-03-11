@@ -1,38 +1,35 @@
 # FSL with JupyterLab
+FSL (FMRIB Software Library) neuroimaging analysis tools with JupyterLab, built on a Python 3.12 base.
 
-This image provides a standalone [FSL (FMRIB Software Library)](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/) workspace based on the standard DSRI JupyterLab environment. It is optimized for neuroimaging researchers who need FSL tools within a web-based Python interface.
+## Important: CLI vs GUI
+This is a **standalone JupyterLab image** intended for Command Line (CLI) processing. 
+
+- **Use this image if:** You are running scripts, notebooks, or terminal commands like `bet`, `flirt`, or `fslmaths`.
+- **Use the Ubuntu VNC Pre-processing image if:** You need to use FSL Graphical Interfaces (GUIs) like `fsleyes` or the main `fsl` menu.
+
+## Usage
+```bash
+docker run -p 8888:8888 ghcr.io/maastrichtu-library/fsl:dev
+```
+
+Access JupyterLab at http://localhost:8888
 
 ## What's Included
+- FSL (latest version via official installer)
+- JupyterLab
 
-- **FSL 6.0.7**: Full installation including all command-line binaries and atlases.
-- **JupyterLab**: The standard IDS interface with Python/Conda support.
-- **Pre-configured Environment**: `FSLDIR` and `PATH` are set up automatically.
-
-## Usage on DSRI
-
-The easiest way to use this image is via the **DSRI Catalog** using the "FSL with JupyterLab" template.
-
-### Persistence
-Researchers should store all notebooks and brain imaging data in the following directory to ensure it is saved between sessions:
-`/home/jovyan/work/persistent`
-
-## Local Usage (Docker)
-
-If you want to run the image locally for testing:
-
+## Building Locally
 ```bash
-docker run -it -p 8888:8888 ghcr.io/maastrichtu-library/fsl:dev
+docker build -t fsl:test .
 ```
-Access the interface at http://localhost:8888.
 
-## Verification
-To verify the installation inside the Jupyter terminal, run:
-
+## Testing FSL
+Open a terminal in JupyterLab and run:
 ```bash
-fslinfo           # Should display usage instructions
-echo $FSLDIR      # Should display /usr/local/fsl
+fslinfo  # Should show usage
+echo $FSLDIR  # Should show /usr/local/fsl
 ```
 
 ## Credits
-FSL is written by the Analysis Group, FMRIB, Oxford, UK.
-This Docker image is maintained by Research Computing Support at Maastricht University.
+FSL is developed by the Analysis Group, FMRIB, Oxford, UK.
+This optimized image is maintained by RCS.

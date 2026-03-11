@@ -5,7 +5,7 @@ FSL (FMRIB Software Library) neuroimaging analysis tools with JupyterLab, built 
 This is a **standalone JupyterLab image** intended for Command Line (CLI) processing. 
 
 - **Use this image if:** You are running scripts, notebooks, or terminal commands like `bet`, `flirt`, or `fslmaths`.
-- **Use the Ubuntu VNC fMRI if:** You need to use FSL Graphical Interfaces (GUIs) like `fsleyes` or the main `fsl` menu.
+- **Use the Ubuntu VNC fMRI image if:** You need to use FSL Graphical Interfaces (GUIs) like `fsleyes` or the main `fsl` menu.
 
 ## Usage
 ```bash

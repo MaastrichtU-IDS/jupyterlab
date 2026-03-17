@@ -3,5 +3,8 @@
 .jupyter/
 .local/
 .npm/
+.DS_Store
 data/
 easybuild-data/
+freesurfer/deb/freesurfer*
+freesurfer/license.txt

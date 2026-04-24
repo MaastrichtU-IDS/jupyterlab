@@ -1,12 +1,13 @@
 name: Publish FreeSurfer image
+
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-    - 'freesurfer/Dockerfile'
-    - '.github/workflows/publish-jupyterlab-freesurfer.yml'
+#  push:
+#    branches:
+#      - main
+#    paths:
+#    - 'freesurfer/Dockerfile'
+#    - '.github/workflows/publish-jupyterlab-freesurfer.yml'
 env:
   IMAGE_ID: ghcr.io/maastrichtu-ids/jupyterlab:freesurfer
 jobs:

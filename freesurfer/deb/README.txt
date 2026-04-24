@@ -1,0 +1,1 @@
+Download FreeSurfer .deb from: https://surfer.nmr.mgh.harvard.edu/fswiki/rel7downloads

@@ -1,0 +1,19 @@
+services:
+  jupyterlab-freesurfer-alt:
+    platform: "linux/amd64"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jupyterlab-freesurfer
+    user: root
+    ports:
+      - "8888:8888"
+    volumes:
+      # FreeSurfer license
+      - license.txt:/license.txt:ro
+      # - ./data:/workspace/persistent  
+    environment:
+      - JUPYTER_TOKEN=password
+      - SUBJECTS_DIR=/subjects
+      - FS_LICENSE=/license.txt
+    restart: unless-stopped

@@ -1,101 +1,99 @@
+# Stage 1
+FROM ubuntu:22.04
 
-# Built with https://github.com/ReproNim/neurodocker
-FROM condaforge/mambaforge
-# FROM debian:stretch
-# FROM jupyter/scipy-notebook
+ENV DEBIAN_FRONTEND=noninteractive \
+    FREESURFER_HOME=/usr/local/freesurfer/8.1.0 \
+    FS_LICENSE="/license.txt" \
+    PATH=/usr/local/freesurfer/8.1.0/bin:$PATH \
+    #NVIDIA_VISIBLE_DEVICES=all \
+    #NVIDIA_DRIVER_CAPABILITIES=compute,utility,graphics \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    PYTHONDONTWRITEBYTECODE=1 
 
-LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
+COPY ./deb/freesurfer_ubuntu22-8.1.0_amd64.deb /tmp/freesurfer.deb
 
-USER root
-# WORKDIR /root
+RUN apt-get update -qq && \
+    apt-get install -y -q --no-install-recommends \
+        python3 \
+        python3-pip \
+        python3-venv \
+        ca-certificates \
+        csh \
+        tcsh \
+        bc \
+        file \
+        libx11-6 \
+        libgomp1 \
+        libxmu6 \
+        libxt6 \
+        tk \
+        language-pack-en \
+        binutils \
+        libx11-dev \
+        gettext \
+        xterm \
+        x11-apps \
+        perl \
+        make \
+        xorg \
+        xorg-dev \
+        xserver-xorg-dev \
+        xserver-xorg-video-intel \
+        libncurses5 \
+        libegl1 \
+        libgl1 \
+        libglib2.0-0 \
+        libglu1-mesa \
+        libglvnd0 \
+        libglx0 \
+        libicu70 \
+        libjpeg62 \
+        libopengl0 \
+        libpcre2-16-0 \
+        libquadmath0 \
+        libx11-xcb1 \
+        libxcb-icccm4 \
+        libxcb-image0 \
+        libxcb-keysyms1 \
+        libxcb-randr0 \
+        libxcb-render-util0 \
+        libxcb-render0 \
+        libxcb-shape0 \
+        libxcb-shm0 \
+        libxcb-sync1 \
+        libxcb-util1 \
+        libxcb-xfixes0 \
+        libxcb-xinerama0 \
+        libxcb-xinput0 \
+        libxcb-xkb1 \
+        libxi6 \
+        libxkbcommon-x11-0 \
+        libxkbcommon0 && \
+    # Cleanup
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /var/tmp/* /usr/share/doc/* /usr/share/man/*
 
-
-ARG DEBIAN_FRONTEND="noninteractive"
-
-ENV LANG="en_US.UTF-8" \
-    LC_ALL="en_US.UTF-8" \
-    ND_ENTRYPOINT="/neurodocker/startup.sh"
-RUN export ND_ENTRYPOINT="/neurodocker/startup.sh" \
-    && apt-get update -qq \
-    && apt-get install -y -q --no-install-recommends \
-           apt-utils \
-           bzip2 \
-           ca-certificates \
-           curl \
-           locales \
-           unzip \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
-    && dpkg-reconfigure --frontend=noninteractive locales \
-    && update-locale LANG="en_US.UTF-8" \
-    && chmod 777 /opt && chmod a+s /opt \
-    && mkdir -p /neurodocker \
-    && if [ ! -f "$ND_ENTRYPOINT" ]; then \
-         echo '#!/usr/bin/env bash' >> "$ND_ENTRYPOINT" \
-    &&   echo 'set -e' >> "$ND_ENTRYPOINT" \
-    &&   echo 'export USER="${USER:=`whoami`}"' >> "$ND_ENTRYPOINT" \
-    &&   echo 'if [ -n "$1" ]; then "$@"; else /usr/bin/env bash; fi' >> "$ND_ENTRYPOINT"; \
-    fi \
-    && chmod -R 777 /neurodocker && chmod a+s /neurodocker
-
-# ENTRYPOINT ["/neurodocker/startup.sh"]
-
-ENV FREESURFER_HOME="/opt/freesurfer-7.4.1" \
-    PATH="/opt/freesurfer-7.4.1/bin:$PATH"
-RUN apt-get update -qq \
-    && apt-get install -y -q --no-install-recommends \
-           bc \
-           libgomp1 \
-           libxmu6 \
-           libxt6 \
-           perl \
-           tcsh \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && echo "Downloading FreeSurfer ..." \
-    && mkdir -p /opt/freesurfer-7.4.1 \
-    && curl -fsSL --retry 5 ftp://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/7.4.1/freesurfer-linux-centos8_x86_64-7.4.1.tar.gz \
-    | tar -xz -C /opt/freesurfer-7.4.1 --strip-components 2 \
-         --exclude='freesurfer/average/mult-comp-cor' \
-         --exclude='freesurfer/lib/cuda' \
-         --exclude='freesurfer/lib/qt' \
-         --exclude='freesurfer/subjects/V1_average' \
-         --exclude='freesurfer/subjects/bert' \
-         --exclude='freesurfer/subjects/cvs_avg35' \
-         --exclude='freesurfer/subjects/cvs_avg35_inMNI152' \
-         --exclude='freesurfer/subjects/fsaverage3' \
-         --exclude='freesurfer/subjects/fsaverage4' \
-         --exclude='freesurfer/subjects/fsaverage5' \
-         --exclude='freesurfer/subjects/fsaverage6' \
-         --exclude='freesurfer/subjects/fsaverage_sym' \
-         --exclude='freesurfer/trctrain' \
-    && sed -i '$isource "/opt/freesurfer-7.4.1/SetUpFreeSurfer.sh"' "$ND_ENTRYPOINT"
-
-RUN echo '{ \
-    \n  "pkg_manager": "apt", \
-    \n  "instructions": [ \
-    \n    [ \
-    \n      "base", \
-    \n      "debian:stretch" \
-    \n    ], \
-    \n    [ \
-    \n      "freesurfer", \
-    \n      { \
-    \n        "version": "7.4.1" \
-    \n      } \
-    \n    ] \
-    \n  ] \
-    \n}' > /neurodocker/neurodocker_specs.json
-
-# Add conda to path
-# ENV PATH="/opt/fsl-6.0.4/fslpython/condabin:/opt/fsl-6.0.4/fslpython/bin:${PATH}" 
-
-RUN conda install --quiet -y \
-        notebook \
+RUN python3 -m pip install \
+        #six \
         jupyterlab \
-        jupyterlab-lsp jupyter-lsp-python
+        jupyterlab-lsp \
+        python-lsp-server 
 
-# ENTRYPOINT ["/neurodocker/startup.sh"]
+# Set bash as default shell for JupyterLab terminal
+RUN mkdir -p /root/.jupyter && \
+    echo "c.ServerApp.terminado_settings = {'shell_command': ['/bin/bash']}" > /root/.jupyter/jupyter_lab_config.py
+
+ENV WORKSPACE="/workspace"
+ENV PERSISTENT_FOLDER="${WORKSPACE}/persistent"
+
+WORKDIR ${WORKSPACE}
+VOLUME [ "${PERSISTENT_FOLDER}" ]
+
+# Copy entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 EXPOSE 8888
-ENTRYPOINT ["jupyter", "lab", "--allow-root", "--ip=0.0.0.0", "--port=8888", "--no-browser"]
+
+ENTRYPOINT ["/entrypoint.sh"]

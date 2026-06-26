@@ -45,7 +45,7 @@ jobs:
       - name: Build and publish main latest Docker image
         uses: docker/build-push-action@v4
         with:
-          context: ./
+          context: ./knowledge-graph
           file: knowledge-graph/Dockerfile
           pull: true
           push: true

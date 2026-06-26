@@ -5,3 +5,4 @@
 .npm/
 data/
 easybuild-data/
+.DS_Store

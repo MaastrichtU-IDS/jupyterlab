@@ -1,4 +1,4 @@
-FROM nvcr.io/nvidia/pytorch:25.02-py3
+FROM nvcr.io/nvidia/pytorch:26.04-py3
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Amsterdam \
